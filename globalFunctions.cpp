@@ -148,7 +148,7 @@ MyMatrix<T>* matMatMul(MyMatrix<T> &x, MyMatrix<T>&y){
 		cout << "This matrix multiplication is illegal";
 		return NULL;
 	}
-
+	
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], y.dim()[1]);
 
 	for (int i = 0; i < x.dim()[0]; i++){
