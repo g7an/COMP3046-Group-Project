@@ -24,14 +24,13 @@ using namespace std;
 ///*
 int main()                                                
 {
-	ANN annModel(0.5, 50);
-                                                        
+	ANN annModel(0.5, 50);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 	int cnt = 0;
-
-	ifstream myfile("train.txt");
-
+ 
+	ifstream myfile("train_small.txt");
+	
 	if (myfile.is_open())
 	{
 		cout << "Loading data ...\n";
@@ -70,8 +69,6 @@ int main()
 
 
 	cout << endl;
-
-												       //Remind: I'm sorry that I use the sigmoind funcion rather than sgn, so my false value is 0 rather than -1. 
 
 
 	return 0;

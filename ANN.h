@@ -1,11 +1,15 @@
 #pragma once
+#include "MyVector.h"
 #include "MyMatrix.h"
 #include <vector>
 class ANN
 {
-	float fai;								//learning rate
+	float lr;								//learning rate
 	int epochs;
-
+	int num_hidLayer;
+	int* num_neurons;
+	MyVector<MyMatrix<float> *> *hidWeight;
+	//MyVector<void *> *hidWeight;
 	MyMatrix<float> *inputToHideWeight;
 	MyMatrix<float> *input;
 	MyMatrix<float> *netH;
@@ -22,11 +26,11 @@ public:
 	~ANN();
 	float sigmoid(float);
 	float random();
-	void setFai(float);
+	void setLR(float);
 	void setEpochs(int);
 
 	void initializeWeight();
-	void train(std::vector<std::vector<float>>, std::vector<float>);
+	void train(std::vector<std::vector<float> >, std::vector<float>);
 	float predict(std::vector<float>);
 	void storeWeight();
 	void loadWeight();
