@@ -77,17 +77,16 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	hidWeight = new MyVector<MyMatrix<float> *>(num_matrix); // row 0: input_to_hidden_weight; row_last: hide_to_output_weight
 	//hidWeight = new MyVector<void *>(num_matrix); // row 0: input_to_hidden_weight; row_last: hide_to_output_weight
 	// initialization of weights
+	netH = new MyVector<MyMatrix<float> *>(num_matrix);
+	outH = new MyVector<MyMatrix<float> *>(num_matrix);
+	outHBias = new MyVector<MyMatrix<float> *>(num_matrix);  
 	for (int i = 0; i < num_hidLayer + 1; i++)
 	{
-		//hidWeight->arr[i] = (void *) new MyMatrix<float>(num_neurons[i], prevLayer);
 		hidWeight->arr[i] = new MyMatrix<float>(num_neurons[i], prevLayer + 1);
-		//for(int j = 0; j < ((MyMatrix<float>*) (hidWeight->arr[i]))->dim()[0]; j++){
 		for (int j = 0; j < hidWeight->arr[i]->dim()[0]; j++)
 		{
-			//for(int k = 0; k < ((MyMatrix<float>*) (hidWeight->arr[i]))->dim()[1]; k++){
 			for (int k = 0; k < hidWeight->arr[i]->dim()[1]; k++)
 			{
-				//((MyMatrix<float>*) (hidWeight->arr[i]))->n2Arr[i][j] = random();
 				hidWeight->arr[i]->n2Arr[i][j] = random();
 			}
 		}
@@ -96,8 +95,8 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	// hidWeight->arr[0]->print();
 	inputToHideWeight = new MyMatrix<float>(10, 785);
 	input = new MyMatrix<float>(785, 1);
-	netH = new MyMatrix<float>(10, 1);				  //weight*input
-	outH = new MyMatrix<float>(10, 1);				  //after sigmoid
+	// netH = new MyMatrix<float>(10, 1);				  //weight*input
+	// outH = new MyMatrix<float>(10, 1);				  //after sigmoid
 	hideToOutputWeight = new MyMatrix<float>(10, 11); //hidden->out
 	output = new MyMatrix<float>(10, 1);
 	target = new MyMatrix<float>(10, 1); // ground-truth
@@ -176,7 +175,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 	const int batch_size = 256;
 	const int steps = in.size() / batch_size + 1; // how many batches to finish an epoch
 
-	MyMatrix<float> *outHBias = new MyMatrix<float>(11, 1);
+	// MyMatrix<float> *outHBias = new MyMatrix<float>(11, 1);
 	MyMatrix<float> *tmp = NULL;
 	MyMatrix<float> *tmpWeight = new MyMatrix<float>(10, 10);
 	MyMatrix<float> *tmpTrans = NULL;
@@ -199,44 +198,55 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			}
 
 #pragma omp parallel for num_threads(4)
+			/* feed forward function:
+				input: vector to store input data for this turn
+				netH: vector of matrix to store the net output (wx + b) in each node
+				netWeight: matrix to store the weight of one layer
+				net: matrix to store net value of one layer
+				outH: vector of matrix to store sigmoid output of a node
+				outHBias: vector of matrix to store sigmoid output plus bias
+				recursively do matrix multiplication and sigmoid calculation until the last layer
+			*/
 			for (int i = 0; i < vector_size; i++)
 			{
 				input->n2Arr[i][0] = batch_data[i];
 			}
 			int foo = input->dim()[0] - 1;
-			input->n2Arr[foo][0] = 1; //set bias
-			MyMatrix<float> *netWeight;
-			// for(int i = 0; i < num_hidLayer + 1; i++){
-			// (*(hidWeight->arr[0])).print();
-			netWeight = hidWeight->arr[0];
-			netH = matMatMul(*netWeight, *input);
-			for (int i = 0; i < netH->dim()[0]; i++){ //change netH to outH, outBias is out matrix plus bias
-				outH->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
-				outHBias->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
+			input->n2Arr[foo][0] = 1; //set bias			
+			netH->arr[0] = input; 
+			for(int i = 0; i < num_hidLayer + 1; i++){
+				MyMatrix<float> *netWeight = hidWeight->arr[i];
+				MyMatric<float> *net = netH->arr[i];
+				netH->arr[i] = matMatMul(*netWeight, *net);
+				for (int j = 0; j < netH->arr[i]->dim()[0]; i++){ //change netH to outH, outBias is out matrix plus bias
+					outH->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
+					outHBias->->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
+				}
+				if (i == num_hidLayer)
+					break;
+				foo = outHBias->dim()[0] - 1;
+				outHBias->arr[i]->n2Arr[foo][0] = 1; //complete the outBias
+				netH->arr[i + 1] = outHBias->arr[i];
 			}
-			foo = outHBias->dim()[0] - 1;
-
-			outHBias->n2Arr[foo][0] = 1; //complete the outBias
-			// }
-
-#pragma omp parallel for num_threads(4)
-			// for (int i = 0; i < netH->dim()[0]; i++)
+			tmp = matSub(*output, *target);
+// #pragma omp parallel for num_threads(4)
+			// for (int i = 0; i < netH->arr[0]->dim()[0]; i++)
 			// { //change netH to outH, outBias is out matrix plus bias
-			// 	outH->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
-			// 	outHBias->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
+			// 	outH->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
+			// 	outHBias->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
 			// }
 
-			foo = outHBias->dim()[0] - 1;
+			// foo = outHBias->dim()[0] - 1;
 
-			outHBias->n2Arr[foo][0] = 1; //complete the outBias
+			// outHBias->n2Arr[foo][0] = 1; //complete the outBias
 
-			output = matMatMul(*hideToOutputWeight, *outHBias);
+			// output = matMatMul(*hideToOutputWeight, *outHBias);
 
-#pragma omp parallel for num_threads(4)
-			for (int i = 0; i < output->dim()[0]; i++)
-			{
-				output->n2Arr[i][0] = sigmoid(output->n2Arr[i][0]); //finish forward propagation
-			}
+// #pragma omp parallel for num_threads(4)
+			// for (int i = 0; i < output->dim()[0]; i++)
+			// {
+			// 	output->n2Arr[i][0] = sigmoid(output->n2Arr[i][0]); //finish forward propagation
+			// }
 
 			//			cout << "output: " << endl;
 			//			output->print();
@@ -255,7 +265,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			//					tmpWeight->print();
 			//					cout << endl;
 
-			tmp = matSub(*output, *target); // Etotal / output = out - target
+			 // Etotal / output = out - target
 
 			//					cout << "tmp: "<< endl;
 			//					tmp->print();
@@ -365,16 +375,16 @@ float ANN::predict(vector<float> in)
 	//		input->print();
 	//		cout << endl;
 
-	netH = matMatMul(*inputToHideWeight, *input); //forward propagation
+	netH->arr[0] = matMatMul(*inputToHideWeight, *input); //forward propagation
 
 	//		cout << "netH: " << endl;
 	//netH->print();
 	//		cout << endl;
 
-	for (int i = 0; i < netH->dim()[0]; i++)
+	for (int i = 0; i < netH->arr[0]->dim()[0]; i++)
 	{ //change netH to outH, outBias is out matrix plus bias
-		outH->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
-		outHBias->n2Arr[i][0] = sigmoid(netH->n2Arr[i][0]);
+		outH->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
+		outHBias->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
 	}
 
 	//		cout << "outH: " << endl;

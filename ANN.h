@@ -12,8 +12,11 @@ class ANN
 	//MyVector<void *> *hidWeight;
 	MyMatrix<float> *inputToHideWeight;
 	MyMatrix<float> *input;
-	MyMatrix<float> *netH;
-	MyMatrix<float> *outH;
+	// MyMatrix<float> *netH;
+	// MyMatrix<float> *outH;
+	MyVector<MyMatrix<float> *>* netH;
+	MyVector<MyMatrix<float> *>* outH;
+	MyVector<MyMatrix<float> *>* outHBias;
 	MyMatrix<float> *hideToOutputWeight;
 	MyMatrix<float> *output;
 	MyMatrix<float> *target;
