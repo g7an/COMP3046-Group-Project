@@ -70,7 +70,6 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 		// 	ele += num_neurons[i] * (prevLayer + 1);
 		// 	prevLayer = num_neurons[i];
 	}
-	const int num_weight = num_hidLayer;
 	// (hidden layer + 1) 层 weight matrix，每个里面neuron个元素
 	const int num_matrix = layer + 1;
 	// cout << num_matrix << endl;
@@ -79,7 +78,10 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	// initialization of weights
 	netH = new MyVector<MyMatrix<float> *>(num_matrix);
 	outH = new MyVector<MyMatrix<float> *>(num_matrix);
-	outHBias = new MyVector<MyMatrix<float> *>(num_matrix);  
+	outHBias = new MyVector<MyMatrix<float> *>(num_matrix);
+	tmpWeight = new MyVector<MyMatrix<float> *>(num_matrix);
+	delta_w = new MyVector<MyMatrix<float> *>(num_matrix - 1);
+	loss = new MyVector<MyMatrix<float> *>(num_matrix - 1);   
 	for (int i = 0; i < num_hidLayer + 1; i++)
 	{
 		hidWeight->arr[i] = new MyMatrix<float>(num_neurons[i], prevLayer + 1);
@@ -100,7 +102,7 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	hideToOutputWeight = new MyMatrix<float>(10, 11); //hidden->out
 	output = new MyMatrix<float>(10, 1);
 	target = new MyMatrix<float>(10, 1); // ground-truth
-	partError = new MyMatrix<float>(10, 1);
+	
 }
 
 ANN::~ANN()
@@ -177,7 +179,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 	// MyMatrix<float> *outHBias = new MyMatrix<float>(11, 1);
 	MyMatrix<float> *tmp = NULL;
-	MyMatrix<float> *tmpWeight = new MyMatrix<float>(10, 10);
+	// MyMatrix<float> *tmpWeight = new MyMatrix<float>(10, 10);
 	MyMatrix<float> *tmpTrans = NULL;
 	MyMatrix<float> *sum_in = NULL;
 	MyMatrix<float> *sum_out = NULL;
@@ -213,14 +215,16 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			}
 			int foo = input->dim()[0] - 1;
 			input->n2Arr[foo][0] = 1; //set bias			
-			netH->arr[0] = input; 
-			for(int i = 0; i < num_hidLayer + 1; i++){
-				MyMatrix<float> *netWeight = hidWeight->arr[i];
+			netH->arr[0] = input;
+			outH->arr[0] = input; // first layer: input = output = data_in 
+			outHBias->arr[0] = input;
+			for(int i = 1; i < num_hidLayer + 1; i++){
+				MyMatrix<float> *netWeight = hidWeight->arr[i - 1];
 				MyMatric<float> *net = netH->arr[i];
 				netH->arr[i] = matMatMul(*netWeight, *net);
 				for (int j = 0; j < netH->arr[i]->dim()[0]; i++){ //change netH to outH, outBias is out matrix plus bias
 					outH->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
-					outHBias->->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
+					outHBias->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
 				}
 				if (i == num_hidLayer)
 					break;
@@ -228,128 +232,85 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				outHBias->arr[i]->n2Arr[foo][0] = 1; //complete the outBias
 				netH->arr[i + 1] = outHBias->arr[i];
 			}
-			tmp = matSub(*output, *target);
-// #pragma omp parallel for num_threads(4)
-			// for (int i = 0; i < netH->arr[0]->dim()[0]; i++)
-			// { //change netH to outH, outBias is out matrix plus bias
-			// 	outH->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
-			// 	outHBias->n2Arr[i][0] = sigmoid(netH->arr[0]->n2Arr[i][0]);
-			// }
-
-			// foo = outHBias->dim()[0] - 1;
-
-			// outHBias->n2Arr[foo][0] = 1; //complete the outBias
-
-			// output = matMatMul(*hideToOutputWeight, *outHBias);
-
-// #pragma omp parallel for num_threads(4)
-			// for (int i = 0; i < output->dim()[0]; i++)
-			// {
-			// 	output->n2Arr[i][0] = sigmoid(output->n2Arr[i][0]); //finish forward propagation
-			// }
-
-			//			cout << "output: " << endl;
-			//			output->print();
-			//			cout << endl;
-
-#pragma omp parallel for num_threads(4)
-			for (int i = 0; i < hideToOutputWeight->dim()[0]; i++)
-			{
-				for (int j = 0; j < hideToOutputWeight->dim()[1] - 1; j++)
-				{
-					tmpWeight->n2Arr[i][j] = hideToOutputWeight->n2Arr[i][j]; // last hidden weight
+			tmp = matSub(*outHBias->arr[num_hidLayer], *target); // (a - y) in last layer
+			outH->arr[num_hidLayer] = tmp;
+			/*
+				backprop function:
+				1. error in last layer
+				2. calculate error (store) in every layer from L to 2
+				3. update weights & bias in each layer
+			*/
+			for(int dim = 0; dim < num_hidLayer + 1; dim++){
+				for (int i = 0; i < hidWeight->arr[num_hidLayer]->dim()[0]; i++){
+					for (int j = 0; j < hidWeight->arr[num_hidLayer]->dim()[1] - 1; j++){
+						tmpWeight->arr[dim]->n2Arr[i][j] = hidWeight->arr[num_hidLayer]->n2Arr[i][j]; // last hidden weight without bias
+					}
 				}
 			}
-
-			//					cout << "tmpWeight: "<< endl;
-			//					tmpWeight->print();
-			//					cout << endl;
-
-			 // Etotal / output = out - target
-
-			//					cout << "tmp: "<< endl;
-			//					tmp->print();
-			//					cout << endl;
-
-#pragma omp parallel for num_threads(4)
-			for (int i = 0; i < output->dim()[0]; i++)
-			{
-				float outTmp = output->n2Arr[i][0];
-				partError->n2Arr[i][0] = lr * outTmp * (1 - outTmp) * (tmp->n2Arr[i][0]); // out / net = out(1-out)
-
-			} //complete the partError with lr
-
-			//					cout << "partError: "<< endl;
-			//					partError->print();
-			//					cout << endl;
-
-			// tmpTrans = partError->transpose();                            // backpropagation of weight between input layer and hidden layer
-			tmpTrans = tmpWeight->transpose();
-			// tmpTrans->print();
-			// partError->print();
-			tmp = matMatMul(*tmpTrans, *partError);
-
-			//			cout << "tmp: " << endl;
-			//			tmp->print();
-			//			cout << endl;
-
-#pragma omp parallel for num_threads(4)
-			for (int i = 0; i < outH->dim()[0]; i++)
-			{
-				float outTmp = outH->n2Arr[i][0];
-				tmp->n2Arr[i][0] = tmp->n2Arr[i][0] * outTmp * (1 - outTmp);
+			for (int j = 0; j < outH->arr[num_hidLayer]->dim()[0]; j++){
+				float outTmp = outH->arr[num_hidLayer]->n2Arr[j][0]; 
+				loss->arr[num_hidLayer] = outTmp * (1 - outTmp) * (tmp->n2Arr[num_hidLayer][0]); // out / net = out(1-out)
+			} // L-1 ~ 2: L - 2 层 = num_hidlayer
+			for(int i = num_hidLayer; i > 0; i--){
+				// for (int j = 0; j < outH->arr[i]->dim()[0]; j++){
+				// 	float outTmp = outH->arr[i]->n2Arr[j][0]; 
+				// 	loss->arr[i] = outTmp * (1 - outTmp) * (tmp->n2Arr[i][0]); // out / net = out(1-out)
+				// }
+				tmpTrans = tmpWeight->arr[i]->transpose();
+				loss->arr[i - 1] = matMatMul(*tmpTrans, *loss->arr[i]);
 			}
-			// tmp = tmp->transpose();
 
-			tmpTrans = input->transpose();
-			// cout << "row:" << tmpTrans->dim()[0] << "col: " << tmpTrans->dim()[1] << endl;
-			tmp = matMatMul(*tmp, *tmpTrans);
+			// calculate aggregate delta_w: from first weight to last weight
 
-			const int r = tmp->dim()[0];
-			const int c = tmp->dim()[1];
-			sum_in = new MyMatrix<float>(r, c);
-			sum_in = matAdd(*sum_in, *tmp);
-			// sum_in->print();
-			// inputToHideWeight = matAdd(*inputToHideWeight, *tmp);
+			// 第一层input * 第二层 loss + ... + 第（n-1）层activation output * 第n层loss; store in a sum function
+			for(int i = 0; i < num_hidLayer + 1; i++){
+				tmpTrans = outHBias->arr[i]->transpose();
+				tmp = matMatMul(*loss->arr[i], *tmpTrans); 
+				delta_w->arr[i] += tmp;
+			}
+			// tmpTrans = input->transpose();
+			// tmp = matMatMul(*tmp, *tmpTrans); 
 
-			tmpTrans = outHBias->transpose(); // backpropagation of weight between hidden layer and output layer
-			tmp = matMatMul(*partError, *tmpTrans);
-			const int row = tmp->dim()[0];
-			const int col = tmp->dim()[1];
-			sum_out = new MyMatrix<float>(row, col);
-			sum_out = matAdd(*sum_out, *tmp);
+			// const int r = tmp->dim()[0];
+			// const int c = tmp->dim()[1];
+			// sum_in = new MyMatrix<float>(r, c);
+			// sum_in = matAdd(*sum_in, *tmp); // total (delta)w
+
+			// tmpTrans = outHBias->transpose(); 
+			// tmp = matMatMul(*partError, *tmpTrans); // 
+			// const int row = tmp->dim()[0];
+			// const int col = tmp->dim()[1];
+			// sum_out = new MyMatrix<float>(row, col);
 			// sum_out = matAdd(*sum_out, *tmp);
-
-			// cout << "sum_out: " << sum_out << endl;
-			// cout << "size of tmp :" << tmp->dim()[0] << "*" << tmp->dim()[1] << endl;
-
-			// hideToOutputWeight = matAdd(*hideToOutputWeight, *tmp);
-
-			//		cout << "new hidden weight" <<endl;
-			//		hideToOutputWeight->print();
-
-			//		cout << endl;
-
-			//		cout << "output: " << output << endl;
-			//		cout << endl;
 		}
+		for(int i = 0; i < num_hidLayer + 1; i++){
+			for(int j = 0; j < delta_w->arr[i]->dim()[0]; j++){
+				for(int k = 0; k < delta_w->arr[i]->dim()[1]; k++){
+					delta_w->arr[i]->n2Arr[j][k] = lr * delta_w->arr[i]->n2Arr[j][k] / (float)batch_size;
+				}
+			}
+		}
+		// update weight and bias
+		hidWeight = matAdd(*hidWeight, *delta_w);
+
 		// sum_in = sum_in / batch_size;
-		for (int i = 0; i < sum_in->dim()[0]; i++)
-		{
-			for (int j = 0; j < sum_in->dim()[1]; j++)
-			{
-				sum_in->n2Arr[i][j] = sum_in->n2Arr[i][j] / (float)batch_size;
-			}
-		}
-		for (int i = 0; i < sum_out->dim()[0]; i++)
-		{
-			for (int j = 0; j < sum_out->dim()[1]; j++)
-			{
-				sum_out->n2Arr[i][j] = sum_out->n2Arr[i][j] / (float)batch_size;
-			}
-		}
-		inputToHideWeight = matAdd(*inputToHideWeight, *sum_in);
-		hideToOutputWeight = matAdd(*hideToOutputWeight, *sum_out);
+		// for (int i = 0; i < sum_in->dim()[0]; i++)
+		// {
+		// 	for (int j = 0; j < sum_in->dim()[1]; j++)
+		// 	{
+		// 		sum_in->n2Arr[i][j] = sum_in->n2Arr[i][j] / (float)batch_size;
+		// 	}
+		// }
+		// for (int i = 0; i < sum_out->dim()[0]; i++)
+		// {
+		// 	for (int j = 0; j < sum_out->dim()[1]; j++)
+		// 	{
+		// 		sum_out->n2Arr[i][j] = sum_out->n2Arr[i][j] / (float)batch_size;
+		// 	}
+		// }
+		// 
+		// inputToHideWeight = matAdd(*inputToHideWeight, *sum_in);
+		// hideToOutputWeight = matAdd(*hideToOutputWeight, *sum_out);
 		// cout << "fuck" << endl;
 	}
 

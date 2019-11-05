@@ -17,10 +17,12 @@ class ANN
 	MyVector<MyMatrix<float> *>* netH;
 	MyVector<MyMatrix<float> *>* outH;
 	MyVector<MyMatrix<float> *>* outHBias;
+	MyVector<MyMatrix<float> *>* delta_w;
 	MyMatrix<float> *hideToOutputWeight;
 	MyMatrix<float> *output;
 	MyMatrix<float> *target;
 	MyMatrix<float> *partError;
+
 
 
 
