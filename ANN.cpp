@@ -74,7 +74,7 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	}
 	// (hidden layer + 1) 层 weight matrix，每个里面neuron个元素
 	const int num_matrix = num_hidLayer + 1;
-	total_neuron[num_hidLayer] = 1;
+	total_neuron[num_hidLayer] = 10;
 
 	// cout << num_matrix << endl;
 	hidWeight = new MyVector<MyMatrix<float> *>(num_matrix); // row 0: input_to_hidden_weight; row_last: hide_to_output_weight
@@ -85,7 +85,7 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 	outHBias = new MyVector<MyMatrix<float> *>(num_matrix);
 	tmpWeight = new MyVector<MyMatrix<float> *>(num_matrix);
 	delta_w = new MyVector<MyMatrix<float> *>(num_matrix);
-	loss = new MyVector<MyMatrix<float> *>(num_matrix - 1);   
+	loss = new MyVector<MyMatrix<float> *>(num_matrix);   
 	for (int i = 0; i < (num_hidLayer + 1); i++)
 	{
 		hidWeight->arr[i] = new MyMatrix<float>(total_neuron[i], prevLayer + 1);
@@ -98,11 +98,10 @@ ANN::ANN(float lr, int epochs) : lr(lr), epochs(epochs)
 				// cout << i << endl;
 			}
 		}
-		cout << "neron" << i << ": " << total_neuron[i] << endl;
+		cout << "neuron" << i << ": " << total_neuron[i] << endl;
 		prevLayer = total_neuron[i];
 		cout << "prevLayer; " << prevLayer << endl;
 	}
-	hidWeight->arr[2]->print();
 	inputToHideWeight = new MyMatrix<float>(10, 785);
 	input = new MyMatrix<float>(785, 1);
 	// netH = new MyMatrix<float>(10, 1);				  //weight*input
@@ -185,9 +184,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 	const int batch_size = 256;
 	const int steps = in.size() / batch_size + 1; // how many batches to finish an epoch
 
-	// MyMatrix<float> *outHBias = new MyMatrix<float>(11, 1);
 	MyMatrix<float> *tmp = NULL;
-	// MyMatrix<float> *tmpWeight = new MyMatrix<float>(10, 10);
 	MyMatrix<float> *tmpTrans;
 	MyMatrix<float> *sum_in = NULL;
 	MyMatrix<float> *sum_out = NULL;
@@ -217,8 +214,9 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			*/
 			for (int i = 0; i < vector_size; i++)
 			{
-				input->n2Arr[i][0] = batch_data[i];
+				input->n2Arr[i][0] = batch_data[i];	
 			}
+			
 			int foo = input->dim()[0] - 1;
 			input->n2Arr[foo][0] = 1; //set bias			
 			netH->arr[0] = input;
@@ -235,7 +233,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				netH->arr[i] = matMatMul(*netWeight, *net);// 10 * 1
 				outH->arr[i] = netH->arr[i];
 				outHBias->arr[i] = new MyMatrix<float>(netH->arr[i]->dim()[0] + 1, 1);
-				cout << "outHBias: " << outHBias->arr[i]->dim()[0] << " " << outHBias->arr[i]->dim()[1] << endl;
 				for (int j = 0; j < netH->arr[i]->dim()[0]; j++){ //change netH to outH, outBias is out matrix plus bias
 					outH->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
 					outHBias->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
@@ -247,6 +244,15 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				netH->arr[i + 1] = outHBias->arr[i];
 				netWeight = hidWeight->arr[i];
 			}
+			// first outHBias: input + bias
+			outHBias->arr[0] = new MyMatrix<float>(785, 1);
+			outHBias->arr[0]->n2Arr[vector_size][0] = 1;
+			int count;
+			for(int i = 0; i < vector_size; i++){
+				outHBias->arr[0]->n2Arr[i][0] = input->n2Arr[i][0];
+			}
+
+			 // add bias to outHBias
 			tmp = matSub(*outH->arr[num_hidLayer], *target); // (a - y) in last layer
 			outH->arr[num_hidLayer] = tmp; // (a - y) in last layer
 			/*
@@ -265,45 +271,25 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					}
 				}
 			}
-			hidWeight->arr[num_hidLayer]->print();
-			tmpWeight->arr[num_hidLayer]->print();
+			// hidWeight->arr[num_hidLayer]->print();
+			// tmpWeight->arr[num_hidLayer]->print();
 			loss->arr[num_hidLayer] = outH->arr[num_hidLayer];
 			for (int j = 0; j < outH->arr[num_hidLayer]->dim()[0]; j++){
 				float outTmp = outH->arr[num_hidLayer]->n2Arr[j][0]; 	
 				loss->arr[num_hidLayer]->n2Arr[0][j] = outTmp * (1 - outTmp) * (tmp->n2Arr[num_hidLayer][0]); // out / net = out(1-out)
 			} // L-1 ~ 2: L - 2 层 = num_hidlayer
-			tmpWeight->arr[num_hidLayer]->transpose()->print();
 			for(int i = num_hidLayer; i > 0; i--){
-				tmpTrans = tmpWeight->arr[i]->transpose();
-
-				cout << tmpTrans->dim()[0] << " " << tmpTrans->dim()[1] << " " << loss->arr[i]->dim()[0] << " " << loss->arr[i]->dim()[1] << endl;
-				MyMatrix<float>* dummy = matMatMul(*tmpTrans, *loss->arr[i]);
+				MyMatrix<float>* dummy = matMatMul(*tmpWeight->arr[i], *loss->arr[i]);
 				loss->arr[i - 1] = dummy;
 			}
-			cout << "im here" << endl;
 			// calculate aggregate delta_w: from first weight to last weight
 			// 第一层input * 第二层 loss + ... + 第（n-1）层activation output * 第n层loss; store in a sum function
 			for(int i = 0; i < num_hidLayer + 1; i++){
-				cout << "hi" << endl;
 				tmpTrans = outHBias->arr[i]->transpose();
 				tmp = matMatMul(*loss->arr[i], *tmpTrans); 
-				// delta_w->arr[i] += tmp;
+				delta_w->arr[i] = new MyMatrix<float>(tmp->dim()[0], tmp->dim()[1]);
 				matAdd(*tmp, *delta_w->arr[i]);
 			}
-			// tmpTrans = input->transpose();
-			// tmp = matMatMul(*tmp, *tmpTrans); 
-
-			// const int r = tmp->dim()[0];
-			// const int c = tmp->dim()[1];
-			// sum_in = new MyMatrix<float>(r, c);
-			// sum_in = matAdd(*sum_in, *tmp); // total (delta)w
-
-			// tmpTrans = outHBias->transpose(); 
-			// tmp = matMatMul(*partError, *tmpTrans); // 
-			// const int row = tmp->dim()[0];
-			// const int col = tmp->dim()[1];
-			// sum_out = new MyMatrix<float>(row, col);
-			// sum_out = matAdd(*sum_out, *tmp);
 		}
 
 		for(int i = 0; i < num_hidLayer + 1; i++){
@@ -318,24 +304,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			hidWeight->arr[i] = matAdd(*hidWeight->arr[i], *delta_w->arr[i]);
 		}
 
-		// sum_in = sum_in / batch_size;
-		// for (int i = 0; i < sum_in->dim()[0]; i++)
-		// {
-		// 	for (int j = 0; j < sum_in->dim()[1]; j++)
-		// 	{
-		// 		sum_in->n2Arr[i][j] = sum_in->n2Arr[i][j] / (float)batch_size;
-		// 	}
-		// }
-		// for (int i = 0; i < sum_out->dim()[0]; i++)
-		// {
-		// 	for (int j = 0; j < sum_out->dim()[1]; j++)
-		// 	{
-		// 		sum_out->n2Arr[i][j] = sum_out->n2Arr[i][j] / (float)batch_size;
-		// 	}
-		// }
-		// 
-		// inputToHideWeight = matAdd(*inputToHideWeight, *sum_in);
-		// hideToOutputWeight = matAdd(*hideToOutputWeight, *sum_out);
 	}
 
 	delete tmp;
