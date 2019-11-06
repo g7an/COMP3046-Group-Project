@@ -18,6 +18,7 @@
 using namespace std;
 
 
+#include "globalFunctions.cpp"
 using namespace std;
 
 

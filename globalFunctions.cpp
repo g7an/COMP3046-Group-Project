@@ -13,6 +13,7 @@
 #include<cmath>
 #include<stdlib.h>
 #include<time.h>
+#include<unistd.h>
 using namespace std;
 
 template<class T, class N>
@@ -43,7 +44,7 @@ MyMatrix<T>* matSub(MyMatrix<T> &x, MyMatrix<T>&y);
 template<class T, class N>
 MyVector<T>* vecAdd(MyVector<T> &x, MyVector<T> &y, N a){
 	if (x.size() != y.size()){
-		cout << "This vector addition is illegal";
+		cout << "This vector addition is illegal" << endl;
 		return NULL;
 	}
 	MyVector<T>* ptr = new MyVector<T>(x.size());
@@ -56,7 +57,7 @@ MyVector<T>* vecAdd(MyVector<T> &x, MyVector<T> &y, N a){
 template<class T>
 T vecDot(MyVector<T> &x, MyVector<T> &y){
 	if (x.size() != y.size()){
-		cout << "This vector dot multiplication is illegal";
+		cout << "This vector dot multiplication is illegal" << endl;
 		return NULL;
 	}
 	T sum = 0;
@@ -70,7 +71,7 @@ T vecDot(MyVector<T> &x, MyVector<T> &y){
 template<class T >
 MyMatrix<T>* matAdd(MyMatrix<T> &x, MyMatrix<T>&y){
 	if (x.dim()[0] != y.dim()[0] || x.dim()[1] != y.dim()[1]){
-		cout << "This matrix addition is illegal";
+		cout << "This matrix addition is illegal" << endl;
 		return NULL;
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], x.dim()[1]);
@@ -87,7 +88,7 @@ MyMatrix<T>* matAdd(MyMatrix<T> &x, MyMatrix<T>&y){
 template<class T >
 MyMatrix<T>* matSub(MyMatrix<T> &x, MyMatrix<T>&y){
 	if (x.dim()[0] != y.dim()[0] || x.dim()[1] != y.dim()[1]){
-		cout << "This matrix addition is illegal";
+		cout << "This matrix Subtraction is illegal" << endl;
 		return NULL;
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], x.dim()[1]);
@@ -105,7 +106,7 @@ MyMatrix<T>* matSub(MyMatrix<T> &x, MyMatrix<T>&y){
 template<class T >
 MyMatrix<T>* matVecMul(MyMatrix<T> &x, MyVector<T>&y){
 	if (x.dim()[1] != y.size()){
-		cout << "This vector matrix multiplication is illegal";
+		cout << "This vector matrix multiplication is illegal" << endl;
 		return NULL;
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], 1);
@@ -126,7 +127,7 @@ MyMatrix<T>* matVecMul(MyMatrix<T> &x, MyVector<T>&y){
 template<class T >
 MyMatrix<T>* vecMatMul(MyVector<T>&y, MyMatrix<T>&x){
 	if (x.dim()[0] != y.size()){
-		cout << "This vector matrix multiplication is illegal";
+		cout << "This vector matrix multiplication is illegal" << endl;
 		return NULL;
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(1, x.dim()[1]);
@@ -144,8 +145,9 @@ MyMatrix<T>* vecMatMul(MyVector<T>&y, MyMatrix<T>&x){
 }
 template<class T >
 MyMatrix<T>* matMatMul(MyMatrix<T> &x, MyMatrix<T>&y){
+
 	if (x.dim()[1] != y.dim()[0]){
-		cout << "This matrix multiplication is illegal";
+		cout << "This matrix multiplication is illegal" << endl;
 		return NULL;
 	}
 	

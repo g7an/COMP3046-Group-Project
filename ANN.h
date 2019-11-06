@@ -18,6 +18,8 @@ class ANN
 	MyVector<MyMatrix<float> *>* outH;
 	MyVector<MyMatrix<float> *>* outHBias;
 	MyVector<MyMatrix<float> *>* delta_w;
+	MyVector<MyMatrix<float> *>* loss;
+	MyVector<MyMatrix<float> *>* tmpWeight;
 	MyMatrix<float> *hideToOutputWeight;
 	MyMatrix<float> *output;
 	MyMatrix<float> *target;
