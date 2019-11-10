@@ -8,6 +8,7 @@ class ANN
 	int epochs;
 	int num_hidLayer;
 	int* num_neurons;
+	int batch_size;
 	MyVector<MyMatrix<float> *>*hidWeight;
 	MyVector<MyMatrix<float> *>* delta_w;
 	MyVector<MyMatrix<float> *>* tmpWeight;
@@ -25,7 +26,7 @@ class ANN
 
 
 public:
-	ANN(float, int);
+	ANN(float, int,int);
 	~ANN();
 	float sigmoid(float);
 	float random();
@@ -35,6 +36,8 @@ public:
 	void initializeWeight();
 	void train(std::vector<std::vector<float> >, std::vector<float>);
 	float predict(std::vector<float>);
+	float totalLoss(std::vector<float>, float);
+
 	void storeWeight();
 	void loadWeight();
 	MyMatrix<float>* eleMul(MyMatrix<float>* x, MyMatrix<float>* y);
