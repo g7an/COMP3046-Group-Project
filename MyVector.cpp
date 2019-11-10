@@ -3,7 +3,7 @@
 #include<string>
 #include<fstream>
 #include <vector>
-#include <iostream>
+#include<iostream>
 using namespace std;
 
 template<class T>
@@ -42,7 +42,7 @@ void MyVector<T>::print(){
 template<class T>
 MyVector<T>::~MyVector()
 {
-	delete arr;
+	//delete [] arr;
 }
 
 

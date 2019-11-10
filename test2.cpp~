@@ -65,7 +65,7 @@ int main()
 
 //	annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
 //	annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
-	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
+	annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 	cout << "store finish" << endl;
 
 

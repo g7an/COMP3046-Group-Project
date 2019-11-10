@@ -8,22 +8,18 @@ class ANN
 	int epochs;
 	int num_hidLayer;
 	int* num_neurons;
-	MyVector<MyMatrix<float> *> *hidWeight;
-	//MyVector<void *> *hidWeight;
-	MyMatrix<float> *inputToHideWeight;
+	MyVector<MyMatrix<float> *>*hidWeight;
+	MyVector<MyMatrix<float> *>* delta_w;
+	MyVector<MyMatrix<float> *>* tmpWeight;
+
 	MyMatrix<float> *input;
-	// MyMatrix<float> *netH;
-	// MyMatrix<float> *outH;
+
 	MyVector<MyMatrix<float> *>* netH;
 	MyVector<MyMatrix<float> *>* outH;
 	MyVector<MyMatrix<float> *>* outHBias;
-	MyVector<MyMatrix<float> *>* delta_w;
-	MyVector<MyMatrix<float> *>* loss;
-	MyVector<MyMatrix<float> *>* tmpWeight;
-	MyMatrix<float> *hideToOutputWeight;
-	MyMatrix<float> *output;
+
+	MyMatrix<float> * loss;
 	MyMatrix<float> *target;
-	MyMatrix<float> *partError;
 
 
 
@@ -41,6 +37,8 @@ public:
 	float predict(std::vector<float>);
 	void storeWeight();
 	void loadWeight();
+	MyMatrix<float>* eleMul(MyMatrix<float>* x, MyMatrix<float>* y);
+	MyMatrix<float>* d_sigmoid(MyMatrix<float>* x);
 
 	void generateTarget(float t);
 
