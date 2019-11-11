@@ -19,7 +19,7 @@ class ANN
 	MyVector<MyMatrix<float> *>* outH;
 	MyVector<MyMatrix<float> *>* outHBias;
 
-	MyMatrix<float> * loss;
+	MyMatrix<float> * partError;
 	MyMatrix<float> *target;
 
 

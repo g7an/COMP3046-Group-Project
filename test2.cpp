@@ -24,12 +24,12 @@ using namespace std;
 ///*
 int main()                                                
 {
-	ANN annModel(0.01,10,20);                                                  
+	ANN annModel(0.001,10,20);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 	int cnt = 0;
  
-	ifstream myfile("train.txt");
+	ifstream myfile("data/train.txt");
 	
 	if (myfile.is_open())
 	{
@@ -57,11 +57,11 @@ int main()
 	else
 		cout << "Unable to open file" << '\n';
 
-
+	cout << "here" << endl;
 
 
 	annModel.train(X_train, y_train);
-
+	cout << "here 2" << endl;
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 
