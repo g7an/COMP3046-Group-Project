@@ -20,6 +20,7 @@ MyMatrix<T>::MyMatrix(int h, int w)
 template<class T>
 MyMatrix<T>::~MyMatrix()
 {
+	
 	for (int i = 0; i < sz[0]; i++){
 		delete[] n2Arr[i];
 	}

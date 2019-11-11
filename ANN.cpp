@@ -131,6 +131,8 @@ ANN::ANN(float lr, int epochs, int batch_size) : lr(lr), epochs(epochs), batch_s
 	//hideToOutputWeight = new MyMatrix<float>(10, 11); //hidden->out
 	target = new MyMatrix<float>(10, 1); // ground-truth
 
+	delete[] total_neuron;
+
 }
 
 ANN::~ANN()
@@ -143,7 +145,7 @@ ANN::~ANN()
 	delete  outH;
 	delete  outHBias;
 
-	delete loss;
+	//delete loss;
 
 	delete input;
 	delete target;
@@ -215,6 +217,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 	const int steps = in.size() / batch_size + 1; // how many batches to finish an epoch
 	MyMatrix<float> *tmp = NULL;
 	MyMatrix<float> *tmpTrans = NULL;                 //Li: 这个编译不过，就initialize 成了NULL
+	float testLoss = 0;
 	/*
 		MyMatrix<float> *sum_in = NULL;
 		MyMatrix<float> *sum_out = NULL;
@@ -303,6 +306,13 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 				// add bias to outHBias
 				tmp = matSub(*outH->arr[num_hidLayer + 1], *target); // (a - y) in last layer                //Li: Now the outH[num_hidLayer+1] means the output layer
+				testLoss = 0;
+
+				for (int i = 0; i < 10; i++){
+					testLoss += tmp->n2Arr[i][0] * tmp->n2Arr[i][0]*0.5;
+					
+				}
+				cout << "testLoss: " << testLoss << endl;
 
 				//outH->arr[num_hidLayer] = tmp; // (a - y) in last layer     //Li: 我觉得最后一层的outH 是需要在反传中使用的，就把这行comment 掉了
 				/*
@@ -356,6 +366,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 				MyMatrix<float>* dSigmoid = NULL;
 				MyMatrix<float>* tmpLoss= NULL;
+				MyMatrix<float>* tmp2= NULL;
 				for (int i = num_hidLayer; i >= 0; i--){                                 //Li: Now the outH[num_hidLayer+1] means the output layer and outH[0] is input	
 					if (i != num_hidLayer){												//Li: 如果 i = num_hidLayer+1 , part loss 已经在loss 中，因此直接计算delta_w
 
@@ -375,18 +386,20 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					}
 
 
-					//delete tmpTrans;      //xxxxxx
+					delete tmpTrans;      //xxxxxx
 
 					tmpTrans = outHBias->arr[i]->transpose();
 
 
 					tmp = matMatMul(*loss, *tmpTrans);
 
-
-					delta_w->arr[i] = matAdd(*tmp, *delta_w->arr[i]);
-
-					delete dSigmoid;
 					//delete tmpTrans;      //xxxxxx
+
+					tmp2 = delta_w->arr[i];
+					delta_w->arr[i] = matAdd(*tmp, *tmp2);
+
+					delete tmp2;
+					delete dSigmoid;
 					delete tmp;
 				}
 				//one data train finish
@@ -410,19 +423,24 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 			// update weight and bias
 			for (int i = 0; i < num_hidLayer + 1; i++){
-				hidWeight->arr[i]= matSub(*hidWeight->arr[i], *delta_w->arr[i]);
+				tmp = hidWeight->arr[i];
+				hidWeight->arr[i]= matSub(*tmp, *delta_w->arr[i]);
+				delete tmp;
 			}
 
 
 		}
+
 			float tmpLoss = totalLoss(in[89], t[89]);
 			cout << "total Loss: " << tmpLoss << endl;
 
 			//this->storeWeight();
 	}
 
-	delete tmp;
+	//delete tmp;
 	delete tmpTrans;
+
+	cout << "fuc" << endl;
 }
  float ANN::predict(vector<float> in)
  {
