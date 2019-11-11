@@ -42,7 +42,7 @@ void MyVector<T>::print(){
 template<class T>
 MyVector<T>::~MyVector()
 {
-	//delete [] arr;
+	delete [] arr;
 }
 
 

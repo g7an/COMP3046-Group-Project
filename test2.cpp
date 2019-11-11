@@ -17,15 +17,14 @@
 #include <omp.h>
 using namespace std;
 
-
-#include "globalFunctions.cpp"
+//#include "globalFunctions.cpp"
 using namespace std;
 
 
 ///*
 int main()                                                
 {
-	ANN annModel(0.1,50,10);                                                  
+	ANN annModel(0.5,1,20);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 	int cnt = 0;
@@ -64,20 +63,21 @@ int main()
 	annModel.train(X_train, y_train);
 
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
-	annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
+	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
-	cout << "predict: " << annModel.predict(X_train[1]) << " real value: " << y_train[1] <<endl;;
+	cout<< annModel.totalLoss(X_train[10],y_train[10])<<endl;
+	//cout << "predict: " << annModel.predict(X_train[10]) << " real value: " << y_train[10] <<endl;;
 	/*
 	cout << "predict: " << annModel.predict(X_train[4]) << " real value: " << y_train[4] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[10]) << " real value: " << y_train[10] <<endl;;
 	cout << "predict: " << annModel.predict(X_train[90]) << " real value: " << y_train[90] <<endl;;
 	cout << "predict: " << annModel.predict(X_train[2]) << " real value: " << y_train[2] <<endl;;
 	cout << "predict: " << annModel.predict(X_train[8]) << " real value: " << y_train[8] <<endl;;
 	cout << "predict: " << annModel.predict(X_train[16]) << " real value: " << y_train[16] <<endl;;
 	cout << "predict: " << annModel.predict(X_train[32]) << " real value: " << y_train[32] <<endl;;
-	cout << "store finish" << endl;
 	*/
+
+	cout << "store finish" << endl;
 
 
 	cout << endl;

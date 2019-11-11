@@ -40,8 +40,6 @@ public:
 
 	void storeWeight();
 	void loadWeight();
-	MyMatrix<float>* eleMul(MyMatrix<float>* x, MyMatrix<float>* y);
-	MyMatrix<float>* d_sigmoid(MyMatrix<float>* x);
 
 	void generateTarget(float t);
 
