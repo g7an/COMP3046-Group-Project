@@ -194,7 +194,7 @@ MyMatrix<T>* d_sigmoid(MyMatrix<T> &x){
 	MyMatrix<float>* tmp = new MyMatrix<float>(x.dim()[0], x.dim()[1]);
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < x.dim()[1]; j++){
-			cout << i << ", " << j << endl;
+			// cout << i << ", " << j << endl;
 			tmp->n2Arr[i][j] = x.n2Arr[i][j] * (1 - x.n2Arr[i][j]);
 		}
 	}

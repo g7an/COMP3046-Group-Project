@@ -239,7 +239,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					//cout << net->dim()[0] << " " << net->dim()[1] << " " << netWeight->dim()[0] << " " << netWeight->dim()[1] << endl;
 					
 					netH->arr[i] = matMatMul(*netWeight, *net);// 10 * 1
-					cout << "netH" << i << " dim " << netH->arr[i]->dim()[0] << ", " << netH->arr[i]->dim()[1] << endl;
+					// cout << "netH" << i << " dim " << netH->arr[i]->dim()[0] << ", " << netH->arr[i]->dim()[1] << endl;
 					//				outH->arr[i] = netH->arr[i];                                              //Li: I've already initialize the outH and outBias in construtor, so there two lines are useless
 					//outHBias->arr[i] = new MyMatrix<float>(netH->arr[i]->dim()[0] + 1, 1);
 					for (int j = 0; j < netH->arr[i]->dim()[0]; j++){ //change netH to outH, outBias is out matrix plus bias
@@ -313,7 +313,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 
 				for (int i = num_hidLayer; i >= 0; i--){                                 //Li: Now the outH[num_hidLayer+1] means the output layer and outH[0] is input	
-				cout << "FUck" << endl;
+				// cout << "FUck" << endl;
 					if (i != num_hidLayer){												//Li: 如果 i = num_hidLayer+1 , part partError 已经在partError 中，因此直接计算delta_w
 
 						tmpTrans = tmpWeight->arr[i + 1]->transpose();
@@ -322,22 +322,22 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 						tmpLoss = matMatMul(*tmpTrans, *partError);									// Li: partError 对上层输入的偏导
 						
 						delete partError;
-						cout << "i is " << i << " tmpLoss: " << tmpLoss->dim()[0] << ", " << tmpLoss->dim()[1] << endl;
-						cout << "netH: " << netH->arr[i + 1]->dim()[0] << ", " << netH->arr[i + 1]->dim()[1] << endl;
+						// cout << "i is " << i << " tmpLoss: " << tmpLoss->dim()[0] << ", " << tmpLoss->dim()[1] << endl;
+						// cout << "netH: " << netH->arr[i + 1]->dim()[0] << ", " << netH->arr[i + 1]->dim()[1] << endl;
 
 						
 
 						dSigmoid = d_sigmoid(*netH->arr[i + 1]);                            // Li: out 对 net 的偏导
 						
-						cout << "dSigmoid: " << dSigmoid->dim()[0] << ", " << dSigmoid->dim()[1] << endl;
+						// cout << "dSigmoid: " << dSigmoid->dim()[0] << ", " << dSigmoid->dim()[1] << endl;
 
 						partError = eleMul(*tmpLoss, *dSigmoid);													//Li: partError 对 net 的偏导, 本层的partError(partError) 计算完成 P29 第一个式子
-						cout << "NM$L" << endl;
+						// cout << "NM$L" << endl;
 						delete tmpLoss;
 
 
 					}
-				cout << "fuCK" << endl;
+				// cout << "fuCK" << endl;
 				
 					delete tmpTrans;      //xxxxxx
 
