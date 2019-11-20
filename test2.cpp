@@ -24,12 +24,11 @@ using namespace std;
 ///*
 int main()                                                
 {
-	ANN annModel(0.001,10,20);                                                  
+	ANN annModel(0.01, 200, 16, 140, 0.1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
-	int cnt = 0;
  
-	ifstream myfile("data/train.txt");
+	ifstream myfile("data/train_small.txt");
 	
 	if (myfile.is_open())
 	{
@@ -57,25 +56,50 @@ int main()
 	else
 		cout << "Unable to open file" << '\n';
 
-	cout << "here" << endl;
-
-
 	annModel.train(X_train, y_train);
-	cout << "here 2" << endl;
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 	cout<< annModel.totalLoss(X_train[10],y_train[10])<<endl;
 	//cout << "predict: " << annModel.predict(X_train[10]) << " real value: " << y_train[10] <<endl;;
-	/*
-	cout << "predict: " << annModel.predict(X_train[4]) << " real value: " << y_train[4] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[90]) << " real value: " << y_train[90] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[2]) << " real value: " << y_train[2] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[8]) << " real value: " << y_train[8] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[16]) << " real value: " << y_train[16] <<endl;;
-	cout << "predict: " << annModel.predict(X_train[32]) << " real value: " << y_train[32] <<endl;;
-	*/
+	vector< vector<float> > X_test;
+	vector<float> y_test;
+ 
+	ifstream myfile2("data/test.txt");
+	
+	if (myfile2.is_open())
+	{
+		cout << "Loading data ...\n";
+		string test_line;
+		while (getline(myfile2, test_line))
+		{
+			int test_x, test_y;
+			vector<float> test_X;
+			stringstream ss(test_line);
+			ss >> test_y;
+			y_test.push_back(test_y);
+
+//#pragma omp parallel for num_threads(4)
+			for (int i = 0; i < 28 * 28; i++) {
+				ss >> test_x;
+				test_X.push_back(test_x / 255.0);
+			}
+			X_test.push_back(test_X);
+		}
+
+		myfile2.close();
+		cout << "Loading data finished.\n";
+	}
+	else
+		cout << "Unable to open file" << '\n';
+	cout << "predict: " << annModel.predict(X_test[4]) << " real value: " << y_test[4] <<endl;
+	cout << "predict: " << annModel.predict(X_test[90]) << " real value: " << y_test[90] <<endl;
+	cout << "predict: " << annModel.predict(X_test[2]) << " real value: " << y_test[2] <<endl;
+	cout << "predict: " << annModel.predict(X_test[8]) << " real value: " << y_test[8] <<endl;
+	cout << "predict: " << annModel.predict(X_test[16]) << " real value: " << y_test[16] <<endl;
+	cout << "predict: " << annModel.predict(X_test[32]) << " real value: " << y_test[32] <<endl;
+	
 
 	cout << "store finish" << endl;
 

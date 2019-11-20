@@ -60,7 +60,7 @@ return 0;
 }
 */
 
-ANN::ANN(float lr, int epochs, int batch_size) : lr(lr), epochs(epochs), batch_size(batch_size)
+ANN::ANN(float lr, int epochs, int batch_size, int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size), decayEpoch(decayEpoch), decay(decay)
 {
 	// cout << "Input number of hidden layer: " << endl;
 	// cin >> num_hidLayer;
@@ -116,19 +116,12 @@ ANN::ANN(float lr, int epochs, int batch_size) : lr(lr), epochs(epochs), batch_s
 
 	for (int i = 0; i < num_hidLayer + 1; i++){                                               //Li: initialize all hidden layer here
 		outH->arr[i + 1] = new MyMatrix<float>(total_neuron[i], 1);                           //Li: use i+1 as 0 is for input
-		//		netH->arr[i+1] = new MyMatrix<float>(total_neuron[i],1);                           //Li:As netH will be the result of a matrix mul, so it does not need initialize
 		outHBias->arr[i + 1] = new MyMatrix<float>(total_neuron[i] + 1, 1);
 	}
 	outH->arr[num_allLayers + 1] = new MyMatrix<float>(10, 1);                           // Li: There two lines for initialize the output layer
-//	netH->arr[num_allLayers + 1] = new MyMatrix<float>(10, 1);
-
 	//inputToHideWeight = new MyMatrix<float>(10, 785);
 	input = new MyMatrix<float>(785, 1);
-	// netH = new MyMatrix<float>(10, 1);				  //weight*input
-	// outH = new MyMatrix<float>(10, 1);				  //after sigmoid
-	//hideToOutputWeight = new MyMatrix<float>(10, 11); //hidden->out
 	target = new MyMatrix<float>(10, 1); // ground-truth
-
 	delete[] total_neuron;
 
 }
@@ -151,14 +144,15 @@ ANN::~ANN()
 	//delete partError;
 }
 
-inline float ANN::sigmoid(float input)
+float ANN::sigmoid(float input)
 { //calculate sigmoid function
 	return 1 / (1 + exp(-input));
 }
 
 inline float ANN::random()
 { //return a float random number between 0 and 1
-	return rand() / float(RAND_MAX);
+	float r = rand() / 50.0f;
+	return r / RAND_MAX;
 }
 
 void ANN::setEpochs(int e)
@@ -170,35 +164,6 @@ void ANN::setLR(float f)
 {
 	lr = f;
 }
-/*
-void ANN::initializeWeight()
-{
-srand((unsigned)time(NULL));
-
-//	cout << "first weight" << endl;
-// set value to hidden weights
-for (int i = 0; i < inputToHideWeight->dim()[0]; i++)
-{
-for (int j = 0; j < inputToHideWeight->dim()[1]; j++)
-{
-inputToHideWeight->n2Arr[i][j] = random(); //shuffle data between [0, 1]
-//			cout << inputToHideWeight->n2Arr[i][j] << " ";
-}
-//		cout << endl;
-}
-
-//	cout << "second weight" << endl;
-for (int i = 0; i < hideToOutputWeight->dim()[0]; i++)
-{
-for (int j = 0; j < hideToOutputWeight->dim()[1]; j++)
-{
-hideToOutputWeight->n2Arr[i][j] = random();
-//			cout << hideToOutputWeight->n2Arr[i][j] << " ";
-}
-}
-}
-*/
-
 
 void ANN::train(vector<vector<float> > in, vector<float> t)
 {
@@ -223,7 +188,8 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 	vector<float> batch_data(vector_size);
 
 	for (int epoch = 0; epoch < epochs; epoch++){
-
+		if (epoch % decayEpoch == 0 && epoch != 0)
+			lr = lr*decay;
 		for (int round = 0; round < steps; round++)
 		{
 			for (int turn = 0; turn < batch_size; turn++)
@@ -233,8 +199,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				if (turn + round * batch_size == in.size()) break;     //Li: To test whether the index is out of bound
 
 				partError = new MyMatrix<float>(10, 1);                                 //Li:对于每一个数据有一个partError
-
-
 
 				batch_data = in[turn + round * batch_size];
 				//#pragma omp parallel for num_threads(4)
@@ -275,6 +239,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					//cout << net->dim()[0] << " " << net->dim()[1] << " " << netWeight->dim()[0] << " " << netWeight->dim()[1] << endl;
 					
 					netH->arr[i] = matMatMul(*netWeight, *net);// 10 * 1
+					cout << "netH" << i << " dim " << netH->arr[i]->dim()[0] << ", " << netH->arr[i]->dim()[1] << endl;
 					//				outH->arr[i] = netH->arr[i];                                              //Li: I've already initialize the outH and outBias in construtor, so there two lines are useless
 					//outHBias->arr[i] = new MyMatrix<float>(netH->arr[i]->dim()[0] + 1, 1);
 					for (int j = 0; j < netH->arr[i]->dim()[0]; j++){ //change netH to outH, outBias is out matrix plus bias
@@ -288,17 +253,8 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 					//netH->arr[i + 1] = outHBias->arr[i];                                  //Li: Why we need to use netH to store outBias? 
 					netWeight = hidWeight->arr[i];
-					delete netH->arr[i];
-				}
-				/*
-				// first outHBias: input + bias
-				outHBias->arr[0] = new MyMatrix<float>(785, 1);
-				outHBias->arr[0]->n2Arr[vector_size][0] = 1;                 // input lack of a bias
-				int count;
-				for(int i = 0; i < vector_size; i++){
-				outHBias->arr[0]->n2Arr[i][0] = input->n2Arr[i][0];
-				}
-				*/															// Li: 不是很清楚这段代码的作用，就comment 掉了
+					// delete netH->arr[i];
+				}														// Li: 不是很清楚这段代码的作用，就comment 掉了
 
 				// add bias to outHBias
 				tmp = matSub(*outH->arr[num_hidLayer + 1], *target); // (a - y) in last layer                //Li: Now the outH[num_hidLayer+1] means the output layer
@@ -308,7 +264,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					testLoss += tmp->n2Arr[i][0] * tmp->n2Arr[i][0]*0.5;
 					
 				}
-				cout << "testLoss: " << testLoss << endl;
 
 				//outH->arr[num_hidLayer] = tmp; // (a - y) in last layer     //Li: 我觉得最后一层的outH 是需要在反传中使用的，就把这行comment 掉了
 				/*
@@ -320,27 +275,19 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 
 
 				for (int dim = 0; dim < num_hidLayer + 1; dim++){
-					// cout << hidWeight->arr[0]->dim()[0] << endl;
-					//tmpWeight->arr[dim] = new MyMatrix<float>(hidWeight->arr[dim]->dim()[0], hidWeight->arr[dim]->dim()[1] - 1);    //Li: I've initialized the tmpWeight in constructor, so it is useless
 					for (int i = 0; i < hidWeight->arr[dim]->dim()[0]; i++){
 						for (int j = 0; j < (hidWeight->arr[dim]->dim()[1] - 1); j++){
-							// cout << hidWeight->arr[dim]->dim()[0] << " " << hidWeight->arr[dim]->dim()[1] << endl;
 							tmpWeight->arr[dim]->n2Arr[i][j] = hidWeight->arr[dim]->n2Arr[i][j]; // last hidden weight without bias
 						}
 					}
 				}
 
-				// hidWeight->arr[num_hidLayer]->print();
-				// tmpWeight->arr[num_hidLayer]->print();
-				//partError = tmp; //outH->arr[num_hidLayer];    //Li: 这行对应上一个的修改，直接让partError  = tmp , No maybe this line is useless as partError will be changed at next few lines.
-
-				for (int j = 0; j < outH->arr[num_hidLayer + 1]->dim()[0]; j++){			 //Li: Now the outH[num_hidLayer+1] means the output layer	
-					float outTmp = outH->arr[num_hidLayer + 1]->n2Arr[j][0];                //Li: Now the outH[num_hidLayer+1] means the output layer
-					//				partError->n2Arr[0][j] = outTmp * (1 - outTmp) * (tmp->n2Arr[num_hidLayer][0]); // out / net = out(1-out)
+				for (int j = 0; j < netH->arr[num_hidLayer + 1]->dim()[0]; j++){			 //Li: Now the outH[num_hidLayer+1] means the output layer	
+					float outTmp = netH->arr[num_hidLayer + 1]->n2Arr[j][0];                //Li: Now the outH[num_hidLayer+1] means the output layer
 					partError->n2Arr[j][0] = outTmp * (1 - outTmp) * (tmp->n2Arr[j][0]); // out / net = out(1-out)  //Li: Maybe something wrong with the subscript of partError and tmp layer?
 
 				} // L-1 ~ 2: L - 2 层 = num_hidlayer
-
+				
 				delete tmp;
 
 				/*
@@ -363,25 +310,35 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				MyMatrix<float>* dSigmoid = NULL;
 				MyMatrix<float>* tmpLoss= NULL;
 				MyMatrix<float>* tmp2= NULL;
+
+
 				for (int i = num_hidLayer; i >= 0; i--){                                 //Li: Now the outH[num_hidLayer+1] means the output layer and outH[0] is input	
+				cout << "FUck" << endl;
 					if (i != num_hidLayer){												//Li: 如果 i = num_hidLayer+1 , part partError 已经在partError 中，因此直接计算delta_w
 
 						tmpTrans = tmpWeight->arr[i + 1]->transpose();
 
-						tmpLoss= matMatMul(*tmpTrans, *partError);									// Li: partError 对上层输入的偏导
-
+				
+						tmpLoss = matMatMul(*tmpTrans, *partError);									// Li: partError 对上层输入的偏导
+						
 						delete partError;
+						cout << "i is " << i << " tmpLoss: " << tmpLoss->dim()[0] << ", " << tmpLoss->dim()[1] << endl;
+						cout << "netH: " << netH->arr[i + 1]->dim()[0] << ", " << netH->arr[i + 1]->dim()[1] << endl;
 
-						dSigmoid = d_sigmoid(*outH->arr[i + 1]);                            // Li: out 对 net 的偏导
+						
+
+						dSigmoid = d_sigmoid(*netH->arr[i + 1]);                            // Li: out 对 net 的偏导
+						
+						cout << "dSigmoid: " << dSigmoid->dim()[0] << ", " << dSigmoid->dim()[1] << endl;
 
 						partError = eleMul(*tmpLoss, *dSigmoid);													//Li: partError 对 net 的偏导, 本层的partError(partError) 计算完成 P29 第一个式子
-
+						cout << "NM$L" << endl;
 						delete tmpLoss;
 
 
 					}
-
-
+				cout << "fuCK" << endl;
+				
 					delete tmpTrans;      //xxxxxx
 
 					tmpTrans = outHBias->arr[i]->transpose();
@@ -402,15 +359,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				delete partError;
 			}
 
-			/*
-			for(int i = 0; i < num_hidLayer + 1; i++){
-			for(int j = 0; j < delta_w->arr[i]->dim()[0]; j++){
-			for(int k = 0; k < delta_w->arr[i]->dim()[1]; k++){
-			delta_w->arr[i]->n2Arr[j][k] = lr * delta_w->arr[i]->n2Arr[j][k] / (float)batch_size;
-			}
-			}
-			}
-			*/
 
 			for (int i = 0; i < num_hidLayer + 1; i++){
 				delta_w->arr[i]->smul(lr / (float)batch_size);            //Li: I've write the function of matrix mult number, so...
@@ -428,7 +376,9 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 		}
 
 			float tmpLoss = totalLoss(in[89], t[89]);
-			cout << "total Loss: " << tmpLoss << endl;
+			cout << "epoch: " << epoch << "total Loss: " << tmpLoss << endl;
+			cout << "output layer: " << endl;
+			outH->arr[num_hidLayer + 1]->print();
 
 			//this->storeWeight();
 	}
@@ -440,18 +390,16 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
  float ANN::predict(vector<float> in)
  {
 
-
-
 			int vector_size = in.size();
+			cout << "in: " << endl;
 			for (int i = 0; i < vector_size; i++)
 			{
 				input->n2Arr[i][0] = in[i];
+				cout << in[i] << " ";
 			}
-
-
+			cout << endl;
 			int foo = input->dim()[0] - 1;
 			input->n2Arr[foo][0] = 1; //set bias			
-
 
 			netH->arr[0] = input;
 			outH->arr[0] = input; // first layer: input = output = data_in 
@@ -466,14 +414,20 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					net = outHBias->arr[i - 1];
 				netH->arr[i] = matMatMul(*netWeight, *net);// 10 * 1
 
-				cout << "netH" << endl;
+				cout << "netH" << i << ": "<< endl;
 				netH->arr[i]->print();
 
 				for (int j = 0; j < netH->arr[i]->dim()[0]; j++){ //change netH to outH, outBias is out matrix plus bias
 					outH->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
-					outHBias->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
-				}
+					cout << netH->arr[i]->n2Arr[j][0] << " "; 
+					cout << "\nsigmoid: " << sigmoid((double)netH->arr[i]->n2Arr[j][0]) << endl; 
 
+					outHBias->arr[i]->n2Arr[j][0] = sigmoid(netH->arr[i]->n2Arr[j][0]);
+
+				}
+				cout << endl;
+				cout << "layer " << i << ": " << endl;
+				outH->arr[i]->print();
 
 				if (i == num_hidLayer + 1)                                               //Li: Now the outH[num_hidLayer+1] means the output layer
 					break;
@@ -484,7 +438,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 			}
 
 			int pos= 0;
-			cout << "max" << endl;
+			cout << "output:" << endl;
 			outH->arr[num_hidLayer + 1]->print();
 
 			float max= outH->arr[num_hidLayer + 1]->n2Arr[0][0] ;
@@ -494,6 +448,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 					pos = i;
 				}														// (a - y) in last layer                //Li: Now the outH[num_hidLayer+1] means the output layer
 			}
+			cout << "\nsigmoid: " << sigmoid(77.0628) << endl; 
 			return pos;
 
  }
@@ -570,7 +525,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				float foo = tmpTarget[i] - outH->arr[num_hidLayer + 1]->n2Arr[i][0];
 				error += foo*foo;
 			}
-
 			return error*0.5;
 
  }

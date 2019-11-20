@@ -6,6 +6,8 @@ class ANN
 {
 	float lr;								//learning rate
 	int epochs;
+	int decayEpoch;
+	float decay;
 	int num_hidLayer;
 	int* num_neurons;
 	int batch_size;
@@ -26,7 +28,7 @@ class ANN
 
 
 public:
-	ANN(float, int,int);
+	ANN(float, int, int, int, float);
 	~ANN();
 	float sigmoid(float);
 	float random();
