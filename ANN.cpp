@@ -283,7 +283,7 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				}
 
 				for (int j = 0; j < netH->arr[num_hidLayer + 1]->dim()[0]; j++){			 //Li: Now the outH[num_hidLayer+1] means the output layer	
-					float outTmp = netH->arr[num_hidLayer + 1]->n2Arr[j][0];                //Li: Now the outH[num_hidLayer+1] means the output layer
+					float outTmp = outH->arr[num_hidLayer + 1]->n2Arr[j][0];                //Li: Now the outH[num_hidLayer+1] means the output layer
 					partError->n2Arr[j][0] = outTmp * (1 - outTmp) * (tmp->n2Arr[j][0]); // out / net = out(1-out)  //Li: Maybe something wrong with the subscript of partError and tmp layer?
 
 				} // L-1 ~ 2: L - 2 层 = num_hidlayer
@@ -323,11 +323,11 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 						
 						delete partError;
 						// cout << "i is " << i << " tmpLoss: " << tmpLoss->dim()[0] << ", " << tmpLoss->dim()[1] << endl;
-						// cout << "netH: " << netH->arr[i + 1]->dim()[0] << ", " << netH->arr[i + 1]->dim()[1] << endl;
+						// cout << "netH: " << outHBias->arr[i + 1]->dim()[0] << ", " << netH->arr[i + 1]->dim()[1] << endl;
 
 						
 
-						dSigmoid = d_sigmoid(*netH->arr[i + 1]);                            // Li: out 对 net 的偏导
+						dSigmoid = d_sigmoid(*outH->arr[i + 1]);                            // Li: out 对 net 的偏导
 						
 						// cout << "dSigmoid: " << dSigmoid->dim()[0] << ", " << dSigmoid->dim()[1] << endl;
 
@@ -509,17 +509,6 @@ void ANN::train(vector<vector<float> > in, vector<float> t)
 				//netH->arr[i + 1] = outHBias->arr[i];                                  //Li: Why we need to use netH to store outBias? 
 				netWeight = hidWeight->arr[i];
 			}
-			/*
-			// first outHBias: input + bias
-			outHBias->arr[0] = new MyMatrix<float>(785, 1);
-			outHBias->arr[0]->n2Arr[vector_size][0] = 1;                 // input lack of a bias
-			int count;
-			for(int i = 0; i < vector_size; i++){
-			outHBias->arr[0]->n2Arr[i][0] = input->n2Arr[i][0];
-			}
-			*/															// Li: 不是很清楚这段代码的作用，就comment 掉了
-
-			// add bias to outHBias
 			float error = 0;
 			for (int i = 0; i < 10; i++){
 				float foo = tmpTarget[i] - outH->arr[num_hidLayer + 1]->n2Arr[i][0];
@@ -543,9 +532,4 @@ void ANN::loadWeight()
 	for (int i = 0; i < hidWeight->size(); i++){
 		hidWeight->arr[i]= load[i];
 	}
-
-	/*
-	hideToOutputWeight = load[0];
-	inputToHideWeight = load[1];
-	*/
 }

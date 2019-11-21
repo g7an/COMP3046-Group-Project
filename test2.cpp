@@ -24,7 +24,7 @@ using namespace std;
 ///*
 int main()                                                
 {
-	ANN annModel(0.01, 200, 16, 140, 0.1);                                                  
+	ANN annModel(0.03, 200, 16, 140, 0.1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
  
