@@ -200,27 +200,11 @@ MyMatrix<T>* d_sigmoid(MyMatrix<T> &x){
 	}
 	return tmp;
 }
-/* <float>* eleMul(MyMatrix<float>* x, MyMatrix<float>* y){        // Li: 按位乘法
-	if (x->dim()[0] != y->dim()[0] || x->dim()[1] != y->dim()[1]){
-		cout << "Matrix element-wise mult is invalid!" << endl;
-		return NULL;
-	}
-	MyMatrix<float>* tmp = new MyMatrix<float>(x->dim()[0], x->dim()[1]);
-	for (int i = 0; i < x->dim()[0]; i++){
-		for (int j = 0; j < x->dim()[1]; j++){
-			tmp->n2Arr[i][j] = x->n2Arr[i][j] * y->n2Arr[i][j];
-		}
-	}
-	return tmp;
 
+template<class T >
+void updateDelta_bias(MyMatrix<T> &x, float* bias){
+	for(int i=0;i<x.dim()[0];i++){
+		bias[i] += x.n2Arr[i][0];
+	}
+	
 }
-MyMatrix<float>* d_sigmoid(MyMatrix<float>* x){                            //Li: 用来从out 求 out(1-out);
-	MyMatrix<float>* tmp = new MyMatrix<float>(x->dim()[0], x->dim()[1]);
-	for (int i = 0; i < x->dim()[0]; i++){
-		for (int j = 0; j < x->dim()[1]; j++){
-			tmp->n2Arr[i][j] = x->n2Arr[i][j] * (1 - x->n2Arr[i][j]);
-		}
-	}
-	return tmp;
-
-}*/
