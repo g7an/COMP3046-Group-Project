@@ -4,7 +4,7 @@
 template<class T>
 class MyMatrix
 {
-	int* sz = new int[2];
+	int* sz ;
 
 public:
 	T **n2Arr;

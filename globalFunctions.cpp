@@ -162,7 +162,7 @@ MyMatrix<T>* matMatMul(MyMatrix<T> &x, MyMatrix<T>&y){
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < y.dim()[1]; j++){
 			for (int r = 0; r < x.dim()[1]; r++){
-				
+
 				tmp->n2Arr[i][j] += x.n2Arr[i][r] * y.n2Arr[r][j]; 
 			}
 		}
@@ -175,6 +175,8 @@ template<class T >
 MyMatrix<T>* eleMul(MyMatrix<T> &x, MyMatrix<T>&y){
 	if (x.dim()[0] != y.dim()[0] || x.dim()[1] != y.dim()[1]){
 		cout << "Matrix element-wise mult is invalid!" << endl;
+		cout<<"x: "<<x.dim()[0]<<" : "<<x.dim()[1]<<endl;
+		cout<<"y: "<<y.dim()[0]<<" : "<<y.dim()[1]<<endl;
 		return NULL;
 	}
 	MyMatrix<float>* tmp = new MyMatrix<float>(x.dim()[0], x.dim()[1]);
@@ -190,7 +192,7 @@ MyMatrix<T>* eleMul(MyMatrix<T> &x, MyMatrix<T>&y){
 
 template<class T >
 MyMatrix<T>* d_sigmoid(MyMatrix<T> &x){
-	
+
 	MyMatrix<float>* tmp = new MyMatrix<float>(x.dim()[0], x.dim()[1]);
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < x.dim()[1]; j++){
@@ -202,9 +204,21 @@ MyMatrix<T>* d_sigmoid(MyMatrix<T> &x){
 }
 
 template<class T >
+MyMatrix<T>* d_Relu(MyMatrix<T> &x){
+
+	MyMatrix<float>* tmp = new MyMatrix<float>(x.dim()[0], x.dim()[1]);
+	for (int i = 0; i < x.dim()[0]; i++){
+		for (int j = 0; j < x.dim()[1]; j++){
+			// cout << i << ", " << j << endl;
+			tmp->n2Arr[i][j] = x.n2Arr[i][j] > 0 ? 1 : 0;
+		}
+	}
+	return tmp;
+}
+template<class T >
 void updateDelta_bias(MyMatrix<T> &x, float* bias){
 	for(int i=0;i<x.dim()[0];i++){
 		bias[i] += x.n2Arr[i][0];
 	}
-	
+
 }

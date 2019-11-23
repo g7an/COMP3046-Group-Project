@@ -1,4 +1,4 @@
-#include"ANN.h"
+#include"MyANN.h"
 
 #include<iostream>
 #include<fstream>
@@ -13,7 +13,7 @@
 #include<time.h>
 #include <math.h> 
 #include <sstream>
-#include <random>
+//#include <random>
 #include <omp.h>
 using namespace std;
 
@@ -24,12 +24,13 @@ using namespace std;
 ///*
 int main()                                                
 {
-	ANN annModel(0.03, 200, 16, 140, 0.1);                                                  
+	MyANN annModel(0.01, 200, 16, 140, 0.1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
- 
+
 	ifstream myfile("data/train_small.txt");
-	
+	//ifstream myfile("data/train.txt");
+
 	if (myfile.is_open())
 	{
 		cout << "Loading data ...\n";
@@ -40,14 +41,20 @@ int main()
 			vector<float> X;
 			stringstream ss(line);
 			ss >> y;
-			y_train.push_back(y);
 
-//#pragma omp parallel for num_threads(4)
+	//		if(y==3){
+				y_train.push_back(y);
+	//		}
+
+
 			for (int i = 0; i < 28 * 28; i++) {
 				ss >> x;
 				X.push_back(x / 255.0);
 			}
-			X_train.push_back(X);
+
+	//		if(y==3){
+				X_train.push_back(X);
+	//		}
 		}
 
 		myfile.close();
@@ -55,6 +62,11 @@ int main()
 	}
 	else
 		cout << "Unable to open file" << '\n';
+/*
+	for(int i=0;i<y_train.size();i++){
+		cout<<y_train[i]<<" ";
+	}
+*/
 
 	annModel.train(X_train, y_train);
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
@@ -65,9 +77,9 @@ int main()
 	//cout << "predict: " << annModel.predict(X_train[10]) << " real value: " << y_train[10] <<endl;;
 	vector< vector<float> > X_test;
 	vector<float> y_test;
- 
+
 	ifstream myfile2("data/test.txt");
-	
+
 	if (myfile2.is_open())
 	{
 		cout << "Loading data ...\n";
@@ -80,7 +92,7 @@ int main()
 			ss >> test_y;
 			y_test.push_back(test_y);
 
-//#pragma omp parallel for num_threads(4)
+			//#pragma omp parallel for num_threads(4)
 			for (int i = 0; i < 28 * 28; i++) {
 				ss >> test_x;
 				test_X.push_back(test_x / 255.0);
@@ -99,7 +111,7 @@ int main()
 	cout << "predict: " << annModel.predict(X_test[8]) << " real value: " << y_test[8] <<endl;
 	cout << "predict: " << annModel.predict(X_test[16]) << " real value: " << y_test[16] <<endl;
 	cout << "predict: " << annModel.predict(X_test[32]) << " real value: " << y_test[32] <<endl;
-	
+
 
 	cout << "store finish" << endl;
 
@@ -112,32 +124,32 @@ int main()
 //*/
 
 /*
-	float result = annModel.predict(X[49]);           //Thus, I change my final result from 0 to -1 and this is why there is a -1 after the result variable. 
-	cout << "target value is -1: " << result-1 << endl;
+   float result = annModel.predict(X[49]);           //Thus, I change my final result from 0 to -1 and this is why there is a -1 after the result variable. 
+   cout << "target value is -1: " << result-1 << endl;
 
-	result = annModel.predict(X[48]);
-	cout << "target value is -1: " << result-1 << endl;
+   result = annModel.predict(X[48]);
+   cout << "target value is -1: " << result-1 << endl;
 
-	result = annModel.predict(X[40]);
-	cout << "target value is -1: " << result-1 << endl;
-	result = annModel.predict(X[43]);
-	cout << "target value is -1: " << result-1 << endl;
+   result = annModel.predict(X[40]);
+   cout << "target value is -1: " << result-1 << endl;
+   result = annModel.predict(X[43]);
+   cout << "target value is -1: " << result-1 << endl;
 
-	cout << endl;
+   cout << endl;
 
-	float result2 = annModel.predict(X[99]);
-	cout << "target value is 1: "<< result2 << endl;
+   float result2 = annModel.predict(X[99]);
+   cout << "target value is 1: "<< result2 << endl;
 
-	result2 = annModel.predict(X[98]);
-	cout << "target value is 1: "<< result2 << endl;
+   result2 = annModel.predict(X[98]);
+   cout << "target value is 1: "<< result2 << endl;
 
 
-	result2 = annModel.predict(X[83]);
-	cout << "target value is 1: " << result2 << endl;
+   result2 = annModel.predict(X[83]);
+   cout << "target value is 1: " << result2 << endl;
 
-	result2 = annModel.predict(X[86]);
-	cout << "target value is 1: " << result2 << endl;
-	annModel.storeWeight();
-*/
+   result2 = annModel.predict(X[86]);
+   cout << "target value is 1: " << result2 << endl;
+   annModel.storeWeight();
+ */
 
 

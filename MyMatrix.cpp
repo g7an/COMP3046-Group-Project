@@ -5,9 +5,10 @@
 using namespace std;
 
 
-template<class T>
+	template<class T>
 MyMatrix<T>::MyMatrix(int h, int w)
 {
+	sz= new int[2];
 	sz[0] = h;
 	sz[1] = w;
 	n2Arr = new T*[h];
@@ -17,10 +18,10 @@ MyMatrix<T>::MyMatrix(int h, int w)
 }
 
 
-template<class T>
+	template<class T>
 MyMatrix<T>::~MyMatrix()
 {
-	
+
 	for (int i = 0; i < sz[0]; i++){
 		delete[] n2Arr[i];
 	}
@@ -81,10 +82,10 @@ void MyMatrix<T>::out(){
 template<class T>
 MyMatrix<T>* MyMatrix<T>::transpose(){
 	/*
-	T **tmp = new T*[sz[1]];
-	for (int i = 0; i < sz[1]; i++){
-		tmp[i] = new T[sz[0]];
-	}*/
+	   T **tmp = new T*[sz[1]];
+	   for (int i = 0; i < sz[1]; i++){
+	   tmp[i] = new T[sz[0]];
+	   }*/
 	MyMatrix<T>* tmp = new MyMatrix<T>(sz[1], sz[0]);
 
 #pragma omp parallel for num_threads(4) 
@@ -94,16 +95,17 @@ MyMatrix<T>* MyMatrix<T>::transpose(){
 		}
 	}
 	return tmp;
-/*
-	int foo = sz[0];
-	sz[0] = sz[1];
-	sz[1] = foo;
-*/
+	/*
+	   int foo = sz[0];
+	   sz[0] = sz[1];
+	   sz[1] = foo;
+	 */
 
 }
 
 template<class T>
 void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
+/*
 	int h;
 	int w;
 	string input1;
@@ -129,4 +131,5 @@ void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
 		result.push_back(tmp);
 	}
 	in.close();
+*/
 }

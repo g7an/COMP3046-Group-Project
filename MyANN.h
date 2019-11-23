@@ -1,7 +1,7 @@
 #pragma once
 #include "MyMatrix.h"
 #include <vector>
-class ANN
+class MyANN
 {
 	float lr;								//learning rate
 	int epochs;
@@ -31,10 +31,11 @@ class ANN
 
 
 public:
-	ANN(float, int, int, int, float);
-	~ANN();
+	MyANN(float, int, int, int, float);
+	~MyANN();
 
 	float sigmoid(float);
+	float Relu(float);
 	float random();
 	void setLR(float);
 	void setEpochs(int);
