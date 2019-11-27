@@ -1,4 +1,3 @@
-// model status: fix bias; num_hidlayer = 10; initialization: rand(0~0.2); node per hidlayer: 10 
 // with lr decay; activation function :sigmoid 
 #include "MyANN.h"
 //#include "MyVector.h"
@@ -19,6 +18,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <omp.h>
+#include <random>
 using namespace std;
 
 template<class T >
@@ -54,6 +54,11 @@ MyMatrix<T> *eleMul(MyMatrix<T> &x, MyMatrix<T> &y);
 template <class T>
 MyMatrix<T> *d_sigmoid(MyMatrix<T> &x);
 
+float MyANN::normalDis(){
+	std::default_random_engine e; //引擎
+	std::normal_distribution<double> n(0, 1); //均值, 方差
+	return n(e); 
+}
 float MyANN::sigmoid(float input)
 { //calculate sigmoid function
 	return 1 / (1 + exp(-input));
@@ -84,13 +89,13 @@ MyANN::MyANN(float lr, int epochs, int batch_size, int decayEpoch, float decay) 
 {
 	srand((unsigned)time(NULL));
 
-	num_hidLayer = 10;
+	num_hidLayer = 1;
 	int num_weights = num_hidLayer + 1;
 
 	total_neurons = new int[num_hidLayer + 2]; // num nodes in all layers
 	for (int i = 1; i <= num_hidLayer; i++)
 	{
-		total_neurons[i] = 20; //num_neurons[i];
+		total_neurons[i] = 30; //num_neurons[i];
 	}
 	total_neurons[0] = 784;
 	total_neurons[num_hidLayer + 1] = 10;
@@ -114,7 +119,7 @@ MyANN::MyANN(float lr, int epochs, int batch_size, int decayEpoch, float decay) 
 		{
 			for (int c = 0; c < hidWeight[i]->dim()[1]; c++)
 			{
-				hidWeight[i]->n2Arr[r][c] =random();
+				hidWeight[i]->n2Arr[r][c] =normalDis(); //random();
 			}
 		}
 	}
@@ -129,7 +134,7 @@ MyANN::MyANN(float lr, int epochs, int batch_size, int decayEpoch, float decay) 
 
 		for (int j = 0; j < total_neurons[i + 1]; j++)
 		{
-			bias[i][j] = 1;
+			bias[i][j] = normalDis(); 
 		}
 
 		outH[i] = new MyMatrix<float>(total_neurons[i + 1], 1); // REMIND: the outH doesn't include input now!
@@ -158,8 +163,10 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 
 	for (int epoch = 0; epoch < epochs; epoch++)
 	{
-		if (epoch % decayEpoch == 0 && epoch != 0)
+		if (epoch % decayEpoch == 0 && epoch != 0){
 			lr = lr * decay;
+			cout<<"decay"<<endl;
+		}
 		for (int round = 0; round < steps; round++)
 		{
 			for (int turn = 0; turn < batch_size; turn++)
@@ -205,6 +212,8 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 
 
 				tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
+/*
+*/
 
 				//cout<<"tmp: "<<endl;
 				//tmp->print();
@@ -215,11 +224,11 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 				{                                                                        //Li: Now the outH[num_hidLayer+1] means the output layer
 					float outTmp = outH[num_hidLayer]->n2Arr[j][0];                      //Li: Now the outH[num_hidLayer+1] means the output layer
 					partError->n2Arr[j][0] = outTmp * (1 - outTmp) * (tmp->n2Arr[j][0]);  // out / net = out(1-out)  //Li: Maybe something wrong with the subscript of partError and tmp layer?
-/*
-					foo = outTmp > 0 ? 1 : 0;
-					partError->n2Arr[j][0] = foo * (tmp->n2Arr[j][0]);
+					/*
+					   foo = outTmp > 0 ? 1 : 0;
+					   partError->n2Arr[j][0] = foo * (tmp->n2Arr[j][0]);
 
-*/
+					 */
 				}                                                                        // L-1 ~ 2: L - 2 层 = num_hidlayer
 
 				delete tmp;
@@ -291,19 +300,23 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 				tmp = hidWeight[i];
 				hidWeight[i] = matSub(*tmp, *delta_w[i]);
 				delete tmp;
-/*
-				   for (int j = 0; j < total_neurons[i + 1]; j++) //refresh bias
-				   {
-				   bias[i][j] -= (lr / (float)batch_size) * delta_bias[i][j];
 
-				   }
-*/
+
+				for (int j = 0; j < total_neurons[i + 1]; j++) //refresh bias
+				{
+					bias[i][j] -= (lr / (float)batch_size) * delta_bias[i][j];
+
+				}
 			}
+
 		}
 
 		cout<<"totalLoss "<<totalLoss(in[0],t[0])<<endl;;
-		//outH[num_hidLayer]->print();
-		//cout<<endl;
+/*
+		cout<<"output"<<endl;
+		outH[num_hidLayer]->print();
+		cout<<endl;
+*/
 
 	}
 }
