@@ -39,11 +39,15 @@ public:
 	float random();
 	void setLR(float);
 	void setEpochs(int);
+	float normalDis();
 	//void initializeWeight();
 
 	void train(std::vector<std::vector<float> >, std::vector<float>);
 	float predict(std::vector<float>);
+	MyMatrix<float>* forward(std::vector<float>);
+
 	float totalLoss(std::vector<float>, float);
+	float lossWithCrossE(std::vector<float>, float);
 
 	void storeWeight();
 	void loadWeight();

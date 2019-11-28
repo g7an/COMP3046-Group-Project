@@ -75,7 +75,6 @@ MyMatrix<T>* matAdd(MyMatrix<T> &x, MyMatrix<T>&y){
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], x.dim()[1]);
 
-#pragma omp parallel for num_threads(4)
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < x.dim()[1]; j++){
 			tmp->n2Arr[i][j] = x.n2Arr[i][j] + y.n2Arr[i][j];
@@ -92,7 +91,6 @@ MyMatrix<T>* matSub(MyMatrix<T> &x, MyMatrix<T>&y){
 	}
 	MyMatrix<T>* tmp = new MyMatrix<T>(x.dim()[0], x.dim()[1]);
 
-#pragma omp parallel for num_threads(4)
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < x.dim()[1]; j++){
 			tmp->n2Arr[i][j] = x.n2Arr[i][j] - y.n2Arr[i][j];
@@ -158,7 +156,6 @@ MyMatrix<T>* matMatMul(MyMatrix<T> &x, MyMatrix<T>&y){
 	}
 	T foo = 0;
 
-#pragma omp parallel for num_threads(4)
 	for (int i = 0; i < x.dim()[0]; i++){
 		for (int j = 0; j < y.dim()[1]; j++){
 			for (int r = 0; r < x.dim()[1]; r++){
@@ -220,5 +217,27 @@ void updateDelta_bias(MyMatrix<T> &x, float* bias){
 	for(int i=0;i<x.dim()[0];i++){
 		bias[i] += x.n2Arr[i][0];
 	}
+
+}
+template<class T >
+MyMatrix<T>* d_CrossEntropy(MyMatrix<T> &t,MyMatrix<T> &x){
+	if (x.dim()[0] != t.dim()[0] || x.dim()[1] != t.dim()[1]){
+		cout << "They have different size!" << endl;
+		cout<<"x: "<<x.dim()[0]<<" : "<<x.dim()[1]<<endl;
+		cout<<"y: "<<t.dim()[0]<<" : "<<t.dim()[1]<<endl;
+		return NULL;
+	}
+	float target;
+	float predict;
+
+	MyMatrix<float>* tmp = new MyMatrix<float>(x.dim()[0], x.dim()[1]);
+	for (int i = 0; i < x.dim()[0]; i++){
+		for (int j = 0; j < x.dim()[1]; j++){
+			target = t.n2Arr[i][j];
+			predict = x.n2Arr[i][j];
+			tmp->n2Arr[i][j] = -target/predict + (1-target)/(1-predict) ;
+		}
+	}
+	return tmp;
 
 }

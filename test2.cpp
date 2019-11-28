@@ -24,7 +24,7 @@ using namespace std;
 ///*
 int main()                                                
 {
-	MyANN annModel(0.01, 200, 16, 140, 0.1);                                                  
+	MyANN annModel(0.01, 100, 64, 140, 1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
@@ -42,19 +42,20 @@ int main()
 			stringstream ss(line);
 			ss >> y;
 
-	//		if(y==3){
+			if(y!=3){
 				y_train.push_back(y);
-	//		}
+			}
 
 
 			for (int i = 0; i < 28 * 28; i++) {
 				ss >> x;
 				X.push_back(x / 255.0);
+				//X.push_back(x);
 			}
 
-	//		if(y==3){
+			if(y!=3){
 				X_train.push_back(X);
-	//		}
+			}
 		}
 
 		myfile.close();
