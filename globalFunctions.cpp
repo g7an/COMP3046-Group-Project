@@ -235,6 +235,10 @@ MyMatrix<T>* d_CrossEntropy(MyMatrix<T> &t,MyMatrix<T> &x){
 		for (int j = 0; j < x.dim()[1]; j++){
 			target = t.n2Arr[i][j];
 			predict = x.n2Arr[i][j];
+
+			predict = predict<1e-10 ? 1e-10 : predict;
+			predict = (1-predict)<1e-10 ? (1-1e-10) : predict;
+		
 			tmp->n2Arr[i][j] = -target/predict + (1-target)/(1-predict) ;
 		}
 	}

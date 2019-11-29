@@ -22,6 +22,7 @@
 #include <random>
 using namespace std;
 
+
 template<class T >
 MyMatrix<T>* d_Relu(MyMatrix<T> &x);
 
@@ -89,17 +90,19 @@ void MyANN::setLR(float f)
 {
 	lr = f;
 }
-MyANN::MyANN(float lr, int epochs, int batch_size, int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size), decayEpoch(decayEpoch), decay(decay)
+MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeLen,int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size),decayEpoch(decayEpoch),decay(decay)
 {
+	cout<<"lr: "<<lr<<" epochs: "<<epochs<<" batch_size: "<<batch_size<<" layerSizeLen: "<<layerSizeLen << endl;;
+
 	srand((unsigned)time(NULL));
 
-	num_hidLayer = 1;
+	num_hidLayer = layerSizeLen-2; // without the input and output layer
 	int num_weights = num_hidLayer + 1;
 
 	total_neurons = new int[num_hidLayer + 2]; // num nodes in all layers
 	for (int i = 1; i <= num_hidLayer; i++)
 	{
-		total_neurons[i] = 100; //num_neurons[i];
+		total_neurons[i] = layerSize[i]; //num_neurons[i];
 	}
 	total_neurons[0] = 784;
 	total_neurons[num_hidLayer + 1] = 10;
@@ -171,8 +174,13 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 			lr = lr * decay;
 			cout<<"decay"<<endl;
 		}
+
 		for (int round = 0; round < steps; round++)
 		{
+
+cout<<"testLoss: "<<testLoss/batch_size<<endl;
+testLoss=0;
+
 			for (int turn = 0; turn < batch_size; turn++)
 			{
 
@@ -216,15 +224,14 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 				} //forward end;
 
 
-				//tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
-				tmp = d_CrossEntropy(*target,*outH[num_hidLayer]); // Li: Change the loss function to cross entropy
+				tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
+				//tmp = d_CrossEntropy(*target,*outH[num_hidLayer]); // Li: Change the loss function to cross entropy
+
+for(int i=0;i<10;i++){
+testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
+}
 
 
-
-				//cout<<"tmp: "<<endl;
-				//tmp->print();
-				//cout<<endl;
-				//float foo;
 
 				for (int j = 0; j < outH[num_hidLayer]->dim()[0]; j++)
 				{                                                                        //Li: Now the outH[num_hidLayer+1] means the output layer
@@ -302,24 +309,29 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 
 			for (int i = 0; i < num_hidLayer + 1; i++)
 			{
-				delta_w[i]->smul(lr / (float)batch_size); //refresh weight
+				delta_w[i]->smul(lr/(float)batch_size ); //refresh weight
 				tmp = hidWeight[i];
 				hidWeight[i] = matSub(*tmp, *delta_w[i]);
 				delete tmp;
 
-
 				for (int j = 0; j < total_neurons[i + 1]; j++) //refresh bias
 				{
-					bias[i][j] -= (lr / (float)batch_size) * delta_bias[i][j];
+					bias[i][j] -= lr /(float)batch_size* delta_bias[i][j];
 
 				}
 			}
 
 		}
 
-		//cout<<"totalLoss "<<totalLoss(in[0],t[0])<<endl;;
-		cout<<"target:  "<<t[0]<<endl;;
-		cout<<"totalLoss(Cross) "<<lossWithCrossE(in[0],t[0])<<endl;;
+	//	batchLoss(in,t);
+
+		/*
+		   cout<<"target:  "<<t[1]<<endl;;
+		   cout<<"totalLoss(Cross) "<<lossWithCrossE(in[1],t[1])<<endl;;
+
+		   cout<<"target:  "<<t[0]<<endl;;
+		   cout<<"totalLoss(Cross) "<<lossWithCrossE(in[0],t[0])<<endl;;
+		 */
 		/*
 		   cout<<"output"<<endl;
 		   outH[num_hidLayer]->print();
@@ -327,6 +339,13 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 		 */
 
 	}
+}
+void MyANN::batchLoss(vector<vector<float> > in, vector<float> t){
+	float bl = 0;
+	for(int i=0;i<32;i++){
+		bl += totalLoss(in[i],t[i]);
+	}
+	cout<<"batchLoss: "<<(bl/32)<<endl;
 }
 
 MyMatrix<float>* MyANN::forward(vector<float> in){
@@ -370,7 +389,7 @@ float MyANN::lossWithCrossE(vector<float> in, float t){
 	}
 
 	MyMatrix<float> *tmp =forward(in);
-	tmp->print();
+//	tmp->print();
 
 	float tar;
 	float pre;
@@ -380,6 +399,8 @@ float MyANN::lossWithCrossE(vector<float> in, float t){
 
 		tar= target->n2Arr[i][0];
 		pre= tmp->n2Arr[i][0];
+
+		pre+=1e-10;
 
 		loss += -tar*log(pre) - (1-tar) * log(1-pre);
 	}
@@ -437,8 +458,18 @@ float MyANN::totalLoss(vector<float> in, float t)
 
 }
 
-float MyANN::predict(std::vector<float>){
-	return 0;
+float MyANN::predict(vector<float> in){
+	MyMatrix<float> *tmp =forward(in);
+	float max = tmp->n2Arr[0][0];
+	float tag = 0;
+	for(int i=0;i<10;i++){
+		if(tmp->n2Arr[i][0] > max){
+			max =  tmp->n2Arr[i][0]; 
+			tag = i;
+		}
+
+	}
+	return tag;
 }
 
 void MyANN::storeWeight(){

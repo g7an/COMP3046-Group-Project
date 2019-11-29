@@ -31,7 +31,7 @@ class MyANN
 
 
 public:
-	MyANN(float, int, int, int, float);
+	MyANN(float, int, int,int*,int,int,float);
 	~MyANN();
 
 	float sigmoid(float);
@@ -48,6 +48,7 @@ public:
 
 	float totalLoss(std::vector<float>, float);
 	float lossWithCrossE(std::vector<float>, float);
+	void batchLoss(std::vector<std::vector<float> >, std::vector<float>);
 
 	void storeWeight();
 	void loadWeight();

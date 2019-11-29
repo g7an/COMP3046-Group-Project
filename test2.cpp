@@ -24,11 +24,12 @@ using namespace std;
 ///*
 int main()                                                
 {
-	MyANN annModel(0.01, 100, 64, 140, 1);                                                  
+	int layerSize [] ={28*28,100,50,10};
+	MyANN annModel(0.005, 100, 64,layerSize,sizeof(layerSize)/sizeof(int),140,0.1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
-	ifstream myfile("data/train_small.txt");
+	ifstream myfile("data/train.txt");
 	//ifstream myfile("data/train.txt");
 
 	if (myfile.is_open())
@@ -106,6 +107,7 @@ int main()
 	}
 	else
 		cout << "Unable to open file" << '\n';
+
 	cout << "predict: " << annModel.predict(X_test[4]) << " real value: " << y_test[4] <<endl;
 	cout << "predict: " << annModel.predict(X_test[90]) << " real value: " << y_test[90] <<endl;
 	cout << "predict: " << annModel.predict(X_test[2]) << " real value: " << y_test[2] <<endl;
