@@ -20,6 +20,7 @@
 #include <time.h>
 #include <omp.h>
 #include <random>
+#include <chrono>
 using namespace std;
 
 
@@ -66,7 +67,8 @@ float MyANN::normalDis(){
 }
 float MyANN::sigmoid(float input)
 { //calculate sigmoid function
-	return 1 / (1 + exp(-input));
+	float x =1 / (1 + exp(-1*input)); 
+	return x;
 }
 
 float MyANN::Relu(float input)
@@ -114,6 +116,9 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 	bias.reserve(num_weights); //the bias initialize
 	delta_bias.reserve(num_weights);
 
+auto seed = std::chrono::system_clock::now().time_since_epoch().count();//seed
+std::default_random_engine dre(seed);//engine
+std::uniform_real_distribution<float> di(-1, 1);//distribution
 
 	for (int i = 0; i < num_weights; i++)
 	{
@@ -126,7 +131,8 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 		{
 			for (int c = 0; c < hidWeight[i]->dim()[1]; c++)
 			{
-				hidWeight[i]->n2Arr[r][c] =normalDis(); //random();
+				hidWeight[i]->n2Arr[r][c] =di(dre); //random();
+				delta_w[i]->n2Arr[r][c] = 0;
 			}
 		}
 	}
@@ -141,7 +147,8 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 
 		for (int j = 0; j < total_neurons[i + 1]; j++)
 		{
-			bias[i][j] = normalDis(); 
+			bias[i][j] = di(dre);
+			delta_bias[i][j]= 0;
 		}
 
 		outH[i] = new MyMatrix<float>(total_neurons[i + 1], 1); // REMIND: the outH doesn't include input now!
@@ -162,10 +169,15 @@ MyANN::~MyANN()
 
 void MyANN::train(vector<vector<float> > in, vector<float> t)
 {
+
+	ofstream out;
+	out.open("matrix_data.txt", ios::out | ios::app);
+
 	const int steps = in.size() / batch_size + 1; // how many batches to finish an epoch
 	MyMatrix<float> *tmp = NULL;
 	MyMatrix<float> *tmpTrans = NULL; //Li: 这个编译不过，就initialize 成了NULL
 	float testLoss = 0;
+	bool first = true;
 
 
 	for (int epoch = 0; epoch < epochs; epoch++)
@@ -184,8 +196,11 @@ testLoss=0;
 			for (int turn = 0; turn < batch_size; turn++)
 			{
 
-				if (turn + round * batch_size == in.size())
+				if (turn + round * batch_size == in.size()){
+
 					break; //Li: To test whether the index is out of bound
+				}
+
 
 				partError = new MyMatrix<float>(10, 1); //Li:对于每一个数据有一个partError
 
@@ -194,11 +209,23 @@ testLoss=0;
 					input->n2Arr[i][0] = in[round * batch_size + turn][i];
 				}
 
+/*
+if(first){
+cout<<"input"<<endl;
+input->print();
+}
+*/
 				for (int i = 0; i < 10; i++)
 				{
 					target->n2Arr[i][0] = t[round * batch_size + turn] == i ? 1 : 0; //deal with target;
 				}
 
+/*
+if(first){
+cout<<"target"<<endl;
+target->print();
+}
+*/
 				MyMatrix<float> *net;
 
 
@@ -213,19 +240,65 @@ testLoss=0;
 						net = outH[i - 1];
 					}
 
+/*
+if(first){
+cout<<"net["<<i<<"]"<<endl;
+net->print();
+
+cout<<"hidWeight["<<i<<"]"<<endl;
+hidWeight[i]->print();
+}
+*/
 					netH = matMatMul(*hidWeight[i], *net);
 
+/*
+if(first){
+cout<<"netH"<<endl;
+netH->print();
+cout<<"bias: "<<endl;
+}
+*/
 					for (int j = 0; j < netH->dim()[0]; j++)
 					{
 						outH[i]->n2Arr[j][0] = sigmoid(netH->n2Arr[j][0] + bias[i][j]); // need to plus bias here!
-						//outH[i]->n2Arr[j][0] = Relu(netH->n2Arr[j][0] + bias[i][j]); // need to plus bias here!
+/*
+if(first){
+cout<<bias[i][j]<<" ";
+
+}
+*/
 					}
+
+/*
+if(first){
+cout<<endl;
+cout<<"outH["<<i<<"]"<<endl;
+outH[i]->print();
+}
+*/
 					delete netH;
 				} //forward end;
 
 
 				tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
 				//tmp = d_CrossEntropy(*target,*outH[num_hidLayer]); // Li: Change the loss function to cross entropy
+out<<endl;
+out<<"bias[1]"<<endl;
+for(int ite = 0;ite < 10;ite++){
+out<<bias[1][ite]<<" ";
+}
+
+out<<endl;
+out<<"hidWeight[1]"<<endl;
+hidWeight[num_hidLayer]->out();
+
+out<<endl;
+out<<"output layer"<<endl;
+outH[num_hidLayer]->out();
+
+out<<endl;
+out<<"tmp"<<endl;
+tmp->out();
 
 for(int i=0;i<10;i++){
 testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
@@ -244,9 +317,17 @@ testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 					 */
 				}                                                                        // L-1 ~ 2: L - 2 层 = num_hidlayer
 
+/*
+if(first){
+cout<<endl;
+cout<<"partError"<<endl;
+partError->print();
+}
+*/
 				delete tmp;
 
 				updateDelta_bias(*partError, delta_bias[num_hidLayer]);
+
 
 				MyMatrix<float> *dSigmoid = NULL;
 				MyMatrix<float> *tmpLoss = NULL;
@@ -258,10 +339,28 @@ testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 					if (i == 0)
 					{
 						net = input;
+
+/*
+if(first){
+cout<<endl;
+cout<<"net["<<i<<"]"<<endl;
+cout<<"dim: "<<net->dim()[0]<<"*"<<net->dim()[1]<<endl;
+}
+*/
 					}
 					else
 					{
 						net = outH[i - 1];
+/*
+if(first){
+cout<<endl;
+cout<<"net["<<i<<"]"<<endl;
+cout<<"dim: "<<net->dim()[0]<<"*"<<net->dim()[1]<<endl;
+net->print();
+}
+*/
+
+
 					}
 
 					if (i != num_hidLayer)
@@ -270,22 +369,74 @@ testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 						//cout<<"hidWeight: "<<hidWeight[i]->dim()[0]<<" : "<<hidWeight[i]->dim()[1]<<endl;
 
 						tmpTrans = hidWeight[i+1]->transpose();
+/*
+if(first){
+cout<<endl;
+cout<<"tmpTrans["<<i<<"]"<<endl;
+cout<<"dim: "<<tmpTrans->dim()[0]<<"*"<<tmpTrans->dim()[1]<<endl;
+tmpTrans->print();
+}
+*/
 
 
 
 						tmpLoss = matMatMul(*tmpTrans, *partError);
+/*
+if(first){
+cout<<endl;
+cout<<"tmpLoss["<<i<<"]"<<endl;
+cout<<"dim: "<<tmpLoss->dim()[0]<<"*"<<tmpLoss->dim()[1]<<endl;
+tmpLoss->print();
+}
+*/
+
 						delete partError;
 
 						//cout<<"fuc in1"<<endl;
 						//dSigmoid = d_Relu(*outH[i]);
 						dSigmoid = d_sigmoid(*outH[i]);
+/*
+if(first){
+cout<<endl;
+cout<<"dSigmoid["<<i<<"]"<<endl;
+cout<<"dim: "<<dSigmoid->dim()[0]<<"*"<<dSigmoid->dim()[1]<<endl;
+dSigmoid->print();
+}
 
+*/
 						//cout<<"dSigmoid: "<<dSigmoid->dim()[0]<<" : "<<dSigmoid->dim()[1]<<endl;
 						//cout<<"tmpLoss: "<<tmpLoss->dim()[0]<<" : "<<tmpLoss->dim()[1]<<endl;
 
 						partError = eleMul(*dSigmoid, *tmpLoss);
+/*
+if(first){
+cout<<endl;
+cout<<"partError["<<i<<"]"<<endl;
+cout<<"dim: "<<partError->dim()[0]<<"*"<<partError->dim()[1]<<endl;
+partError->print();
+}
 
+if(first){
+cout<<"delta_bias["<< i <<"] before updated"<<endl;
+for(int ite=0;ite<partError->dim()[0];ite++){
+cout<<delta_bias[i][ite]<<" ";
+}
+cout<<endl;
+}
+
+*/
 						updateDelta_bias(*partError, delta_bias[i]);
+
+/*
+if(first){
+cout<<"delta_bias["<< i <<"] after updated"<<endl;
+for(int ite=0;ite<partError->dim()[0];ite++){
+cout<<delta_bias[i][ite]<<" ";
+}
+cout<<endl;
+}
+*/
+
 
 						//cout<<"fuc in2"<<endl;
 						delete tmpLoss;
@@ -294,8 +445,29 @@ testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 					delete tmpTrans; //xxxxxx
 
 					tmpTrans = net->transpose();
+if(i==num_hidLayer){
+out<<endl;
+out<<"netTrans["<<i<<"]"<<endl;
+out<<"dim: "<<tmpTrans->dim()[0]<<"*"<<tmpTrans->dim()[1]<<endl;
+tmpTrans->out();
+}
+
+if(i==num_hidLayer){
+out<<endl;
+out<<"partError["<<i<<"]"<<endl;
+out<<"dim: "<<partError->dim()[0]<<"*"<<partError->dim()[1]<<endl;
+partError->out();
+}
 
 					tmp = matMatMul(*partError, *tmpTrans);
+
+if(i==num_hidLayer){
+out<<endl;
+out<<"delta_w["<<i<<"]"<<endl;
+out<<"dim: "<<tmp->dim()[0]<<"*"<<tmp->dim()[1]<<endl;
+tmp->out();
+}
+
 
 					tmp2 = delta_w[i];
 					delta_w[i] = matAdd(*tmp, *tmp2);
@@ -304,20 +476,50 @@ testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 					delete dSigmoid;
 					delete tmp;
 				}
+first = false;
 				//cout<<"fuc3"<<endl;
 			}
 
+//out<<"update Weight"<<endl;
+
 			for (int i = 0; i < num_hidLayer + 1; i++)
 			{
+
 				delta_w[i]->smul(lr/(float)batch_size ); //refresh weight
+/*
+if(i==num_hidLayer){
+out<<endl;
+out<<"delta_w["<<i<<"]"<<endl;
+out<<"dim: "<<delta_w[i]->dim()[0]<<"*"<<delta_w[i]->dim()[1]<<endl;
+delta_w[i]->out();
+}
+*/
+
+
 				tmp = hidWeight[i];
 				hidWeight[i] = matSub(*tmp, *delta_w[i]);
 				delete tmp;
 
+		for (int r = 0; r < hidWeight[i]->dim()[0]; r++)
+		{
+			for (int c = 0; c < hidWeight[i]->dim()[1]; c++)
+			{
+				delta_w[i]->n2Arr[r][c] = 0;
+			}
+		}
+
+/*
+if(i==num_hidLayer){
+cout<<endl;
+cout<<"hidWeight["<<i<<"]"<<endl;
+cout<<"dim: "<<hidWeight[i]->dim()[0]<<"*"<<hidWeight[i]->dim()[1]<<endl;
+hidWeight[i]->print();
+}
+*/
 				for (int j = 0; j < total_neurons[i + 1]; j++) //refresh bias
 				{
 					bias[i][j] -= lr /(float)batch_size* delta_bias[i][j];
-
+					delta_bias[i][j] = 0;
 				}
 			}
 
