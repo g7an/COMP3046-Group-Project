@@ -108,7 +108,7 @@ void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
 	int w;
 	string input1;
 	string input2;
-	double input3;
+	float input3;
 	T data;
 	MyMatrix<T> *tmp = NULL;
 

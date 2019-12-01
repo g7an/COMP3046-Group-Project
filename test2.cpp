@@ -25,57 +25,63 @@ using namespace std;
 int main()                                                
 {
 	int layerSize [] ={28*28,50,10};
-	MyANN annModel(0.01, 100, 64,layerSize,sizeof(layerSize)/sizeof(int),140,1);                                                  
+	MyANN annModel(0.01, 200, 64,layerSize,sizeof(layerSize)/sizeof(int),140,1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
-	ifstream myfile("data/train.txt");
-	//ifstream myfile("data/train.txt");
+	bool train = false;
 
-	if (myfile.is_open())
-	{
-		cout << "Loading data ...\n";
-		string line;
-		while (getline(myfile, line))
+	if(train){
+		ifstream myfile("data/train.txt");
+		//ifstream myfile("data/train.txt");
+
+		if (myfile.is_open())
 		{
-			int x, y;
-			vector<float> X;
-			stringstream ss(line);
-			ss >> y;
+			cout << "Loading data ...\n";
+			string line;
+			while (getline(myfile, line))
+			{
+				int x, y;
+				vector<float> X;
+				stringstream ss(line);
+				ss >> y;
 
-			if(y!=3){
-				y_train.push_back(y);
+				if(y!=3){
+					y_train.push_back(y);
+				}
+
+
+				for (int i = 0; i < 28 * 28; i++) {
+					ss >> x;
+					X.push_back(x / 255.0);
+					//X.push_back(x);
+				}
+
+				if(y!=3){
+					X_train.push_back(X);
+				}
 			}
 
-
-			for (int i = 0; i < 28 * 28; i++) {
-				ss >> x;
-				X.push_back(x / 255.0);
-				//X.push_back(x);
-			}
-
-			if(y!=3){
-				X_train.push_back(X);
-			}
+			myfile.close();
+			cout << "Loading data finished.\n";
 		}
+		else
+			cout << "Unable to open file" << '\n';
 
-		myfile.close();
-		cout << "Loading data finished.\n";
+
+	//	annModel.loadWeight();        //remove this line!!!!!!!
+		annModel.train(X_train, y_train);
+	}else{
+
+		annModel.loadWeight();
 	}
-	else
-		cout << "Unable to open file" << '\n';
-	/*
-	   for(int i=0;i<y_train.size();i++){
-	   cout<<y_train[i]<<" ";
-	   }
-	 */
 
-	annModel.train(X_train, y_train);
+
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
 
 	//annModel.storeWeight();                            // You can remove the // in this line to output the trained weight matrix to a local file 
-	cout<< annModel.totalLoss(X_train[10],y_train[10])<<endl;
+	//cout<< annModel.totalLoss(X_train[10],y_train[10])<<endl;
 	//cout << "predict: " << annModel.predict(X_train[10]) << " real value: " << y_train[10] <<endl;;
 	vector< vector<float> > X_test;
 	vector<float> y_test;
@@ -108,6 +114,14 @@ int main()
 	else
 		cout << "Unable to open file" << '\n';
 
+	int cnt = 0;
+	int pre = 0;
+	for(int i=0;i<X_test.size();i++){
+		pre = annModel.predict(X_test[i]);
+		if(pre==y_test[i]) cnt++;
+	}
+	cout<<"predict accuracy: "<<(float)cnt/X_test.size()<<endl;
+
 	cout << "predict: " << annModel.predict(X_test[4]) << " real value: " << y_test[4] <<endl;
 	cout << "predict: " << annModel.predict(X_test[90]) << " real value: " << y_test[90] <<endl;
 	cout << "predict: " << annModel.predict(X_test[2]) << " real value: " << y_test[2] <<endl;
@@ -115,8 +129,12 @@ int main()
 	cout << "predict: " << annModel.predict(X_test[16]) << " real value: " << y_test[16] <<endl;
 	cout << "predict: " << annModel.predict(X_test[32]) << " real value: " << y_test[32] <<endl;
 
-	annModel.storeWeight();
-	cout << "store finish" << endl;
+	if(train){
+		annModel.storeWeight();
+		cout << "store finish" << endl;
+	}
+
+	cout<<"Finish"<<endl;
 
 
 	cout << endl;

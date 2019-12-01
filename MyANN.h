@@ -32,7 +32,7 @@ class MyANN
 
 public:
 	MyANN(float, int, int,int*,int,int,float);
-	~MyANN();
+	//~MyANN();
 
 	float sigmoid(float);
 	float Relu(float);
@@ -43,7 +43,7 @@ public:
 	//void initializeWeight();
 
 	void train(std::vector<std::vector<float> >, std::vector<float>);
-	float predict(std::vector<float>);
+	int predict(std::vector<float>);
 	MyMatrix<float>* forward(std::vector<float>);
 
 	float totalLoss(std::vector<float>, float);

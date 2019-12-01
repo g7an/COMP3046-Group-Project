@@ -158,7 +158,7 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 	input = new MyMatrix<float>(784, 1);
 	target = new MyMatrix<float>(10, 1); // ground-truth
 }
-
+/*
 MyANN::~MyANN()
 {
 	delete netH;
@@ -166,6 +166,7 @@ MyANN::~MyANN()
 	delete target;
 	delete[] total_neurons;
 }
+*/
 
 void MyANN::train(vector<vector<float> > in, vector<float> t)
 {
@@ -186,8 +187,9 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 			lr = lr * decay;
 			cout<<"decay"<<endl;
 		}
-			cout<<"testLoss: "<< 0.5*testLoss/(epochs*batch_size)<<endl;
-			testLoss=0;
+
+		chrono::steady_clock sc;
+		auto start = sc.now();
 
 		for (int round = 0; round < steps; round++)
 		{
@@ -461,7 +463,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 					   partError->out();
 					   }
 					 */
-					  tmp = matMatMul(*partError, *tmpTrans);
+					tmp = matMatMul(*partError, *tmpTrans);
 
 					/*
 					   if(i==num_hidLayer){
@@ -528,6 +530,14 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 			}
 
 		}
+
+		auto end = sc.now();
+		auto time_span = static_cast<chrono::duration<double>>(end - start);
+		cout<<"Time for training this epoch: "<<time_span.count()<<endl;
+		//printf("Time taken for this epoch: %.2fs\n", time_span.count());
+
+		cout<<"testLoss: "<< 0.5*testLoss/(epochs*batch_size)<<endl;
+		testLoss=0;
 
 		//	batchLoss(in,t);
 
@@ -664,7 +674,7 @@ float MyANN::totalLoss(vector<float> in, float t)
 
 }
 
-float MyANN::predict(vector<float> in){
+int MyANN::predict(vector<float> in){
 	MyMatrix<float> *tmp =forward(in);
 	float max = tmp->n2Arr[0][0];
 	float tag = 0;
@@ -691,7 +701,7 @@ void MyANN::loadWeight(){
 	MyMatrix<float>::in(load);
 
 
-	for (int i = 0; i < hidWeight.size(); i++){
+	for (int i = 0; i < load.size(); i++){
 		hidWeight[i]= load[i];
 	}
 
