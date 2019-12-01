@@ -1,5 +1,5 @@
 // with lr decay; activation function :sigmoid 
-#include "MyANN.h"
+#include "plusANN.h"
 //#include "MyVector.h"
 //#include "MyVector.cpp"
 #include "MyMatrix.h"
@@ -60,39 +60,39 @@ MyMatrix<T> *d_sigmoid(MyMatrix<T> &x);
 template<class T >
 MyMatrix<T>* d_CrossEntropy(MyMatrix<T> &t,MyMatrix<T> &x);
 
-float MyANN::normalDis(){
+float plusANN::normalDis(){
 	std::default_random_engine e; //引擎
 	std::normal_distribution<double> n(0, 1); //均值, 方差
 	return n(e); 
 }
-float MyANN::sigmoid(float input)
+float plusANN::sigmoid(float input)
 { //calculate sigmoid function
 	float x =1 / (1 + exp(-1*input)); 
 	return x;
 }
 
-float MyANN::Relu(float input)
+float plusANN::Relu(float input)
 { //calculate sigmoid function
 	return input > 0 ? input : 0;
 }
 
-inline float MyANN::random()
+inline float plusANN::random()
 { //return a float random number between 0 and 1
 	float r = rand() / 50.0f;
 	//float r = rand();
 	return r / RAND_MAX;
 }
 
-void MyANN::setEpochs(int e)
+void plusANN::setEpochs(int e)
 {
 	epochs = e;
 }
 
-void MyANN::setLR(float f)
+void plusANN::setLR(float f)
 {
 	lr = f;
 }
-MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeLen,int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size),decayEpoch(decayEpoch),decay(decay)
+plusANN::plusANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeLen,int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size),decayEpoch(decayEpoch),decay(decay)
 {
 	cout<<"lr: "<<lr<<" epochs: "<<epochs<<" batch_size: "<<batch_size<<" layerSizeLen: "<<layerSizeLen << endl;;
 
@@ -155,11 +155,11 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 	}
 
 
-	input = new MyMatrix<float>(784, 1);
-	target = new MyMatrix<float>(10, 1); // ground-truth
+	input = new MyMatrix<float>(784, batch_size);
+	target = new MyMatrix<float>(10, batch_size); // ground-truth
 }
 
-MyANN::~MyANN()
+plusANN::~plusANN()
 {
 	delete netH;
 	delete input;
@@ -167,7 +167,7 @@ MyANN::~MyANN()
 	delete[] total_neurons;
 }
 
-void MyANN::train(vector<vector<float> > in, vector<float> t)
+void plusANN::train(vector<vector<float> > in, vector<float> t)
 {
 	/*
 	   ofstream out;
@@ -178,6 +178,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 	MyMatrix<float> *tmpTrans = NULL; //Li: 这个编译不过，就initialize 成了NULL
 	float testLoss = 0;
 	bool first = true;
+	bool complete= true;
 
 
 	for (int epoch = 0; epoch < epochs; epoch++)
@@ -193,39 +194,36 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 		{
 
 
+			partError = new MyMatrix<float>(10, batch_size); //Li:对于每一个数据有一个partError
+
 			for (int turn = 0; turn < batch_size; turn++)
 			{
 
 				if (turn + round * batch_size == in.size()){
 
-					break; //Li: To test whether the index is out of bound
+					complete = false; //Li: To test whether the index is out of bound
+					break;
 				}
 
 
-				partError = new MyMatrix<float>(10, 1); //Li:对于每一个数据有一个partError
 
-				for (int i = 0; i < in[0].size(); i++)
+				for (int i = 0; i < in[turn].size(); i++)
 				{ //deal with input
-					input->n2Arr[i][0] = in[round * batch_size + turn][i];
+					input->n2Arr[i][turn] = in[round * batch_size + turn][i];
 				}
 
-				/*
-				   if(first){
-				   cout<<"input"<<endl;
-				   input->print();
-				   }
-				 */
 				for (int i = 0; i < 10; i++)
 				{
-					target->n2Arr[i][0] = t[round * batch_size + turn] == i ? 1 : 0; //deal with target;
+					target->n2Arr[i][turn] = t[round * batch_size + turn] == i ? 1 : 0; //deal with target;
 				}
+			}
 
-				/*
-				   if(first){
-				   cout<<"target"<<endl;
-				   target->print();
-				   }
-				 */
+			if(!complete){
+			complete=true;
+			break;
+			}
+
+
 				MyMatrix<float> *net;
 
 
@@ -240,67 +238,19 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 						net = outH[i - 1];
 					}
 
-					/*
-					   if(first){
-					   cout<<"net["<<i<<"]"<<endl;
-					   net->print();
-
-					   cout<<"hidWeight["<<i<<"]"<<endl;
-					   hidWeight[i]->print();
-					   }
-					 */
 					netH = matMatMul(*hidWeight[i], *net);
 
-					/*
-					   if(first){
-					   cout<<"netH"<<endl;
-					   netH->print();
-					   cout<<"bias: "<<endl;
-					   }
-					 */
-					for (int j = 0; j < netH->dim()[0]; j++)
+					for (int j = 0; j < netH->dim()[turn]; j++)
 					{
 						outH[i]->n2Arr[j][0] = sigmoid(netH->n2Arr[j][0] + bias[i][j]); // need to plus bias here!
-						/*
-						   if(first){
-						   cout<<bias[i][j]<<" ";
-
-						   }
-						 */
 					}
 
-					/*
-					   if(first){
-					   cout<<endl;
-					   cout<<"outH["<<i<<"]"<<endl;
-					   outH[i]->print();
-					   }
-					 */
 					delete netH;
+
 				} //forward end;
 
 
 				tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
-				//tmp = d_CrossEntropy(*target,*outH[num_hidLayer]); // Li: Change the loss function to cross entropy
-				/*
-				   out<<endl;
-				   out<<"bias[1]"<<endl;
-				   for(int ite = 0;ite < 10;ite++){
-				   out<<bias[1][ite]<<" ";
-				   }
-
-				   out<<endl;
-				   out<<"hidWeight[1]"<<endl;
-				   hidWeight[num_hidLayer]->out();
-
-				   out<<endl;
-				   out<<"output layer"<<endl;
-				   outH[num_hidLayer]->out();
-
-				   out<<endl;
-				   out<<"tmp"<<endl;
-				   tmp->out();
-				 */
 
 				for(int i=0;i<10;i++){
 					testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
@@ -318,13 +268,6 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 					 */
 				}                                                                        // L-1 ~ 2: L - 2 层 = num_hidlayer
 
-				/*
-				   if(first){
-				   cout<<endl;
-				   cout<<"partError"<<endl;
-				   partError->print();
-				   }
-				 */
 				delete tmp;
 
 				updateDelta_bias(*partError, delta_bias[num_hidLayer]);
@@ -341,25 +284,10 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 					{
 						net = input;
 
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"net["<<i<<"]"<<endl;
-						   cout<<"dim: "<<net->dim()[0]<<"*"<<net->dim()[1]<<endl;
-						   }
-						 */
 					}
 					else
 					{
 						net = outH[i - 1];
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"net["<<i<<"]"<<endl;
-						   cout<<"dim: "<<net->dim()[0]<<"*"<<net->dim()[1]<<endl;
-						   net->print();
-						   }
-						 */
 
 
 					}
@@ -370,107 +298,28 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 						//cout<<"hidWeight: "<<hidWeight[i]->dim()[0]<<" : "<<hidWeight[i]->dim()[1]<<endl;
 
 						tmpTrans = hidWeight[i+1]->transpose();
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"tmpTrans["<<i<<"]"<<endl;
-						   cout<<"dim: "<<tmpTrans->dim()[0]<<"*"<<tmpTrans->dim()[1]<<endl;
-						   tmpTrans->print();
-						   }
-						 */
 
 
 
 						tmpLoss = matMatMul(*tmpTrans, *partError);
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"tmpLoss["<<i<<"]"<<endl;
-						   cout<<"dim: "<<tmpLoss->dim()[0]<<"*"<<tmpLoss->dim()[1]<<endl;
-						   tmpLoss->print();
-						   }
-						 */
 
 						delete partError;
 
 						//cout<<"fuc in1"<<endl;
 						//dSigmoid = d_Relu(*outH[i]);
 						dSigmoid = d_sigmoid(*outH[i]);
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"dSigmoid["<<i<<"]"<<endl;
-						   cout<<"dim: "<<dSigmoid->dim()[0]<<"*"<<dSigmoid->dim()[1]<<endl;
-						   dSigmoid->print();
-						   }
-
-						 */
-						//cout<<"dSigmoid: "<<dSigmoid->dim()[0]<<" : "<<dSigmoid->dim()[1]<<endl;
-						//cout<<"tmpLoss: "<<tmpLoss->dim()[0]<<" : "<<tmpLoss->dim()[1]<<endl;
 
 						partError = eleMul(*dSigmoid, *tmpLoss);
-						/*
-						   if(first){
-						   cout<<endl;
-						   cout<<"partError["<<i<<"]"<<endl;
-						   cout<<"dim: "<<partError->dim()[0]<<"*"<<partError->dim()[1]<<endl;
-						   partError->print();
-						   }
-
-						   if(first){
-						   cout<<"delta_bias["<< i <<"] before updated"<<endl;
-						   for(int ite=0;ite<partError->dim()[0];ite++){
-						   cout<<delta_bias[i][ite]<<" ";
-						   }
-						   cout<<endl;
-						   }
-
-						 */
 						updateDelta_bias(*partError, delta_bias[i]);
 
-						/*
-						   if(first){
-						   cout<<"delta_bias["<< i <<"] after updated"<<endl;
-						   for(int ite=0;ite<partError->dim()[0];ite++){
-						   cout<<delta_bias[i][ite]<<" ";
-						   }
-						   cout<<endl;
-						   }
-						 */
-
-
-						//cout<<"fuc in2"<<endl;
 						delete tmpLoss;
 					}
 
 					delete tmpTrans; //xxxxxx
 
 					tmpTrans = net->transpose();
-					/*
-					   if(i==num_hidLayer){
-					   out<<endl;
-					   out<<"netTrans["<<i<<"]"<<endl;
-					   out<<"dim: "<<tmpTrans->dim()[0]<<"*"<<tmpTrans->dim()[1]<<endl;
-					   tmpTrans->out();
-					   }
-
-					   if(i==num_hidLayer){
-					   out<<endl;
-					   out<<"partError["<<i<<"]"<<endl;
-					   out<<"dim: "<<partError->dim()[0]<<"*"<<partError->dim()[1]<<endl;
-					   partError->out();
-					   }
-					 */
 					  tmp = matMatMul(*partError, *tmpTrans);
 
-					/*
-					   if(i==num_hidLayer){
-					   out<<endl;
-					   out<<"delta_w["<<i<<"]"<<endl;
-					   out<<"dim: "<<tmp->dim()[0]<<"*"<<tmp->dim()[1]<<endl;
-					   tmp->out();
-					   }
-					 */
 
 
 					tmp2 = delta_w[i];
@@ -482,7 +331,6 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 				}
 				first = false;
 				//cout<<"fuc3"<<endl;
-			}
 
 			//out<<"update Weight"<<endl;
 
@@ -490,14 +338,6 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 			{
 
 				delta_w[i]->smul(lr/(float)batch_size ); //refresh weight
-				/*
-				   if(i==num_hidLayer){
-				   out<<endl;
-				   out<<"delta_w["<<i<<"]"<<endl;
-				   out<<"dim: "<<delta_w[i]->dim()[0]<<"*"<<delta_w[i]->dim()[1]<<endl;
-				   delta_w[i]->out();
-				   }
-				 */
 
 
 				tmp = hidWeight[i];
@@ -512,14 +352,6 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 					}
 				}
 
-				/*
-				   if(i==num_hidLayer){
-				   cout<<endl;
-				   cout<<"hidWeight["<<i<<"]"<<endl;
-				   cout<<"dim: "<<hidWeight[i]->dim()[0]<<"*"<<hidWeight[i]->dim()[1]<<endl;
-				   hidWeight[i]->print();
-				   }
-				 */
 				for (int j = 0; j < total_neurons[i + 1]; j++) //refresh bias
 				{
 					bias[i][j] -= lr /(float)batch_size* delta_bias[i][j];
@@ -529,24 +361,13 @@ void MyANN::train(vector<vector<float> > in, vector<float> t)
 
 		}
 
-		//	batchLoss(in,t);
-
-		/*
-		   cout<<"target:  "<<t[1]<<endl;;
-		   cout<<"totalLoss(Cross) "<<lossWithCrossE(in[1],t[1])<<endl;;
-
-		   cout<<"target:  "<<t[0]<<endl;;
-		   cout<<"totalLoss(Cross) "<<lossWithCrossE(in[0],t[0])<<endl;;
-		 */
-		/*
-		   cout<<"output"<<endl;
-		   outH[num_hidLayer]->print();
-		   cout<<endl;
-		 */
 
 	}
 }
-void MyANN::batchLoss(vector<vector<float> > in, vector<float> t){
+
+MyMatrix<float> *copyBias(float* bias, int batch_size, int bias_size){
+}
+void plusANN::batchLoss(vector<vector<float> > in, vector<float> t){
 	float bl = 0;
 	for(int i=0;i<32;i++){
 		bl += totalLoss(in[i],t[i]);
@@ -554,7 +375,7 @@ void MyANN::batchLoss(vector<vector<float> > in, vector<float> t){
 	cout<<"batchLoss: "<<(bl/32)<<endl;
 }
 
-MyMatrix<float>* MyANN::forward(vector<float> in){
+MyMatrix<float>* plusANN::forward(vector<float> in){
 
 	for (int i = 0; i < in.size(); i++)
 	{ //deal with input
@@ -587,7 +408,7 @@ MyMatrix<float>* MyANN::forward(vector<float> in){
 
 }
 
-float MyANN::lossWithCrossE(vector<float> in, float t){
+float plusANN::lossWithCrossE(vector<float> in, float t){
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -614,7 +435,7 @@ float MyANN::lossWithCrossE(vector<float> in, float t){
 	return loss;
 
 }
-float MyANN::totalLoss(vector<float> in, float t)
+float plusANN::totalLoss(vector<float> in, float t)
 {
 
 	for (int i = 0; i < 10; i++)
@@ -664,7 +485,7 @@ float MyANN::totalLoss(vector<float> in, float t)
 
 }
 
-float MyANN::predict(vector<float> in){
+float plusANN::predict(vector<float> in){
 	MyMatrix<float> *tmp =forward(in);
 	float max = tmp->n2Arr[0][0];
 	float tag = 0;
@@ -678,14 +499,14 @@ float MyANN::predict(vector<float> in){
 	return tag;
 }
 
-void MyANN::storeWeight(){
+void plusANN::storeWeight(){
 
 	for(int i=0;i<num_hidLayer+1;i++){
 		hidWeight[i]->out();
 	}
 
 }
-void MyANN::loadWeight(){
+void plusANN::loadWeight(){
 
 	vector<MyMatrix<float> *> load;
 	MyMatrix<float>::in(load);

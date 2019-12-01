@@ -1,0 +1,22 @@
+lr: 0.01 epochs: 100 batch_size: 64 layerSizeLen: 3
+Loading data ...
+Loading data finished.
+testLoss: 0
+testLoss: 5.05212
+testLoss: 2.71135
+testLoss: 2.56191
+testLoss: 2.49031
+testLoss: 2.43176
+testLoss: 2.37782
+testLoss: 2.3258
+testLoss: 2.27457
+testLoss: 2.22417
+testLoss: 2.17559
+testLoss: 2.12972
+testLoss: 2.087
+testLoss: 2.04736
+testLoss: 2.01056
+testLoss: 1.9762
+testLoss: 1.94386
+testLoss: 1.91336
+testLoss: 1.88433

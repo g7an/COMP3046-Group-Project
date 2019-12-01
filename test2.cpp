@@ -24,8 +24,8 @@ using namespace std;
 ///*
 int main()                                                
 {
-	int layerSize [] ={28*28,100,50,10};
-	MyANN annModel(0.005, 100, 64,layerSize,sizeof(layerSize)/sizeof(int),140,0.1);                                                  
+	int layerSize [] ={28*28,50,10};
+	MyANN annModel(0.01, 100, 64,layerSize,sizeof(layerSize)/sizeof(int),140,1);                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
@@ -64,11 +64,11 @@ int main()
 	}
 	else
 		cout << "Unable to open file" << '\n';
-/*
-	for(int i=0;i<y_train.size();i++){
-		cout<<y_train[i]<<" ";
-	}
-*/
+	/*
+	   for(int i=0;i<y_train.size();i++){
+	   cout<<y_train[i]<<" ";
+	   }
+	 */
 
 	annModel.train(X_train, y_train);
 	//annModel.loadWeight();                             // You can remove the // in this line to load an aready trained weight matrix 
@@ -115,7 +115,7 @@ int main()
 	cout << "predict: " << annModel.predict(X_test[16]) << " real value: " << y_test[16] <<endl;
 	cout << "predict: " << annModel.predict(X_test[32]) << " real value: " << y_test[32] <<endl;
 
-
+	annModel.storeWeight();
 	cout << "store finish" << endl;
 
 

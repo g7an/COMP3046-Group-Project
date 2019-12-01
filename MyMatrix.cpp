@@ -88,7 +88,6 @@ MyMatrix<T>* MyMatrix<T>::transpose(){
 	   }*/
 	MyMatrix<T>* tmp = new MyMatrix<T>(sz[1], sz[0]);
 
-#pragma omp parallel for num_threads(4) 
 	for (int i = 0; i < sz[0]; i++){
 		for (int j = 0; j < sz[1]; j++){
 			tmp->n2Arr[j][i] = n2Arr[i][j];
@@ -105,7 +104,6 @@ MyMatrix<T>* MyMatrix<T>::transpose(){
 
 template<class T>
 void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
-/*
 	int h;
 	int w;
 	string input1;
@@ -131,5 +129,4 @@ void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
 		result.push_back(tmp);
 	}
 	in.close();
-*/
 }
