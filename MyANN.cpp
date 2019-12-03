@@ -1,4 +1,3 @@
-// with lr decay; activation function :sigmoid 
 #include "MyANN.h"
 #include "MyMatrix.h"
 #include "MyMatrix.cpp"
@@ -19,6 +18,7 @@
 #include <omp.h>
 #include <random>
 #include <chrono>
+
 using namespace std;
 
 
@@ -90,7 +90,7 @@ void MyANN::setLR(float f)
 	lr = f;
 }
 
-MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeLen,int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size),decayEpoch(decayEpoch),decay(decay)
+MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeLen, int decayEpoch, float decay) : lr(lr), epochs(epochs), batch_size(batch_size),decayEpoch(decayEpoch),decay(decay)
 {
 	cout<<"lr: "<<lr<<" epochs: "<<epochs<<" batch_size: "<<batch_size<<" layerSizeLen: "<<layerSizeLen << endl;;
 
@@ -132,11 +132,8 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 		}
 	}
 
-
-
 	for (int i = 0; i < num_weights; i++)
 	{
-
 		bias[i] = new float[total_neurons[i + 1]];
 		delta_bias[i] = new float[total_neurons[i + 1]];
 
@@ -149,6 +146,8 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 		outH[i] = new MyMatrix<float>(total_neurons[i + 1], 1); // REMIND: the outH doesn't include input now!
 	}
 
+//no need to opt this one//
+
 	input = new MyMatrix<float>(784, 1);
 	target = new MyMatrix<float>(10, 1); // ground-truth
 }
@@ -159,7 +158,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 	MyMatrix<float> *tmp = NULL;
 	MyMatrix<float> *tmpTrans = NULL; //Li: 这个编译不过，就initialize 成了NULL
 	float testLoss = 0;
-	bool first = true;
+	// bool first = true;
 
 	for (int epoch = 0; epoch < epochs; epoch++)
 	{
@@ -173,16 +172,12 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 
 		for (int round = 0; round < steps; round++)
 		{
-
-
 			for (int turn = 0; turn < batch_size; turn++)
 			{
-
 				if (turn + round * batch_size == in.size()){
-
+					
 					break; //Li: To test whether the index is out of bound
 				}
-
 
 				partError = new MyMatrix<float>(10, 1); //Li:对于每一个数据有一个partError
 
@@ -196,7 +191,6 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 					target->n2Arr[i][0] = t[round * batch_size + turn] == i ? 1 : 0; //deal with target;
 				}
 				MyMatrix<float> *net;
-
 
 				for (int i = 0; i < num_hidLayer + 1; i++)
 				{ //forward begin
@@ -271,9 +265,11 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 					delete dSigmoid;
 					delete tmp;
 				}
-				first = false;
+				// first = false;
+				
 			}
-
+			
+		
 			for (int i = 0; i < num_hidLayer + 1; i++)
 			{
 				delta_w[i]->smul(lr/(float)batch_size ); //refresh weight
@@ -341,7 +337,6 @@ MyMatrix<float>* MyANN::forward(vector<float> in){
 		for (int j = 0; j < netH->dim()[0]; j++)
 		{
 			outH[i]->n2Arr[j][0] = sigmoid(netH->n2Arr[j][0] + bias[i][j]); // need to plus bias here!
-			//outH[i]->n2Arr[j][0] = Relu(netH->n2Arr[j][0] + bias[i][j]); // need to plus bias here!
 		}
 		delete netH;
 	} //forward end;

@@ -26,8 +26,8 @@ int main()
 	bool train = true;
 
 	if(train){
-		ifstream myfile("data/train.txt");
-		// ifstream myfile("data/train_small.txt");
+		// ifstream myfile("data/train.txt");
+		ifstream myfile("data/train_small.txt");
 
 		if (myfile.is_open())
 		{

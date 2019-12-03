@@ -75,15 +75,12 @@ Design of The ANN class :
 	
 
 Experimental results
-	
-	In the first 180 epoches, the loss decrease from 3 to 0.8. In the second 100 epoches, the loss decrease from 0.8 to 0.27. In the last 200 epoches
-	,the loss decrease from 0.27 to 0.197. The training process of the last 200 epoches can be found in "nohup.out". The time for each epoch is quite  
-	stable and each epoch will cost around 40s.
+	In our experiments, the accuracy was 10% and the validation loss was 0.66 when we started training. After 25 epochs, the accuracy exceeds 50% while loss decreased to 0.32. Within 65 epochs, the accuracy exceeds 70% and loss decreased to 0.22. The change of accuracy and loss became more slowly from then on. At epoch 196, the accuracy reached 80% with loss value 0.16. 
+	The change of accuracy and loss become more trivial in the following 100 epochs, so we conclude that accuracy value and loss value are both converged. At epoch 300, accuracy reached 82.5% and loss reached 0.14. 
 
 Contribution of Each member (Tan Shuyao(Tan), Li Tingyao(Li))
 
-	Tan does the most part of the design of the ANN model. Li does the most part of experiments and documentation. Both of us do the implementation and 
-	debugging part.
+	Tan does the most part of the design of the ANN model. Li does the most part of documentation, and more parts of debugging. Both of us do the implementation and experiments part.
 	
 
 
