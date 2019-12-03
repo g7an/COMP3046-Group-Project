@@ -57,3 +57,27 @@ Epoch 9/300
 Train loss: 0.774675
 Val loss: 0.422732	Acc: 0.3
 Time for training this epoch: 54.4871s
+
+Epoch 10/300
+--------------
+Train loss: 0.757019
+Val loss: 0.414692	Acc: 0.3145
+Time for training this epoch: 55.2261s
+
+Epoch 11/300
+--------------
+Train loss: 0.74112
+Val loss: 0.407352	Acc: 0.331
+Time for training this epoch: 53.2637s
+
+Epoch 12/300
+--------------
+Train loss: 0.726702
+Val loss: 0.400629	Acc: 0.347
+Time for training this epoch: 51.8749s
+
+Epoch 13/300
+--------------
+Train loss: 0.713428
+Val loss: 0.394411	Acc: 0.357
+Time for training this epoch: 54.3825s
