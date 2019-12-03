@@ -76,9 +76,9 @@ Design of The ANN class :
 
 Experimental results
 
-	In our experiments, the accuracy was 10% and the validation loss was 0.66 when we started training. 
-	After 25 epochs, the accuracy exceeds 50% while loss decreased to 0.32. Within 65 epochs, 
-	the accuracy exceeds 70% and loss decreased to 0.22. 
+	In our experiments, the accuracy was 10% and the validation loss was 0.66 after first epoch. 
+	After 25 epochs, the accuracy exceeds 50% while loss decreased to 0.32. 
+	Within 65 epochs, the accuracy exceeds 70% and loss decreased to 0.22. 
 	The change of accuracy and loss became more slowly from then on. 
 	At epoch 196, the accuracy reached 80% with loss value 0.16. 
 	The change of accuracy and loss become more trivial in the following 100 epochs, 
