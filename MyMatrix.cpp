@@ -65,7 +65,7 @@ void MyMatrix<T>::smul(const T& t){
 template<class T>
 void MyMatrix<T>::out(){
 	ofstream out;
-	out.open("matrix_data.txt", ios::out | ios::app);
+	out.open("matrix_data_v2.txt", ios::out | ios::app);
 	out << endl;
 	out << sz[0] << " " << sz[1] << endl;
 
@@ -94,11 +94,6 @@ MyMatrix<T>* MyMatrix<T>::transpose(){
 		}
 	}
 	return tmp;
-	/*
-	   int foo = sz[0];
-	   sz[0] = sz[1];
-	   sz[1] = foo;
-	 */
 
 }
 
@@ -111,7 +106,6 @@ void MyMatrix<T>::in(vector<MyMatrix<T>*> &result){
 	float input3;
 	T data;
 	MyMatrix<T> *tmp = NULL;
-
 	ifstream in;
 	in.open("./input_matrix_data.txt", ios::in);
 	while (in >> input1 >> input2)

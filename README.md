@@ -1,7 +1,7 @@
 # COMP3046-Group-Project
 REMIND:
-	1. You can use "g++ -std=c++11 MyANN.cpp MyMatrix.cpp test2.cpp globalFunctions.cpp -o test2" and "./test2" to run the program
-	2. In the test2.cpp, you can adjust the parameters of the ANN model and set the model to "train" or not by adjust the value of "bool train",
+	1. You can use "g++ -std=c++11 MyANN.cpp MyMatrix.cpp run.cpp globalFunctions.cpp -o run" and "./run" to run the program
+	2. In the run.cpp, you can adjust the parameters of the ANN model and set the model to "train" or not by adjust the value of "bool train",
 	   If train==true, the model will load the training data , train the model and do the prediction. If train==false, the model can load data from 
 	   a file and use these pre-trained weight to do predition directly
 
@@ -36,19 +36,20 @@ Design of The ANN class :
 	2.sigmoid
 		input:float 
 		output:float 
-		function:calculate the sigmoid value of the input
+		function: calculate the sigmoid value of the input
+
 	3.setEpochs
 		input: int 
 		function:set the learning rate to the input
 
 	4.train
-		input: a vector of float vector (raw data), a float vector (target data)
+		input: a vector of float vector (training data), a float vector (ground-truth data)
 		fucntion: use the input and target value to train the ANN model 
 
-	5.predict
-		input: a float vector 
-		output: int
-		fucntion: use the input to predict the result
+	5.getAcc
+		input: a vector of float vector (test data) 
+		output: void
+		fucntion: use the input to get accuaracy of the result
 
 	6.forward
 		input: a float vector 
@@ -60,11 +61,23 @@ Design of The ANN class :
 
 	8.loadWeight
 		function: load the weights from  "/input_matrix_data.txt" 
+	
+	9.predict
+		input: a float vector 
+		output: int
+		fucntion: use the input to predict the result
+
+	10.getLoss
+		input: vector of vector, vector
+		output: void
+		function: a function serves as a media between whole dataset to a single data. 
+				Calls in totalLoss function to get loss from a single data.
+	
 
 Experimental results
 	
 	In the first 180 epoches, the loss decrease from 3 to 0.8. In the second 100 epoches, the loss decrease from 0.8 to 0.27. In the last 200 epoches
-	,the loss decrease from 0.27 to 0.197. The traing process of the last 200 epoches can be found in "nohup.out". The time for each epoch is quite  
+	,the loss decrease from 0.27 to 0.197. The training process of the last 200 epoches can be found in "nohup.out". The time for each epoch is quite  
 	stable and each epoch will cost around 40s.
 
 Contribution of Each member (Tan Shuyao(Tan), Li Tingyao(Li))

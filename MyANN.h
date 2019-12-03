@@ -29,26 +29,23 @@ class MyANN
 
 
 
-
 public:
 	MyANN(float, int, int,int*,int,int,float);
-	//~MyANN();
-
 	float sigmoid(float);
 	float Relu(float);
 	float random();
 	void setLR(float);
 	void setEpochs(int);
 	float normalDis();
-	//void initializeWeight();
-
-	void train(std::vector<std::vector<float> >, std::vector<float>);
+	void train(std::vector<std::vector<float> >, std::vector<float>, std::vector<std::vector<float> >, std::vector<float>);
+	void getAcc(std::vector<std::vector<float> >, std::vector<float>);
 	int predict(std::vector<float>);
+	float showAcc(std::vector<float> , std::vector<float>);
 	MyMatrix<float>* forward(std::vector<float>);
 
 	float totalLoss(std::vector<float>, float);
 	float lossWithCrossE(std::vector<float>, float);
-	void batchLoss(std::vector<std::vector<float> >, std::vector<float>);
+	void getLoss(std::vector<std::vector<float> >, std::vector<float>);
 
 	void storeWeight();
 	void loadWeight();

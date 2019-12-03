@@ -1,0 +1,59 @@
+Loading data ...
+Loading data finished.
+Loading data ...
+Loading data finished.
+lr: 0.01 epochs: 300 batch_size: 64 layerSizeLen: 3
+
+Epoch 1/300
+--------------
+Train loss: 1.96611
+Val loss: 0.661467	Acc: 0.1025
+Time for training this epoch: 51.2748s
+
+Epoch 2/300
+--------------
+Train loss: 0.98909
+Val loss: 0.498457	Acc: 0.105
+Time for training this epoch: 67.3848s
+
+Epoch 3/300
+--------------
+Train loss: 0.900487
+Val loss: 0.479136	Acc: 0.1405
+Time for training this epoch: 47.0927s
+
+Epoch 4/300
+--------------
+Train loss: 0.875541
+Val loss: 0.468727	Acc: 0.1775
+Time for training this epoch: 48.5646s
+
+Epoch 5/300
+--------------
+Train loss: 0.855944
+Val loss: 0.459614	Acc: 0.209
+Time for training this epoch: 46.5603s
+
+Epoch 6/300
+--------------
+Train loss: 0.835903
+Val loss: 0.450282	Acc: 0.239
+Time for training this epoch: 46.9093s
+
+Epoch 7/300
+--------------
+Train loss: 0.814887
+Val loss: 0.440762	Acc: 0.262
+Time for training this epoch: 49.7095s
+
+Epoch 8/300
+--------------
+Train loss: 0.794101
+Val loss: 0.431471	Acc: 0.281
+Time for training this epoch: 49.1589s
+
+Epoch 9/300
+--------------
+Train loss: 0.774675
+Val loss: 0.422732	Acc: 0.3
+Time for training this epoch: 54.4871s
