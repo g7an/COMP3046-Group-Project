@@ -10,11 +10,14 @@
 #include <chrono>
 #include <string>
 using namespace std;
+<<<<<<< HEAD
 void init(float *x,int x_rows,int x_columns){
 	for (int i = 0; i < x_rows*x_columns; i++){
 		x[i] = 0;
 	}
 }
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 
 void outDebug(string name, float *x,int x_rows, int x_columns){
 	ofstream out;
@@ -126,9 +129,12 @@ void Pure::matMatMul(float *result, float *x, float *y, int x_rows, int x_column
 {
 
 
+<<<<<<< HEAD
 	for (int i = 0; i < x_rows*y_columns; i++){
 		result[i] = 0;
 	}
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 	//    delete[] result;
 	//   result = new float[x_rows * y_columns];
 	int i = 0;
@@ -239,6 +245,7 @@ void Pure::updateD_bias(float *d_bias, float *partError, int partError_rows, int
 
 	for (int i = 0; i < partError_rows; i++)
 	{
+<<<<<<< HEAD
 		bar[i] = 1.0f;
 	}
 
@@ -253,6 +260,12 @@ void Pure::updateD_bias(float *d_bias, float *partError, int partError_rows, int
 
 //outDebug("d_bias",d_bias,1,partError_columns);
 
+=======
+		bar[i] = 1;
+	}
+	matMatMul(foo, bar, partError, 1, partError_rows, partError_columns);
+	matAdd(d_bias, foo, 1, partError_columns);
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 	delete[] foo;
 	delete[] bar;
 }
@@ -299,7 +312,10 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 			net = outH[i - 1];
 		}
 		netH = new float[batch_size*total_neurons[i+1]];
+<<<<<<< HEAD
 
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 		matMatMul(netH, net, hidWeight[i], batch_size, total_neurons[i], total_neurons[i+1]);
 
 		netToOut(outH[i], netH, bias[i], batch_size, total_neurons[i + 1]);
@@ -308,23 +324,30 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 
 	} //forward end;
 
+<<<<<<< HEAD
 /*
 outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
 */
 outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
 outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 
 	partError = new float[batch_size*10];
 
 	matSub(partError, outH[num_hidLayer], target, batch_size, 10);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 	//backpropagation begin
 	for (int i = 0; i < 10*batch_size; i++)
 	{
 		loss += partError[i] * partError[i];
 	}
 
+<<<<<<< HEAD
 
 	eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
 
@@ -333,6 +356,13 @@ outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
 	updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
 
 //outDebug("delta_bias[1]",delta_bias[num_hidLayer],1,total_neurons[num_hidLayer + 1]);
+=======
+outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
+
+	eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
+
+	updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 	/*
 	   vector<float *>tmp2(num_hidLayer+1);
 	   vector<float *>tmpTrans1(num_hidLayer+1);
@@ -409,12 +439,15 @@ outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
 	{
 
 		smul(delta_w[i],(-lr/batch_size),total_neurons[i],total_neurons[i+1]);
+<<<<<<< HEAD
 /*
 if(i == num_hidLayer){
 outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
 }
 */
 
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 		matAdd(hidWeight[i],delta_w[i],total_neurons[i],total_neurons[i+1]);
 
 		clean(delta_w[i],total_neurons[i],total_neurons[i+1]);
@@ -423,6 +456,7 @@ outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
 
 
 		smul(delta_bias[i],(-lr/batch_size),1,total_neurons[i+1]);
+<<<<<<< HEAD
 
 /*
 if(i == num_hidLayer){
@@ -431,6 +465,8 @@ outDebug("bias[1]",bias[i],1,total_neurons[i+ 1]);
 }
 */
 
+=======
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 		matAdd(bias[i],delta_bias[i],1,total_neurons[i+1]);
 
 		clean(delta_bias[i],1,total_neurons[i+1]);

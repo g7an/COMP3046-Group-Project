@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Loading data ...
 Loading data finished.
 train begin
@@ -105,3 +106,421 @@ train finish
 Loading data ...
 Loading data finished.
 predict accuracy: 0.0035
+=======
+lr: 0.01 epochs: 200 batch_size: 64 layerSizeLen: 3
+Loading data ...
+Loading data finished.
+Time for training this epoch: 39.2068
+testLoss: 0.275336
+Time for training this epoch: 39.251
+testLoss: 0.255675
+Time for training this epoch: 39.3086
+testLoss: 0.250999
+Time for training this epoch: 39.1933
+testLoss: 0.249249
+Time for training this epoch: 39.0963
+testLoss: 0.248252
+Time for training this epoch: 39.1249
+testLoss: 0.247492
+Time for training this epoch: 38.9775
+testLoss: 0.246829
+Time for training this epoch: 39.1096
+testLoss: 0.246217
+Time for training this epoch: 39.079
+testLoss: 0.245636
+Time for training this epoch: 39.2375
+testLoss: 0.245084
+Time for training this epoch: 39.0398
+testLoss: 0.244554
+Time for training this epoch: 39.2127
+testLoss: 0.244041
+Time for training this epoch: 39.1957
+testLoss: 0.243544
+Time for training this epoch: 39.1935
+testLoss: 0.243063
+Time for training this epoch: 39.2074
+testLoss: 0.242594
+Time for training this epoch: 39.2179
+testLoss: 0.242137
+Time for training this epoch: 39.0945
+testLoss: 0.241691
+Time for training this epoch: 39.1629
+testLoss: 0.241254
+Time for training this epoch: 39.2495
+testLoss: 0.240826
+Time for training this epoch: 39.1676
+testLoss: 0.240406
+Time for training this epoch: 39.2788
+testLoss: 0.239992
+Time for training this epoch: 39.1562
+testLoss: 0.239587
+Time for training this epoch: 39.235
+testLoss: 0.239188
+Time for training this epoch: 39.144
+testLoss: 0.238795
+Time for training this epoch: 39.1279
+testLoss: 0.238407
+Time for training this epoch: 38.9471
+testLoss: 0.238023
+Time for training this epoch: 39.1095
+testLoss: 0.237645
+Time for training this epoch: 39.0355
+testLoss: 0.237271
+Time for training this epoch: 39.1303
+testLoss: 0.236903
+Time for training this epoch: 39.1552
+testLoss: 0.236536
+Time for training this epoch: 39.065
+testLoss: 0.236175
+Time for training this epoch: 39.0803
+testLoss: 0.235818
+Time for training this epoch: 39.1184
+testLoss: 0.235462
+Time for training this epoch: 39.0563
+testLoss: 0.235111
+Time for training this epoch: 39.0805
+testLoss: 0.234766
+Time for training this epoch: 38.9867
+testLoss: 0.23442
+Time for training this epoch: 38.9899
+testLoss: 0.234079
+Time for training this epoch: 38.9753
+testLoss: 0.23374
+Time for training this epoch: 38.9749
+testLoss: 0.233402
+Time for training this epoch: 39.0165
+testLoss: 0.23307
+Time for training this epoch: 38.9758
+testLoss: 0.232738
+Time for training this epoch: 39.1114
+testLoss: 0.232411
+Time for training this epoch: 39.1549
+testLoss: 0.232084
+Time for training this epoch: 38.9967
+testLoss: 0.231762
+Time for training this epoch: 39.0031
+testLoss: 0.23144
+Time for training this epoch: 39.3737
+testLoss: 0.231121
+Time for training this epoch: 39.3516
+testLoss: 0.230806
+Time for training this epoch: 38.9472
+testLoss: 0.230491
+Time for training this epoch: 39.1001
+testLoss: 0.23018
+Time for training this epoch: 38.9711
+testLoss: 0.229871
+Time for training this epoch: 39.1744
+testLoss: 0.229564
+Time for training this epoch: 38.9953
+testLoss: 0.229257
+Time for training this epoch: 39.1418
+testLoss: 0.228953
+Time for training this epoch: 39.251
+testLoss: 0.228652
+Time for training this epoch: 39.2576
+testLoss: 0.22835
+Time for training this epoch: 39.2168
+testLoss: 0.228051
+Time for training this epoch: 39.2624
+testLoss: 0.227755
+Time for training this epoch: 39.1608
+testLoss: 0.227461
+Time for training this epoch: 39.1197
+testLoss: 0.227165
+Time for training this epoch: 39.052
+testLoss: 0.226874
+Time for training this epoch: 39.0188
+testLoss: 0.226583
+Time for training this epoch: 39.171
+testLoss: 0.226295
+Time for training this epoch: 39.0168
+testLoss: 0.226009
+Time for training this epoch: 39.0591
+testLoss: 0.225724
+Time for training this epoch: 39.0532
+testLoss: 0.22544
+Time for training this epoch: 39.2187
+testLoss: 0.225158
+Time for training this epoch: 38.138
+testLoss: 0.224879
+Time for training this epoch: 37.8533
+testLoss: 0.224598
+Time for training this epoch: 37.7783
+testLoss: 0.224321
+Time for training this epoch: 38.7296
+testLoss: 0.224045
+Time for training this epoch: 38.9198
+testLoss: 0.223769
+Time for training this epoch: 38.9065
+testLoss: 0.223496
+Time for training this epoch: 39.0918
+testLoss: 0.223224
+Time for training this epoch: 39.0278
+testLoss: 0.222954
+Time for training this epoch: 38.9735
+testLoss: 0.222685
+Time for training this epoch: 38.9875
+testLoss: 0.222416
+Time for training this epoch: 38.9562
+testLoss: 0.22215
+Time for training this epoch: 38.9719
+testLoss: 0.221883
+Time for training this epoch: 38.9429
+testLoss: 0.221619
+Time for training this epoch: 38.9448
+testLoss: 0.221357
+Time for training this epoch: 39.0038
+testLoss: 0.221094
+Time for training this epoch: 39.0635
+testLoss: 0.220834
+Time for training this epoch: 38.9544
+testLoss: 0.220574
+Time for training this epoch: 38.9164
+testLoss: 0.220317
+Time for training this epoch: 38.9569
+testLoss: 0.22006
+Time for training this epoch: 39.0138
+testLoss: 0.219805
+Time for training this epoch: 39.0137
+testLoss: 0.219551
+Time for training this epoch: 38.9668
+testLoss: 0.219297
+Time for training this epoch: 39.0007
+testLoss: 0.219046
+Time for training this epoch: 39.0847
+testLoss: 0.218794
+Time for training this epoch: 39.0779
+testLoss: 0.218546
+Time for training this epoch: 39.0793
+testLoss: 0.218297
+Time for training this epoch: 38.9998
+testLoss: 0.218049
+Time for training this epoch: 39.1007
+testLoss: 0.217804
+Time for training this epoch: 38.9054
+testLoss: 0.217559
+Time for training this epoch: 38.9795
+testLoss: 0.217314
+Time for training this epoch: 39.0209
+testLoss: 0.217069
+Time for training this epoch: 39.0437
+testLoss: 0.216828
+Time for training this epoch: 39.0075
+testLoss: 0.216587
+Time for training this epoch: 38.9499
+testLoss: 0.216346
+Time for training this epoch: 39.039
+testLoss: 0.216107
+Time for training this epoch: 39.1253
+testLoss: 0.215869
+Time for training this epoch: 39.0601
+testLoss: 0.215633
+Time for training this epoch: 39.0822
+testLoss: 0.215397
+Time for training this epoch: 39.1319
+testLoss: 0.215161
+Time for training this epoch: 39.0284
+testLoss: 0.214928
+Time for training this epoch: 39.0235
+testLoss: 0.214695
+Time for training this epoch: 39.0025
+testLoss: 0.214462
+Time for training this epoch: 38.8899
+testLoss: 0.214233
+Time for training this epoch: 38.944
+testLoss: 0.214003
+Time for training this epoch: 38.9362
+testLoss: 0.213772
+Time for training this epoch: 39.0034
+testLoss: 0.213545
+Time for training this epoch: 39.0895
+testLoss: 0.213317
+Time for training this epoch: 39.0345
+testLoss: 0.213091
+Time for training this epoch: 39.1381
+testLoss: 0.212866
+Time for training this epoch: 39.2136
+testLoss: 0.21264
+Time for training this epoch: 39.0086
+testLoss: 0.212417
+Time for training this epoch: 38.9997
+testLoss: 0.212193
+Time for training this epoch: 39.0493
+testLoss: 0.211972
+Time for training this epoch: 39.0184
+testLoss: 0.211751
+Time for training this epoch: 39.0747
+testLoss: 0.211531
+Time for training this epoch: 38.9793
+testLoss: 0.211311
+Time for training this epoch: 39.0185
+testLoss: 0.211092
+Time for training this epoch: 38.9977
+testLoss: 0.210875
+Time for training this epoch: 38.943
+testLoss: 0.210657
+Time for training this epoch: 38.9391
+testLoss: 0.210443
+Time for training this epoch: 38.9384
+testLoss: 0.210227
+Time for training this epoch: 38.9186
+testLoss: 0.210013
+Time for training this epoch: 38.916
+testLoss: 0.209799
+Time for training this epoch: 38.9745
+testLoss: 0.209586
+Time for training this epoch: 39.0314
+testLoss: 0.209374
+Time for training this epoch: 38.9099
+testLoss: 0.209163
+Time for training this epoch: 39.0171
+testLoss: 0.208954
+Time for training this epoch: 38.9499
+testLoss: 0.208743
+Time for training this epoch: 39.0671
+testLoss: 0.208535
+Time for training this epoch: 38.9614
+testLoss: 0.208326
+Time for training this epoch: 38.9757
+testLoss: 0.208118
+Time for training this epoch: 38.9448
+testLoss: 0.207913
+Time for training this epoch: 38.9526
+testLoss: 0.207707
+Time for training this epoch: 39.0128
+testLoss: 0.207504
+decay
+Time for training this epoch: 38.886
+testLoss: 0.2073
+Time for training this epoch: 38.9572
+testLoss: 0.207097
+Time for training this epoch: 38.8881
+testLoss: 0.206894
+Time for training this epoch: 38.957
+testLoss: 0.206694
+Time for training this epoch: 38.9656
+testLoss: 0.206492
+Time for training this epoch: 38.9303
+testLoss: 0.206291
+Time for training this epoch: 38.9337
+testLoss: 0.206092
+Time for training this epoch: 39.1248
+testLoss: 0.205892
+Time for training this epoch: 39.1072
+testLoss: 0.205694
+Time for training this epoch: 39.0211
+testLoss: 0.205496
+Time for training this epoch: 39.1229
+testLoss: 0.205299
+Time for training this epoch: 38.9231
+testLoss: 0.205103
+Time for training this epoch: 38.9466
+testLoss: 0.204908
+Time for training this epoch: 38.9621
+testLoss: 0.204713
+Time for training this epoch: 38.9503
+testLoss: 0.204519
+Time for training this epoch: 38.9478
+testLoss: 0.204326
+Time for training this epoch: 39.0098
+testLoss: 0.204134
+Time for training this epoch: 39.0721
+testLoss: 0.203942
+Time for training this epoch: 39.0115
+testLoss: 0.20375
+Time for training this epoch: 39.132
+testLoss: 0.20356
+Time for training this epoch: 39.0136
+testLoss: 0.203369
+Time for training this epoch: 39.0337
+testLoss: 0.20318
+Time for training this epoch: 39.0635
+testLoss: 0.202992
+Time for training this epoch: 39.1179
+testLoss: 0.202805
+Time for training this epoch: 39.0735
+testLoss: 0.202616
+Time for training this epoch: 39.0266
+testLoss: 0.20243
+Time for training this epoch: 38.9827
+testLoss: 0.202244
+Time for training this epoch: 39.0174
+testLoss: 0.202058
+Time for training this epoch: 38.9574
+testLoss: 0.201873
+Time for training this epoch: 38.9062
+testLoss: 0.201688
+Time for training this epoch: 38.9792
+testLoss: 0.201505
+Time for training this epoch: 39.0451
+testLoss: 0.201322
+Time for training this epoch: 39.0618
+testLoss: 0.201139
+Time for training this epoch: 39.1301
+testLoss: 0.200957
+Time for training this epoch: 39.1212
+testLoss: 0.200775
+Time for training this epoch: 39.09
+testLoss: 0.200595
+Time for training this epoch: 39.0205
+testLoss: 0.200416
+Time for training this epoch: 39.0533
+testLoss: 0.200236
+Time for training this epoch: 39.026
+testLoss: 0.200057
+Time for training this epoch: 39.0393
+testLoss: 0.199879
+Time for training this epoch: 39.0125
+testLoss: 0.1997
+Time for training this epoch: 38.8859
+testLoss: 0.199525
+Time for training this epoch: 38.9747
+testLoss: 0.199347
+Time for training this epoch: 38.944
+testLoss: 0.199172
+Time for training this epoch: 39.0045
+testLoss: 0.198996
+Time for training this epoch: 38.9308
+testLoss: 0.198821
+Time for training this epoch: 38.8971
+testLoss: 0.198648
+Time for training this epoch: 38.8782
+testLoss: 0.198473
+Time for training this epoch: 38.9098
+testLoss: 0.198302
+Time for training this epoch: 38.9324
+testLoss: 0.198128
+Time for training this epoch: 39.0507
+testLoss: 0.197958
+Time for training this epoch: 38.9495
+testLoss: 0.197786
+Time for training this epoch: 38.928
+testLoss: 0.197615
+Time for training this epoch: 38.9549
+testLoss: 0.197445
+Time for training this epoch: 39.0458
+testLoss: 0.197275
+Time for training this epoch: 39.0502
+testLoss: 0.197106
+Time for training this epoch: 39.0759
+testLoss: 0.196936
+Time for training this epoch: 38.8938
+testLoss: 0.196767
+Time for training this epoch: 38.9293
+testLoss: 0.1966
+Time for training this epoch: 38.8841
+testLoss: 0.196433
+Loading data ...
+Loading data finished.
+predict accuracy: 0.841
+predict: 0 real value: 0
+predict: 5 real value: 3
+predict: 1 real value: 1
+predict: 5 real value: 5
+predict: 8 real value: 2
+predict: 4 real value: 4
+store finish
+Finish
+
+>>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
