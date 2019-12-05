@@ -6,24 +6,15 @@
 using namespace std;
 int main(void){
 
-<<<<<<< HEAD
 	int layerSize [] ={28*28,50,10};
 	Pure annModel(0.01, 100, 64,layerSize,sizeof(layerSize)/sizeof(int));                                                  
-=======
-	int layerSize [] ={28*28,5,10};
-	Pure annModel(0.01, 100, 8,layerSize,sizeof(layerSize)/sizeof(int));                                                  
->>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
 	bool train = true;
 
 	if(train){
-<<<<<<< HEAD
 		ifstream myfile("data/train.txt");
-=======
-		ifstream myfile("data/train_small.txt");
->>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 		//ifstream myfile("data/train.txt");
 
 		if (myfile.is_open())

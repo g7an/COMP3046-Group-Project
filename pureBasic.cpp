@@ -14,7 +14,6 @@ void print(float* x, int x_rows, int x_columns ){
 
 int main(void){
 	int wat [] = {10,10,10};
-<<<<<<< HEAD
 	Pure *pureM = new Pure(10.0f,10,10,wat,3);
 
 
@@ -29,7 +28,6 @@ int main(void){
 	float* result = NULL;
 	//float* result2 = NULL;
 	/*
-=======
 	Pure *pureM = new Pure(10.0f,10,10,wat,10);
 
 	float* matrix1 = new float[30]; // 5*6
@@ -37,14 +35,11 @@ int main(void){
 	float* bias= new float[6]; // 1*6
 	float* result = NULL;
 	float* result2 = NULL;
->>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 
 	for(int i=0;i<30;i++){
 		matrix1[i] = i * 1.1f;
 		matrix2[i] = i * 1.3f;
 	}
-
-<<<<<<< HEAD
 	   for(int i=0;i<80;i++){
 	   part[i] = 0.022f * i;
 	   }
@@ -96,7 +91,7 @@ int main(void){
 	   cout<<"update delta bias, d_b:bias, partError:matrix1"<<endl;
 	   cout<<"bias"<<endl;
 	   print(bias,1,6);
-=======
+
 	for(int i=0;i<6;i++){
 		bias[i] = i*1.0f;
 	}
@@ -111,6 +106,7 @@ int main(void){
 	pureM->out(matrix1,5,6);
 	pureM->out(matrix2,6,5);
 	cout<<"store finish"<<endl;
+*/
 
 	/*
 	result = new float[5*6];
@@ -141,8 +137,6 @@ int main(void){
 	cout<<"update delta bias, d_b:bias, partError:matrix1"<<endl;
 	cout<<"bias"<<endl;
 	print(bias,1,6);
->>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
-
 
 
 	   result = new float[5*5];
@@ -178,17 +172,10 @@ int main(void){
 	   print(result2,6,5);
 	 */
 
-<<<<<<< HEAD
 	//delete[] matrix1;
 	//delete[] matrix2;
 	delete[] result;
 	//delete[] result2;
-=======
-	delete[] matrix1;
-	delete[] matrix2;
-	delete[] result;
-	delete[] result2;
->>>>>>> e134b56323fa6d7b9f6362c5f3a84918987d2347
 
 	return 0;
 }
