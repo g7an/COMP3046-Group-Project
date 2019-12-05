@@ -37,8 +37,15 @@ int main(void){
 	cout<<"matrix2"<<endl;
 	print(matrix2,6,5);
 
+	cout<<"store"<<endl;
+	pureM->out(matrix1,5,6);
+	pureM->out(matrix2,6,5);
+	cout<<"store finish"<<endl;
+
+	/*
 	result = new float[5*6];
 	pureM->netToOut(result,matrix1,bias,5,6);
+
 
 	cout<<"bias"<<endl;
 	print(bias,1,6);
@@ -67,7 +74,6 @@ int main(void){
 
 
 
-	/*
 	   result = new float[5*5];
 	   pureM->matMatMul(result,matrix1,matrix2,5,6,5);
 

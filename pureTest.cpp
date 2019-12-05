@@ -6,8 +6,8 @@
 using namespace std;
 int main(void){
 
-	int layerSize [] ={28*28,50,10};
-	Pure annModel(0.01, 200, 64,layerSize,sizeof(layerSize)/sizeof(int));                                                  
+	int layerSize [] ={28*28,5,10};
+	Pure annModel(0.01, 100, 8,layerSize,sizeof(layerSize)/sizeof(int));                                                  
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 

@@ -8,9 +8,26 @@
 #include <time.h>
 #include <random>
 #include <chrono>
+#include <string>
 using namespace std;
 
-void print(float* x, int x_rows, int x_columns ){
+void outDebug(string name, float *x,int x_rows, int x_columns){
+	ofstream out;
+	out.open("matrix_data.txt", ios::out | ios::app);
+	out << endl;
+	out << name <<endl;;
+	out << x_rows  << " " << x_columns << endl;
+
+	for (int i = 0; i < x_rows; i++){
+		for (int j = 0; j < x_columns; j++){
+			out <<x[i*x_columns + j] << " ";
+		}
+		out << endl;
+	}
+	out.close();
+}
+
+void Pure::print(float* x, int x_rows, int x_columns ){
 	for(int i=0;i<x_rows;i++){
 		for(int j=0;j<x_columns;j++){
 
@@ -282,6 +299,8 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 		loss += partError[i] * partError[i];
 	}
 
+outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
+
 	eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
 
 	updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
@@ -472,7 +491,19 @@ int Pure::predict(std::vector<float> x){
 	delete [] tmpOut;
 
 	return result;
+}
 
+void Pure::out(float *x,int x_rows, int x_columns){
+	ofstream out;
+	out.open("matrix_data.txt", ios::out | ios::app);
+	out << endl;
+	out << x_rows  << " " << x_columns << endl;
 
-
+	for (int i = 0; i < x_rows; i++){
+		for (int j = 0; j < x_columns; j++){
+			out <<x[i*x_columns + j] << " ";
+		}
+		out << endl;
+	}
+	out.close();
 }

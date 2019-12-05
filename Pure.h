@@ -47,6 +47,8 @@ class Pure{
 
     void out(float* x,int x_rows,int x_columns);
 
+    void print(float* x,int x_rows,int x_columns);
+
     float trainOneBatch(std::vector<std::vector<float>>x, std::vector<float>y);
 
     float train(std::vector<std::vector<float>>x, std::vector<float>y);
