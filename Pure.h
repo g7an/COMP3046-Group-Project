@@ -54,7 +54,12 @@ class Pure{
     float train(std::vector<std::vector<float>>x, std::vector<float>y);
 
     int predict(std::vector<float>x);
+	
+    void storeWeight(); 
+    void storeBias(); 
 
+    void loadWeight(); 
+    void loadBias(); 
 
 
 };

@@ -11,7 +11,7 @@ int main(void){
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
-	bool train = true;
+	bool train = false;
 
 	if(train){
 		ifstream myfile("data/train.txt");
@@ -28,7 +28,7 @@ int main(void){
 				stringstream ss(line);
 				ss >> y;
 
-					y_train.push_back(y);
+				y_train.push_back(y);
 
 
 				for (int i = 0; i < 28 * 28; i++) {
@@ -37,7 +37,7 @@ int main(void){
 					//X.push_back(x);
 				}
 
-					X_train.push_back(X);
+				X_train.push_back(X);
 			}
 
 			myfile.close();
@@ -50,9 +50,15 @@ int main(void){
 		//	annModel.loadWeight();        //remove this line!!!!!!!
 		cout<<"train begin"<<endl;
 
+		annModel.loadWeight();
+
 		annModel.train(X_train, y_train);
 
 		cout<<"train finish"<<endl;
+		annModel.storeWeight();
+
+	}else{
+		annModel.loadWeight();
 	}
 
 	vector< vector<float> > X_test;
@@ -93,4 +99,10 @@ int main(void){
 		if(pre==y_test[i]) cnt++;
 	}
 	cout<<"predict accuracy: "<<(float)cnt/X_test.size()<<endl;
+	cout << "predict: " << annModel.predict(X_test[4]) << " real value: " << y_test[4] <<endl;
+	cout << "predict: " << annModel.predict(X_test[90]) << " real value: " << y_test[90] <<endl;
+	cout << "predict: " << annModel.predict(X_test[2]) << " real value: " << y_test[2] <<endl;
+	cout << "predict: " << annModel.predict(X_test[8]) << " real value: " << y_test[8] <<endl;
+	cout << "predict: " << annModel.predict(X_test[16]) << " real value: " << y_test[16] <<endl;
+	cout << "predict: " << annModel.predict(X_test[32]) << " real value: " << y_test[32] <<endl;
 }

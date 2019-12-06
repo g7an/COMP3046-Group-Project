@@ -9,6 +9,7 @@
 #include <random>
 #include <chrono>
 #include <string>
+#include <sstream>
 using namespace std;
 void init(float *x,int x_rows,int x_columns){
 	for (int i = 0; i < x_rows*x_columns; i++){
@@ -18,7 +19,7 @@ void init(float *x,int x_rows,int x_columns){
 
 void outDebug(string name, float *x,int x_rows, int x_columns){
 	ofstream out;
-	out.open("matrix_data.txt", ios::out | ios::app);
+	out.open("debug.txt", ios::out | ios::app);
 	out << endl;
 	out << name <<endl;;
 	out << x_rows  << " " << x_columns << endl;
@@ -242,22 +243,24 @@ void Pure::updateD_bias(float *d_bias, float *partError, int partError_rows, int
 		bar[i] = 1.0f;
 	}
 
-//outDebug("bar",bar,1,partError_rows);
-//outDebug("partError",partError,partError_rows,partError_columns);
+	//outDebug("bar",bar,1,partError_rows);
+	//outDebug("partError",partError,partError_rows,partError_columns);
 
 	matMatMul(foo, bar, partError, 1, partError_rows, partError_columns);
 
-//outDebug("foo",foo,1,partError_columns);
+	//outDebug("foo",foo,1,partError_columns);
 
 	matAdd(d_bias, foo, 1, partError_columns);
 
-//outDebug("d_bias",d_bias,1,partError_columns);
-	for(int i=0;i<partError_rows;i++){
+	//outDebug("d_bias",d_bias,1,partError_columns);
+	/*
+	   for(int i=0;i<partError_rows;i++){
 
-		bar[i] = 1;
-	}
-	matMatMul(foo, bar, partError, 1, partError_rows, partError_columns);
-	matAdd(d_bias, foo, 1, partError_columns);
+	   bar[i] = 1;
+	   }
+	   matMatMul(foo, bar, partError, 1, partError_rows, partError_columns);
+	   matAdd(d_bias, foo, 1, partError_columns);
+	 */
 	delete[] foo;
 	delete[] bar;
 }
@@ -267,7 +270,7 @@ void Pure::clean(float *x, int x_rows, int x_columns)
 	int i = 0;
 	for (i = 0; i < x_rows * x_columns; i++)
 	{
-		x[i] *= 0;
+		x[i] = 0;
 	}
 }
 
@@ -313,11 +316,11 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 
 	} //forward end;
 
-/*
-outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
-*/
-//outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
-//outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
+	/*
+	   outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
+	outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
+	outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
+	 */
 
 	partError = new float[batch_size*10];
 
@@ -333,16 +336,16 @@ outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
 
 	eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
 
-//outDebug("partError",partError,batch_size,total_neurons[num_hidLayer + 1]);
+	//outDebug("partError",partError,batch_size,total_neurons[num_hidLayer + 1]);
 
 	updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
 
-//outDebug("delta_bias[1]",delta_bias[num_hidLayer],1,total_neurons[num_hidLayer + 1]);
-//outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
+	//outDebug("delta_bias[1]",delta_bias[num_hidLayer],1,total_neurons[num_hidLayer + 1]);
+	//outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
 
-	eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
+	//eleMulDsigmoid(partError, outH[num_hidLayer], batch_size, total_neurons[num_hidLayer + 1]);
 
-	updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
+	//updateD_bias(delta_bias[num_hidLayer], partError, batch_size, total_neurons[num_hidLayer + 1]);
 	/*
 	   vector<float *>tmp2(num_hidLayer+1);
 	   vector<float *>tmpTrans1(num_hidLayer+1);
@@ -419,11 +422,10 @@ outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
 	{
 
 		smul(delta_w[i],(-lr/batch_size),total_neurons[i],total_neurons[i+1]);
-/*
-if(i == num_hidLayer){
-outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
-}
-*/
+
+		   if(i == num_hidLayer){
+		   outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
+		   }
 
 		matAdd(hidWeight[i],delta_w[i],total_neurons[i],total_neurons[i+1]);
 
@@ -434,12 +436,10 @@ outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
 
 		smul(delta_bias[i],(-lr/batch_size),1,total_neurons[i+1]);
 
-/*
-if(i == num_hidLayer){
-outDebug("delta_bias[1]",delta_bias[i],1,total_neurons[i+ 1]);
-outDebug("bias[1]",bias[i],1,total_neurons[i+ 1]);
-}
-*/
+		   if(i == num_hidLayer){
+		   outDebug("delta_bias[1]",delta_bias[i],1,total_neurons[i+ 1]);
+		   outDebug("bias[1]",bias[i],1,total_neurons[i+ 1]);
+		   }
 
 		matAdd(bias[i],delta_bias[i],1,total_neurons[i+1]);
 
@@ -463,6 +463,9 @@ float Pure::train(std::vector<std::vector<float>> x, std::vector<float> y){
 
 	for(int i=0;i<epochs;i++){
 
+		std::chrono::steady_clock sc;
+		auto start = sc.now();
+
 		for(int j = 0;j<batch_num;j++){
 
 			batch_x.assign(x.begin()+j*batch_size,x.begin()+(j+1)*batch_size);
@@ -473,6 +476,10 @@ float Pure::train(std::vector<std::vector<float>> x, std::vector<float> y){
 			batch_x.clear();
 			batch_y.clear();
 		}
+
+		auto end = sc.now();
+		auto time_span = static_cast<std::chrono::duration<double>>(end - start);
+		cout<<"Time taken for this epoch: "<< time_span.count()<<endl;;
 		cout<<"testLoss: "<<0.5*totalLoss/(batch_num*batch_size)<<endl;
 		totalLoss = 0;
 	}
@@ -528,7 +535,7 @@ int Pure::predict(std::vector<float> x){
 
 	float max = tmpOut[num_hidLayer][0];
 	for(int i=1;i<10;i++){
-		if(max > tmpOut[num_hidLayer][i]){
+		if(max < tmpOut[num_hidLayer][i]){
 			max = tmpOut[num_hidLayer][i];
 			result = i;
 		}
@@ -559,4 +566,139 @@ void Pure::out(float *x,int x_rows, int x_columns){
 		out << endl;
 	}
 	out.close();
+}
+
+void Pure::storeWeight(){
+	ofstream out;
+	out.open("matrix_data.txt", ios::out | ios::app);
+
+	for(int k=0;k<num_hidLayer+1;k++){
+		out <<total_neurons[k] * total_neurons[k+1]<<" ";
+		for (int i = 0; i < total_neurons[k]*total_neurons[k+1]; i++){
+			out <<hidWeight[k][i] << " ";
+		}
+		out << endl;
+	}
+	out.close();
+	storeBias();
+}
+
+void Pure::storeBias(){
+	ofstream out;
+	out.open("bias.txt", ios::out | ios::app);
+
+	for(int k=0;k<num_hidLayer+1;k++){
+		out <<total_neurons[k+1]<<" ";
+		for (int i = 0; i < total_neurons[k+1]; i++){
+			out <<bias[k][i] << " ";
+		}
+		out << endl;
+	}
+	out.close();
+}
+void Pure::loadWeight(){
+
+	ifstream myfile("input_matrix_data.txt");
+	vector<vector<float>>load;
+
+
+	if (myfile.is_open())
+	{
+		cout << "Loading weight...\n";
+		string line;
+		while (getline(myfile, line))
+		{
+			int y;
+			float x;
+			vector<float> X;
+			stringstream ss(line);
+			ss >> y;
+
+			for (int i = 0; i < y; i++) {
+				ss >> x;
+				X.push_back(x);
+			}
+
+			//if(y!=3){
+			load.push_back(X);
+			//}
+		}
+
+		myfile.close();
+		cout << "Loading weight finished.\n";
+	}
+	else
+		cout << "Unable to open file" << '\n';
+
+	//cout<<"loadedWeight: "<<endl;
+
+	for(int i=0;i<load.size();i++){
+		for(int j=0;j<load[i].size();j++){
+			hidWeight[i][j] = load[i][j];
+		}
+	}
+	loadBias();
+	/*
+
+	   for(int i=0;i<load.size();i++){
+	   for(int j=0;j<load[i].size();j++){
+	   cout<<bias[i][j]<<" ";
+	   }
+	   cout<<endl;
+	   }
+	 */
+
+}
+
+void Pure::loadBias(){
+
+	ifstream myfile("input_bias.txt");
+	vector<vector<float>>load;
+
+
+	if (myfile.is_open())
+	{
+		cout << "Loading bias...\n";
+		string line;
+		while (getline(myfile, line))
+		{
+			int y;
+			float x;
+			vector<float> X;
+			stringstream ss(line);
+			ss >> y;
+
+			for (int i = 0; i < y; i++) {
+				ss >> x;
+				X.push_back(x);
+			}
+
+			//if(y!=3){
+			load.push_back(X);
+			//}
+		}
+
+		myfile.close();
+		cout << "Loading bias finished.\n";
+	}
+	else
+		cout << "Unable to open file" << '\n';
+
+	//cout<<"loadedWeight: "<<endl;
+
+	for(int i=0;i<load.size();i++){
+		for(int j=0;j<load[i].size();j++){
+			bias[i][j] = load[i][j];
+		}
+	}
+	/*
+
+	   for(int i=0;i<load.size();i++){
+	   for(int j=0;j<load[i].size();j++){
+	   cout<<bias[i][j]<<" ";
+	   }
+	   cout<<endl;
+	   }
+	 */
+
 }
