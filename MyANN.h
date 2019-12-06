@@ -30,6 +30,7 @@ class MyANN
 
 
 public:
+
 	MyANN(float, int, int,int*,int,int,float);
 	float sigmoid(float);
 	float Relu(float);
@@ -49,7 +50,8 @@ public:
 
 	void storeWeight();
 	void loadWeight();
-
+	void storeBias();
+	void loadBias();
 
 
 

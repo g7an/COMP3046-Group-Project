@@ -12,22 +12,21 @@
 #include<time.h>
 #include <math.h> 
 #include <sstream>
-#include <omp.h>
-using namespace std;
 using namespace std;
 
 int main()                                                
 {
 	int layerSize [] ={28*28,50,10};                                                  
+	MyANN annModel(0.01, 300, 64, layerSize, sizeof(layerSize)/sizeof(int),140,1);
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 	vector< vector<float> > X_test;
 	vector<float> y_test;
-	bool train = true;
+	bool train = false;
 
 	if(train){
 		// ifstream myfile("data/train.txt");
-		ifstream myfile("data/train_small.txt");
+		ifstream myfile("data/train.txt");
 
 		if (myfile.is_open())
 		{
@@ -85,7 +84,6 @@ int main()
 	else
 		cout << "Unable to open file" << '\n';
 
-	MyANN annModel(0.01, 300, 64, layerSize, sizeof(layerSize)/sizeof(int),140,1);
 
 	if(train){
 		annModel.train(X_train, y_train, X_test, y_test);	

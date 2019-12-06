@@ -18,6 +18,7 @@
 #include <omp.h>
 #include <random>
 #include <chrono>
+#include <sstream>
 
 using namespace std;
 
@@ -146,7 +147,7 @@ MyANN::MyANN(float lr, int epochs, int batch_size,int* layerSize, int layerSizeL
 		outH[i] = new MyMatrix<float>(total_neurons[i + 1], 1); // REMIND: the outH doesn't include input now!
 	}
 
-//no need to opt this one//
+	//no need to opt this one//
 
 	input = new MyMatrix<float>(784, 1);
 	target = new MyMatrix<float>(10, 1); // ground-truth
@@ -175,7 +176,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 			for (int turn = 0; turn < batch_size; turn++)
 			{
 				if (turn + round * batch_size == in.size()){
-					
+
 					break; //Li: To test whether the index is out of bound
 				}
 
@@ -213,7 +214,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 				} //forward end;
 
 				tmp = matSub(*outH[num_hidLayer], *target); // outH[num_hidLayer] is the output now
-	
+
 				for(int i=0;i<10;i++){
 					testLoss+= tmp->n2Arr[i][0]*tmp->n2Arr[i][0];
 				}
@@ -240,7 +241,7 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 					else
 					{
 						net = outH[i - 1];
-					
+
 					}
 
 					if (i != num_hidLayer)
@@ -266,10 +267,10 @@ void MyANN::train(vector<vector<float> > in, vector<float> t, vector<vector<floa
 					delete tmp;
 				}
 				// first = false;
-				
+
 			}
-			
-		
+
+
 			for (int i = 0; i < num_hidLayer + 1; i++)
 			{
 				delta_w[i]->smul(lr/(float)batch_size ); //refresh weight
@@ -380,12 +381,12 @@ void MyANN::getAcc(vector<vector<float> > data, vector<float> ans){
 
 float MyANN::showAcc(vector<float> pre, vector<float> target){
 	float err = 0;
-    for(int i = 0; i < pre.size(); i++){
-        if(pre[i] != target[i])
-        {
-            err++;
-        }      
-    }
+	for(int i = 0; i < pre.size(); i++){
+		if(pre[i] != target[i])
+		{
+			err++;
+		}      
+	}
 	return 1 - (err/pre.size());
 }
 
@@ -402,11 +403,88 @@ int MyANN::predict(vector<float> in){
 	return tag;
 }
 
+void MyANN::storeBias(){
+/*
+	cout<<"stored bias"<<endl;
+	for(int i=0;i<num_hidLayer+1;i++){
+		for(int j=0;j<total_neurons[i+1];j++){
+			cout<<bias[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+	cout<<endl;
+*/
+
+	ofstream out;
+	out.open("bias.txt", ios::out | ios::app);
+	for(int k=0;k<num_hidLayer+1;k++){
+		out << total_neurons[k+1]<< " ";
+
+		for (int i = 0; i < total_neurons[k+1]; i++){
+			out << bias[k][i]<< " ";
+		}
+		out << endl;
+	}
+	out.close();
+}
+
+void MyANN::loadBias(){
+	ifstream myfile("input_bias.txt");
+	vector<vector<float>>load;
+
+
+	if (myfile.is_open())
+	{
+		cout << "Loading bias...\n";
+		string line;
+		while (getline(myfile, line))
+		{
+			int y;
+			float x;
+			vector<float> X;
+			stringstream ss(line);
+			ss >> y;
+
+			for (int i = 0; i < y; i++) {
+				ss >> x;
+				X.push_back(x);
+			}
+
+			//if(y!=3){
+			load.push_back(X);
+			//}
+		}
+
+		myfile.close();
+		cout << "Loading bias finished.\n";
+	}
+	else
+		cout << "Unable to open file" << '\n';
+
+	//cout<<"loadedWeight: "<<endl;
+
+	for(int i=0;i<load.size();i++){
+		for(int j=0;j<load[i].size();j++){
+			bias[i][j] = load[i][j];
+		}
+	}
+/*
+
+	for(int i=0;i<load.size();i++){
+		for(int j=0;j<load[i].size();j++){
+			cout<<bias[i][j]<<" ";
+		}
+		cout<<endl;
+	}
+*/
+
+}
 
 void MyANN::storeWeight(){
 	for(int i=0;i<num_hidLayer+1;i++){
 		hidWeight[i]->out();
 	}
+	storeBias();
 
 }
 void MyANN::loadWeight(){
@@ -415,4 +493,5 @@ void MyANN::loadWeight(){
 	for (int i = 0; i < load.size(); i++){
 		hidWeight[i]= load[i];
 	}
+	loadBias();
 }

@@ -1,416 +1,1809 @@
-lr: 0.01 epochs: 200 batch_size: 64 layerSizeLen: 3
+lr: 0.01 epochs: 300 batch_size: 64 layerSizeLen: 3
 Loading data ...
 Loading data finished.
-Time for training this epoch: 39.2068
-testLoss: 0.275336
-Time for training this epoch: 39.251
-testLoss: 0.255675
-Time for training this epoch: 39.3086
-testLoss: 0.250999
-Time for training this epoch: 39.1933
-testLoss: 0.249249
-Time for training this epoch: 39.0963
-testLoss: 0.248252
-Time for training this epoch: 39.1249
-testLoss: 0.247492
-Time for training this epoch: 38.9775
-testLoss: 0.246829
-Time for training this epoch: 39.1096
-testLoss: 0.246217
-Time for training this epoch: 39.079
-testLoss: 0.245636
-Time for training this epoch: 39.2375
-testLoss: 0.245084
-Time for training this epoch: 39.0398
-testLoss: 0.244554
-Time for training this epoch: 39.2127
-testLoss: 0.244041
-Time for training this epoch: 39.1957
-testLoss: 0.243544
-Time for training this epoch: 39.1935
-testLoss: 0.243063
-Time for training this epoch: 39.2074
-testLoss: 0.242594
-Time for training this epoch: 39.2179
-testLoss: 0.242137
-Time for training this epoch: 39.0945
-testLoss: 0.241691
-Time for training this epoch: 39.1629
-testLoss: 0.241254
-Time for training this epoch: 39.2495
-testLoss: 0.240826
-Time for training this epoch: 39.1676
-testLoss: 0.240406
-Time for training this epoch: 39.2788
-testLoss: 0.239992
-Time for training this epoch: 39.1562
-testLoss: 0.239587
-Time for training this epoch: 39.235
-testLoss: 0.239188
-Time for training this epoch: 39.144
-testLoss: 0.238795
-Time for training this epoch: 39.1279
-testLoss: 0.238407
-Time for training this epoch: 38.9471
-testLoss: 0.238023
-Time for training this epoch: 39.1095
-testLoss: 0.237645
-Time for training this epoch: 39.0355
-testLoss: 0.237271
-Time for training this epoch: 39.1303
-testLoss: 0.236903
-Time for training this epoch: 39.1552
-testLoss: 0.236536
-Time for training this epoch: 39.065
-testLoss: 0.236175
-Time for training this epoch: 39.0803
-testLoss: 0.235818
-Time for training this epoch: 39.1184
-testLoss: 0.235462
-Time for training this epoch: 39.0563
-testLoss: 0.235111
-Time for training this epoch: 39.0805
-testLoss: 0.234766
-Time for training this epoch: 38.9867
-testLoss: 0.23442
-Time for training this epoch: 38.9899
-testLoss: 0.234079
-Time for training this epoch: 38.9753
-testLoss: 0.23374
-Time for training this epoch: 38.9749
-testLoss: 0.233402
-Time for training this epoch: 39.0165
-testLoss: 0.23307
-Time for training this epoch: 38.9758
-testLoss: 0.232738
-Time for training this epoch: 39.1114
-testLoss: 0.232411
-Time for training this epoch: 39.1549
-testLoss: 0.232084
-Time for training this epoch: 38.9967
-testLoss: 0.231762
-Time for training this epoch: 39.0031
-testLoss: 0.23144
-Time for training this epoch: 39.3737
-testLoss: 0.231121
-Time for training this epoch: 39.3516
-testLoss: 0.230806
-Time for training this epoch: 38.9472
-testLoss: 0.230491
-Time for training this epoch: 39.1001
-testLoss: 0.23018
-Time for training this epoch: 38.9711
-testLoss: 0.229871
-Time for training this epoch: 39.1744
-testLoss: 0.229564
-Time for training this epoch: 38.9953
-testLoss: 0.229257
-Time for training this epoch: 39.1418
-testLoss: 0.228953
-Time for training this epoch: 39.251
-testLoss: 0.228652
-Time for training this epoch: 39.2576
-testLoss: 0.22835
-Time for training this epoch: 39.2168
-testLoss: 0.228051
-Time for training this epoch: 39.2624
-testLoss: 0.227755
-Time for training this epoch: 39.1608
-testLoss: 0.227461
-Time for training this epoch: 39.1197
-testLoss: 0.227165
-Time for training this epoch: 39.052
-testLoss: 0.226874
-Time for training this epoch: 39.0188
-testLoss: 0.226583
-Time for training this epoch: 39.171
-testLoss: 0.226295
-Time for training this epoch: 39.0168
-testLoss: 0.226009
-Time for training this epoch: 39.0591
-testLoss: 0.225724
-Time for training this epoch: 39.0532
-testLoss: 0.22544
-Time for training this epoch: 39.2187
-testLoss: 0.225158
-Time for training this epoch: 38.138
-testLoss: 0.224879
-Time for training this epoch: 37.8533
-testLoss: 0.224598
-Time for training this epoch: 37.7783
-testLoss: 0.224321
-Time for training this epoch: 38.7296
-testLoss: 0.224045
-Time for training this epoch: 38.9198
-testLoss: 0.223769
-Time for training this epoch: 38.9065
-testLoss: 0.223496
-Time for training this epoch: 39.0918
-testLoss: 0.223224
-Time for training this epoch: 39.0278
-testLoss: 0.222954
-Time for training this epoch: 38.9735
-testLoss: 0.222685
-Time for training this epoch: 38.9875
-testLoss: 0.222416
-Time for training this epoch: 38.9562
-testLoss: 0.22215
-Time for training this epoch: 38.9719
-testLoss: 0.221883
-Time for training this epoch: 38.9429
-testLoss: 0.221619
-Time for training this epoch: 38.9448
-testLoss: 0.221357
-Time for training this epoch: 39.0038
-testLoss: 0.221094
-Time for training this epoch: 39.0635
-testLoss: 0.220834
-Time for training this epoch: 38.9544
-testLoss: 0.220574
-Time for training this epoch: 38.9164
-testLoss: 0.220317
-Time for training this epoch: 38.9569
-testLoss: 0.22006
-Time for training this epoch: 39.0138
-testLoss: 0.219805
-Time for training this epoch: 39.0137
-testLoss: 0.219551
-Time for training this epoch: 38.9668
-testLoss: 0.219297
-Time for training this epoch: 39.0007
-testLoss: 0.219046
-Time for training this epoch: 39.0847
-testLoss: 0.218794
-Time for training this epoch: 39.0779
-testLoss: 0.218546
-Time for training this epoch: 39.0793
-testLoss: 0.218297
-Time for training this epoch: 38.9998
-testLoss: 0.218049
-Time for training this epoch: 39.1007
-testLoss: 0.217804
-Time for training this epoch: 38.9054
-testLoss: 0.217559
-Time for training this epoch: 38.9795
-testLoss: 0.217314
-Time for training this epoch: 39.0209
-testLoss: 0.217069
-Time for training this epoch: 39.0437
-testLoss: 0.216828
-Time for training this epoch: 39.0075
-testLoss: 0.216587
-Time for training this epoch: 38.9499
-testLoss: 0.216346
-Time for training this epoch: 39.039
-testLoss: 0.216107
-Time for training this epoch: 39.1253
-testLoss: 0.215869
-Time for training this epoch: 39.0601
-testLoss: 0.215633
-Time for training this epoch: 39.0822
-testLoss: 0.215397
-Time for training this epoch: 39.1319
-testLoss: 0.215161
-Time for training this epoch: 39.0284
-testLoss: 0.214928
-Time for training this epoch: 39.0235
-testLoss: 0.214695
-Time for training this epoch: 39.0025
-testLoss: 0.214462
-Time for training this epoch: 38.8899
-testLoss: 0.214233
-Time for training this epoch: 38.944
-testLoss: 0.214003
-Time for training this epoch: 38.9362
-testLoss: 0.213772
-Time for training this epoch: 39.0034
-testLoss: 0.213545
-Time for training this epoch: 39.0895
-testLoss: 0.213317
-Time for training this epoch: 39.0345
-testLoss: 0.213091
-Time for training this epoch: 39.1381
-testLoss: 0.212866
-Time for training this epoch: 39.2136
-testLoss: 0.21264
-Time for training this epoch: 39.0086
-testLoss: 0.212417
-Time for training this epoch: 38.9997
-testLoss: 0.212193
-Time for training this epoch: 39.0493
-testLoss: 0.211972
-Time for training this epoch: 39.0184
-testLoss: 0.211751
-Time for training this epoch: 39.0747
-testLoss: 0.211531
-Time for training this epoch: 38.9793
-testLoss: 0.211311
-Time for training this epoch: 39.0185
-testLoss: 0.211092
-Time for training this epoch: 38.9977
-testLoss: 0.210875
-Time for training this epoch: 38.943
-testLoss: 0.210657
-Time for training this epoch: 38.9391
-testLoss: 0.210443
-Time for training this epoch: 38.9384
-testLoss: 0.210227
-Time for training this epoch: 38.9186
-testLoss: 0.210013
-Time for training this epoch: 38.916
-testLoss: 0.209799
-Time for training this epoch: 38.9745
-testLoss: 0.209586
-Time for training this epoch: 39.0314
-testLoss: 0.209374
-Time for training this epoch: 38.9099
-testLoss: 0.209163
-Time for training this epoch: 39.0171
-testLoss: 0.208954
-Time for training this epoch: 38.9499
-testLoss: 0.208743
-Time for training this epoch: 39.0671
-testLoss: 0.208535
-Time for training this epoch: 38.9614
-testLoss: 0.208326
-Time for training this epoch: 38.9757
-testLoss: 0.208118
-Time for training this epoch: 38.9448
-testLoss: 0.207913
-Time for training this epoch: 38.9526
-testLoss: 0.207707
-Time for training this epoch: 39.0128
-testLoss: 0.207504
+Loading data ...
+Loading data finished.
+
+Epoch 1/300
+--------------
+Train loss: 1.82929
+Val loss: 0.50658	Acc: 0.1245
+Time for training this epoch: 43.3838s
+
+Epoch 2/300
+--------------
+Train loss: 1.00821
+Val loss: 0.47655	Acc: 0.152
+Time for training this epoch: 43.4024s
+
+Epoch 3/300
+--------------
+Train loss: 0.976886
+Val loss: 0.467131	Acc: 0.1795
+Time for training this epoch: 43.3645s
+
+Epoch 4/300
+--------------
+Train loss: 0.96058
+Val loss: 0.459841	Acc: 0.204
+Time for training this epoch: 43.556s
+
+Epoch 5/300
+--------------
+Train loss: 0.945391
+Val loss: 0.452361	Acc: 0.233
+Time for training this epoch: 43.4497s
+
+Epoch 6/300
+--------------
+Train loss: 0.928921
+Val loss: 0.444253	Acc: 0.2585
+Time for training this epoch: 43.3771s
+
+Epoch 7/300
+--------------
+Train loss: 0.910928
+Val loss: 0.435751	Acc: 0.289
+Time for training this epoch: 43.4278s
+
+Epoch 8/300
+--------------
+Train loss: 0.89222
+Val loss: 0.427285	Acc: 0.3065
+Time for training this epoch: 43.3983s
+
+Epoch 9/300
+--------------
+Train loss: 0.873753
+Val loss: 0.41918	Acc: 0.3255
+Time for training this epoch: 43.5137s
+
+Epoch 10/300
+--------------
+Train loss: 0.856202
+Val loss: 0.411601	Acc: 0.3405
+Time for training this epoch: 43.4236s
+
+Epoch 11/300
+--------------
+Train loss: 0.839834
+Val loss: 0.404602	Acc: 0.3585
+Time for training this epoch: 43.5249s
+
+Epoch 12/300
+--------------
+Train loss: 0.824708
+Val loss: 0.398165	Acc: 0.369
+Time for training this epoch: 43.366s
+
+Epoch 13/300
+--------------
+Train loss: 0.810735
+Val loss: 0.392234	Acc: 0.377
+Time for training this epoch: 43.5197s
+
+Epoch 14/300
+--------------
+Train loss: 0.797808
+Val loss: 0.386738	Acc: 0.3835
+Time for training this epoch: 43.4148s
+
+Epoch 15/300
+--------------
+Train loss: 0.785743
+Val loss: 0.381601	Acc: 0.3935
+Time for training this epoch: 43.4046s
+
+Epoch 16/300
+--------------
+Train loss: 0.7744
+Val loss: 0.37675	Acc: 0.404
+Time for training this epoch: 43.4245s
+
+Epoch 17/300
+--------------
+Train loss: 0.763585
+Val loss: 0.372111	Acc: 0.4085
+Time for training this epoch: 43.5147s
+
+Epoch 18/300
+--------------
+Train loss: 0.753193
+Val loss: 0.367617	Acc: 0.416
+Time for training this epoch: 43.4287s
+
+Epoch 19/300
+--------------
+Train loss: 0.743041
+Val loss: 0.363198	Acc: 0.427
+Time for training this epoch: 43.4078s
+
+Epoch 20/300
+--------------
+Train loss: 0.732995
+Val loss: 0.35879	Acc: 0.436
+Time for training this epoch: 43.4886s
+
+Epoch 21/300
+--------------
+Train loss: 0.722945
+Val loss: 0.354333	Acc: 0.447
+Time for training this epoch: 43.495s
+
+Epoch 22/300
+--------------
+Train loss: 0.712773
+Val loss: 0.349788	Acc: 0.458
+Time for training this epoch: 43.4477s
+
+Epoch 23/300
+--------------
+Train loss: 0.702454
+Val loss: 0.345139	Acc: 0.473
+Time for training this epoch: 43.5641s
+
+Epoch 24/300
+--------------
+Train loss: 0.69202
+Val loss: 0.34041	Acc: 0.482
+Time for training this epoch: 43.4354s
+
+Epoch 25/300
+--------------
+Train loss: 0.68156
+Val loss: 0.335652	Acc: 0.489
+Time for training this epoch: 43.5144s
+
+Epoch 26/300
+--------------
+Train loss: 0.67119
+Val loss: 0.330926	Acc: 0.5
+Time for training this epoch: 43.4968s
+
+Epoch 27/300
+--------------
+Train loss: 0.661029
+Val loss: 0.326281	Acc: 0.511
+Time for training this epoch: 43.5613s
+
+Epoch 28/300
+--------------
+Train loss: 0.651147
+Val loss: 0.321743	Acc: 0.517
+Time for training this epoch: 43.4414s
+
+Epoch 29/300
+--------------
+Train loss: 0.641562
+Val loss: 0.317309	Acc: 0.5255
+Time for training this epoch: 43.4715s
+
+Epoch 30/300
+--------------
+Train loss: 0.632245
+Val loss: 0.312951	Acc: 0.534
+Time for training this epoch: 42.2393s
+
+Epoch 31/300
+--------------
+Train loss: 0.623121
+Val loss: 0.308625	Acc: 0.5455
+Time for training this epoch: 41.9387s
+
+Epoch 32/300
+--------------
+Train loss: 0.614108
+Val loss: 0.304282	Acc: 0.558
+Time for training this epoch: 42.1528s
+
+Epoch 33/300
+--------------
+Train loss: 0.605095
+Val loss: 0.299889	Acc: 0.573
+Time for training this epoch: 42.1136s
+
+Epoch 34/300
+--------------
+Train loss: 0.596081
+Val loss: 0.295453	Acc: 0.5855
+Time for training this epoch: 42.2525s
+
+Epoch 35/300
+--------------
+Train loss: 0.587079
+Val loss: 0.291019	Acc: 0.596
+Time for training this epoch: 41.901s
+
+Epoch 36/300
+--------------
+Train loss: 0.578172
+Val loss: 0.286651	Acc: 0.604
+Time for training this epoch: 41.976s
+
+Epoch 37/300
+--------------
+Train loss: 0.569473
+Val loss: 0.282406	Acc: 0.6135
+Time for training this epoch: 41.975s
+
+Epoch 38/300
+--------------
+Train loss: 0.561059
+Val loss: 0.278326	Acc: 0.62
+Time for training this epoch: 41.9519s
+
+Epoch 39/300
+--------------
+Train loss: 0.553007
+Val loss: 0.274436	Acc: 0.627
+Time for training this epoch: 41.8245s
+
+Epoch 40/300
+--------------
+Train loss: 0.545345
+Val loss: 0.270749	Acc: 0.6355
+Time for training this epoch: 43.5435s
+
+Epoch 41/300
+--------------
+Train loss: 0.538108
+Val loss: 0.267267	Acc: 0.643
+Time for training this epoch: 43.4555s
+
+Epoch 42/300
+--------------
+Train loss: 0.531268
+Val loss: 0.263984	Acc: 0.647
+Time for training this epoch: 43.478s
+
+Epoch 43/300
+--------------
+Train loss: 0.524803
+Val loss: 0.260888	Acc: 0.65
+Time for training this epoch: 43.4707s
+
+Epoch 44/300
+--------------
+Train loss: 0.518693
+Val loss: 0.257965	Acc: 0.654
+Time for training this epoch: 43.5478s
+
+Epoch 45/300
+--------------
+Train loss: 0.512909
+Val loss: 0.255201	Acc: 0.6595
+Time for training this epoch: 43.5156s
+
+Epoch 46/300
+--------------
+Train loss: 0.507425
+Val loss: 0.252579	Acc: 0.6625
+Time for training this epoch: 43.6386s
+
+Epoch 47/300
+--------------
+Train loss: 0.502209
+Val loss: 0.250085	Acc: 0.6655
+Time for training this epoch: 43.5226s
+
+Epoch 48/300
+--------------
+Train loss: 0.497238
+Val loss: 0.247707	Acc: 0.6705
+Time for training this epoch: 43.6381s
+
+Epoch 49/300
+--------------
+Train loss: 0.492489
+Val loss: 0.245431	Acc: 0.675
+Time for training this epoch: 43.4804s
+
+Epoch 50/300
+--------------
+Train loss: 0.487937
+Val loss: 0.243247	Acc: 0.677
+Time for training this epoch: 43.559s
+
+Epoch 51/300
+--------------
+Train loss: 0.483566
+Val loss: 0.241146	Acc: 0.6795
+Time for training this epoch: 43.705s
+
+Epoch 52/300
+--------------
+Train loss: 0.47936
+Val loss: 0.239118	Acc: 0.6835
+Time for training this epoch: 43.586s
+
+Epoch 53/300
+--------------
+Train loss: 0.475302
+Val loss: 0.237154	Acc: 0.6855
+Time for training this epoch: 43.4795s
+
+Epoch 54/300
+--------------
+Train loss: 0.47136
+Val loss: 0.235247	Acc: 0.691
+Time for training this epoch: 43.4551s
+
+Epoch 55/300
+--------------
+Train loss: 0.467545
+Val loss: 0.23339	Acc: 0.692
+Time for training this epoch: 43.3875s
+
+Epoch 56/300
+--------------
+Train loss: 0.463838
+Val loss: 0.231575	Acc: 0.695
+Time for training this epoch: 43.4549s
+
+Epoch 57/300
+--------------
+Train loss: 0.460218
+Val loss: 0.229793	Acc: 0.6965
+Time for training this epoch: 43.4066s
+
+Epoch 58/300
+--------------
+Train loss: 0.456671
+Val loss: 0.228037	Acc: 0.701
+Time for training this epoch: 43.4342s
+
+Epoch 59/300
+--------------
+Train loss: 0.453188
+Val loss: 0.226298	Acc: 0.703
+Time for training this epoch: 43.4768s
+
+Epoch 60/300
+--------------
+Train loss: 0.449746
+Val loss: 0.224568	Acc: 0.705
+Time for training this epoch: 43.5201s
+
+Epoch 61/300
+--------------
+Train loss: 0.446337
+Val loss: 0.222835	Acc: 0.708
+Time for training this epoch: 43.5251s
+
+Epoch 62/300
+--------------
+Train loss: 0.442941
+Val loss: 0.22109	Acc: 0.7085
+Time for training this epoch: 43.5761s
+
+Epoch 63/300
+--------------
+Train loss: 0.439533
+Val loss: 0.219321	Acc: 0.714
+Time for training this epoch: 43.4207s
+
+Epoch 64/300
+--------------
+Train loss: 0.436107
+Val loss: 0.217515	Acc: 0.7175
+Time for training this epoch: 43.5346s
+
+Epoch 65/300
+--------------
+Train loss: 0.432623
+Val loss: 0.215662	Acc: 0.719
+Time for training this epoch: 43.4911s
+
+Epoch 66/300
+--------------
+Train loss: 0.429075
+Val loss: 0.213751	Acc: 0.721
+Time for training this epoch: 43.3919s
+
+Epoch 67/300
+--------------
+Train loss: 0.425438
+Val loss: 0.211774	Acc: 0.7235
+Time for training this epoch: 43.4377s
+
+Epoch 68/300
+--------------
+Train loss: 0.421686
+Val loss: 0.209727	Acc: 0.729
+Time for training this epoch: 43.4274s
+
+Epoch 69/300
+--------------
+Train loss: 0.417833
+Val loss: 0.20761	Acc: 0.734
+Time for training this epoch: 43.4111s
+
+Epoch 70/300
+--------------
+Train loss: 0.413865
+Val loss: 0.205427	Acc: 0.74
+Time for training this epoch: 43.4666s
+
+Epoch 71/300
+--------------
+Train loss: 0.409791
+Val loss: 0.203189	Acc: 0.745
+Time for training this epoch: 43.4205s
+
+Epoch 72/300
+--------------
+Train loss: 0.405637
+Val loss: 0.200912	Acc: 0.7495
+Time for training this epoch: 43.4315s
+
+Epoch 73/300
+--------------
+Train loss: 0.401422
+Val loss: 0.198614	Acc: 0.752
+Time for training this epoch: 43.48s
+
+Epoch 74/300
+--------------
+Train loss: 0.397185
+Val loss: 0.196314	Acc: 0.7565
+Time for training this epoch: 43.5689s
+
+Epoch 75/300
+--------------
+Train loss: 0.392963
+Val loss: 0.194034	Acc: 0.7605
+Time for training this epoch: 43.5537s
+
+Epoch 76/300
+--------------
+Train loss: 0.388787
+Val loss: 0.191792	Acc: 0.766
+Time for training this epoch: 43.4853s
+
+Epoch 77/300
+--------------
+Train loss: 0.384686
+Val loss: 0.189603	Acc: 0.7695
+Time for training this epoch: 43.553s
+
+Epoch 78/300
+--------------
+Train loss: 0.38069
+Val loss: 0.187481	Acc: 0.7745
+Time for training this epoch: 43.4068s
+
+Epoch 79/300
+--------------
+Train loss: 0.376818
+Val loss: 0.185436	Acc: 0.778
+Time for training this epoch: 43.4415s
+
+Epoch 80/300
+--------------
+Train loss: 0.373074
+Val loss: 0.183471	Acc: 0.7825
+Time for training this epoch: 43.4834s
+
+Epoch 81/300
+--------------
+Train loss: 0.369465
+Val loss: 0.181591	Acc: 0.7845
+Time for training this epoch: 43.4717s
+
+Epoch 82/300
+--------------
+Train loss: 0.366
+Val loss: 0.179793	Acc: 0.7885
+Time for training this epoch: 43.5179s
+
+Epoch 83/300
+--------------
+Train loss: 0.362674
+Val loss: 0.178077	Acc: 0.793
+Time for training this epoch: 43.4532s
+
+Epoch 84/300
+--------------
+Train loss: 0.359494
+Val loss: 0.176438	Acc: 0.7955
+Time for training this epoch: 43.5634s
+
+Epoch 85/300
+--------------
+Train loss: 0.356439
+Val loss: 0.174873	Acc: 0.799
+Time for training this epoch: 43.557s
+
+Epoch 86/300
+--------------
+Train loss: 0.353512
+Val loss: 0.173376	Acc: 0.801
+Time for training this epoch: 43.489s
+
+Epoch 87/300
+--------------
+Train loss: 0.350701
+Val loss: 0.171943	Acc: 0.8045
+Time for training this epoch: 43.5268s
+
+Epoch 88/300
+--------------
+Train loss: 0.347997
+Val loss: 0.17057	Acc: 0.807
+Time for training this epoch: 43.5092s
+
+Epoch 89/300
+--------------
+Train loss: 0.345398
+Val loss: 0.169252	Acc: 0.809
+Time for training this epoch: 43.5821s
+
+Epoch 90/300
+--------------
+Train loss: 0.342899
+Val loss: 0.167985	Acc: 0.8105
+Time for training this epoch: 43.515s
+
+Epoch 91/300
+--------------
+Train loss: 0.340484
+Val loss: 0.166765	Acc: 0.8125
+Time for training this epoch: 43.6136s
+
+Epoch 92/300
+--------------
+Train loss: 0.338147
+Val loss: 0.165589	Acc: 0.8145
+Time for training this epoch: 43.5105s
+
+Epoch 93/300
+--------------
+Train loss: 0.335896
+Val loss: 0.164454	Acc: 0.816
+Time for training this epoch: 43.511s
+
+Epoch 94/300
+--------------
+Train loss: 0.333714
+Val loss: 0.163356	Acc: 0.818
+Time for training this epoch: 43.5074s
+
+Epoch 95/300
+--------------
+Train loss: 0.3316
+Val loss: 0.162293	Acc: 0.819
+Time for training this epoch: 43.5029s
+
+Epoch 96/300
+--------------
+Train loss: 0.329552
+Val loss: 0.161263	Acc: 0.8205
+Time for training this epoch: 43.524s
+
+Epoch 97/300
+--------------
+Train loss: 0.327557
+Val loss: 0.160264	Acc: 0.821
+Time for training this epoch: 43.4709s
+
+Epoch 98/300
+--------------
+Train loss: 0.325621
+Val loss: 0.159294	Acc: 0.823
+Time for training this epoch: 43.5631s
+
+Epoch 99/300
+--------------
+Train loss: 0.32374
+Val loss: 0.15835	Acc: 0.8235
+Time for training this epoch: 43.4511s
+
+Epoch 100/300
+--------------
+Train loss: 0.321906
+Val loss: 0.157432	Acc: 0.8235
+Time for training this epoch: 43.6429s
+
+Epoch 101/300
+--------------
+Train loss: 0.320121
+Val loss: 0.156539	Acc: 0.826
+Time for training this epoch: 43.6542s
+
+Epoch 102/300
+--------------
+Train loss: 0.318375
+Val loss: 0.155667	Acc: 0.827
+Time for training this epoch: 43.4596s
+
+Epoch 103/300
+--------------
+Train loss: 0.316673
+Val loss: 0.154817	Acc: 0.828
+Time for training this epoch: 43.3315s
+
+Epoch 104/300
+--------------
+Train loss: 0.315012
+Val loss: 0.153988	Acc: 0.8305
+Time for training this epoch: 43.4092s
+
+Epoch 105/300
+--------------
+Train loss: 0.313385
+Val loss: 0.153177	Acc: 0.8315
+Time for training this epoch: 43.4423s
+
+Epoch 106/300
+--------------
+Train loss: 0.311792
+Val loss: 0.152386	Acc: 0.8335
+Time for training this epoch: 43.5377s
+
+Epoch 107/300
+--------------
+Train loss: 0.310236
+Val loss: 0.151611	Acc: 0.834
+Time for training this epoch: 43.533s
+
+Epoch 108/300
+--------------
+Train loss: 0.308713
+Val loss: 0.150854	Acc: 0.836
+Time for training this epoch: 43.4562s
+
+Epoch 109/300
+--------------
+Train loss: 0.30722
+Val loss: 0.150112	Acc: 0.8365
+Time for training this epoch: 43.466s
+
+Epoch 110/300
+--------------
+Train loss: 0.305759
+Val loss: 0.149386	Acc: 0.8385
+Time for training this epoch: 43.5134s
+
+Epoch 111/300
+--------------
+Train loss: 0.304324
+Val loss: 0.148675	Acc: 0.8385
+Time for training this epoch: 43.4753s
+
+Epoch 112/300
+--------------
+Train loss: 0.302916
+Val loss: 0.147977	Acc: 0.84
+Time for training this epoch: 43.5117s
+
+Epoch 113/300
+--------------
+Train loss: 0.301534
+Val loss: 0.147293	Acc: 0.8415
+Time for training this epoch: 43.4823s
+
+Epoch 114/300
+--------------
+Train loss: 0.300183
+Val loss: 0.146622	Acc: 0.843
+Time for training this epoch: 43.4657s
+
+Epoch 115/300
+--------------
+Train loss: 0.298846
+Val loss: 0.145964	Acc: 0.8445
+Time for training this epoch: 43.5703s
+
+Epoch 116/300
+--------------
+Train loss: 0.29754
+Val loss: 0.145317	Acc: 0.8455
+Time for training this epoch: 43.5297s
+
+Epoch 117/300
+--------------
+Train loss: 0.296255
+Val loss: 0.144683	Acc: 0.8455
+Time for training this epoch: 43.525s
+
+Epoch 118/300
+--------------
+Train loss: 0.294993
+Val loss: 0.144059	Acc: 0.846
+Time for training this epoch: 43.5781s
+
+Epoch 119/300
+--------------
+Train loss: 0.293751
+Val loss: 0.143447	Acc: 0.846
+Time for training this epoch: 43.4162s
+
+Epoch 120/300
+--------------
+Train loss: 0.292528
+Val loss: 0.142845	Acc: 0.847
+Time for training this epoch: 43.5231s
+
+Epoch 121/300
+--------------
+Train loss: 0.291325
+Val loss: 0.142253	Acc: 0.8475
+Time for training this epoch: 43.5577s
+
+Epoch 122/300
+--------------
+Train loss: 0.290144
+Val loss: 0.141671	Acc: 0.8485
+Time for training this epoch: 43.533s
+
+Epoch 123/300
+--------------
+Train loss: 0.288979
+Val loss: 0.141098	Acc: 0.849
+Time for training this epoch: 43.5583s
+
+Epoch 124/300
+--------------
+Train loss: 0.287829
+Val loss: 0.140535	Acc: 0.8495
+Time for training this epoch: 43.5298s
+
+Epoch 125/300
+--------------
+Train loss: 0.286701
+Val loss: 0.13998	Acc: 0.8505
+Time for training this epoch: 43.6636s
+
+Epoch 126/300
+--------------
+Train loss: 0.285588
+Val loss: 0.139435	Acc: 0.8505
+Time for training this epoch: 43.5264s
+
+Epoch 127/300
+--------------
+Train loss: 0.284493
+Val loss: 0.138898	Acc: 0.8505
+Time for training this epoch: 43.6019s
+
+Epoch 128/300
+--------------
+Train loss: 0.283414
+Val loss: 0.138369	Acc: 0.8515
+Time for training this epoch: 43.5615s
+
+Epoch 129/300
+--------------
+Train loss: 0.282351
+Val loss: 0.137848	Acc: 0.8525
+Time for training this epoch: 43.4908s
+
+Epoch 130/300
+--------------
+Train loss: 0.281302
+Val loss: 0.137335	Acc: 0.852
+Time for training this epoch: 43.575s
+
+Epoch 131/300
+--------------
+Train loss: 0.280266
+Val loss: 0.136829	Acc: 0.853
+Time for training this epoch: 43.5686s
+
+Epoch 132/300
+--------------
+Train loss: 0.279247
+Val loss: 0.136331	Acc: 0.854
+Time for training this epoch: 43.4249s
+
+Epoch 133/300
+--------------
+Train loss: 0.278241
+Val loss: 0.13584	Acc: 0.8545
+Time for training this epoch: 43.3544s
+
+Epoch 134/300
+--------------
+Train loss: 0.277247
+Val loss: 0.135356	Acc: 0.8555
+Time for training this epoch: 43.3234s
+
+Epoch 135/300
+--------------
+Train loss: 0.276265
+Val loss: 0.134878	Acc: 0.857
+Time for training this epoch: 43.4379s
+
+Epoch 136/300
+--------------
+Train loss: 0.275301
+Val loss: 0.134408	Acc: 0.857
+Time for training this epoch: 43.4811s
+
+Epoch 137/300
+--------------
+Train loss: 0.274349
+Val loss: 0.133944	Acc: 0.857
+Time for training this epoch: 43.3638s
+
+Epoch 138/300
+--------------
+Train loss: 0.273404
+Val loss: 0.133486	Acc: 0.8575
+Time for training this epoch: 43.6586s
+
+Epoch 139/300
+--------------
+Train loss: 0.272474
+Val loss: 0.133034	Acc: 0.859
+Time for training this epoch: 43.553s
+
+Epoch 140/300
+--------------
+Train loss: 0.271558
+Val loss: 0.132588	Acc: 0.859
+Time for training this epoch: 43.451s
 decay
-Time for training this epoch: 38.886
-testLoss: 0.2073
-Time for training this epoch: 38.9572
-testLoss: 0.207097
-Time for training this epoch: 38.8881
-testLoss: 0.206894
-Time for training this epoch: 38.957
-testLoss: 0.206694
-Time for training this epoch: 38.9656
-testLoss: 0.206492
-Time for training this epoch: 38.9303
-testLoss: 0.206291
-Time for training this epoch: 38.9337
-testLoss: 0.206092
-Time for training this epoch: 39.1248
-testLoss: 0.205892
-Time for training this epoch: 39.1072
-testLoss: 0.205694
-Time for training this epoch: 39.0211
-testLoss: 0.205496
-Time for training this epoch: 39.1229
-testLoss: 0.205299
-Time for training this epoch: 38.9231
-testLoss: 0.205103
-Time for training this epoch: 38.9466
-testLoss: 0.204908
-Time for training this epoch: 38.9621
-testLoss: 0.204713
-Time for training this epoch: 38.9503
-testLoss: 0.204519
-Time for training this epoch: 38.9478
-testLoss: 0.204326
-Time for training this epoch: 39.0098
-testLoss: 0.204134
-Time for training this epoch: 39.0721
-testLoss: 0.203942
-Time for training this epoch: 39.0115
-testLoss: 0.20375
-Time for training this epoch: 39.132
-testLoss: 0.20356
-Time for training this epoch: 39.0136
-testLoss: 0.203369
-Time for training this epoch: 39.0337
-testLoss: 0.20318
-Time for training this epoch: 39.0635
-testLoss: 0.202992
-Time for training this epoch: 39.1179
-testLoss: 0.202805
-Time for training this epoch: 39.0735
-testLoss: 0.202616
-Time for training this epoch: 39.0266
-testLoss: 0.20243
-Time for training this epoch: 38.9827
-testLoss: 0.202244
-Time for training this epoch: 39.0174
-testLoss: 0.202058
-Time for training this epoch: 38.9574
-testLoss: 0.201873
-Time for training this epoch: 38.9062
-testLoss: 0.201688
-Time for training this epoch: 38.9792
-testLoss: 0.201505
-Time for training this epoch: 39.0451
-testLoss: 0.201322
-Time for training this epoch: 39.0618
-testLoss: 0.201139
-Time for training this epoch: 39.1301
-testLoss: 0.200957
-Time for training this epoch: 39.1212
-testLoss: 0.200775
-Time for training this epoch: 39.09
-testLoss: 0.200595
-Time for training this epoch: 39.0205
-testLoss: 0.200416
-Time for training this epoch: 39.0533
-testLoss: 0.200236
-Time for training this epoch: 39.026
-testLoss: 0.200057
-Time for training this epoch: 39.0393
-testLoss: 0.199879
-Time for training this epoch: 39.0125
-testLoss: 0.1997
-Time for training this epoch: 38.8859
-testLoss: 0.199525
-Time for training this epoch: 38.9747
-testLoss: 0.199347
-Time for training this epoch: 38.944
-testLoss: 0.199172
-Time for training this epoch: 39.0045
-testLoss: 0.198996
-Time for training this epoch: 38.9308
-testLoss: 0.198821
-Time for training this epoch: 38.8971
-testLoss: 0.198648
-Time for training this epoch: 38.8782
-testLoss: 0.198473
-Time for training this epoch: 38.9098
-testLoss: 0.198302
-Time for training this epoch: 38.9324
-testLoss: 0.198128
-Time for training this epoch: 39.0507
-testLoss: 0.197958
-Time for training this epoch: 38.9495
-testLoss: 0.197786
-Time for training this epoch: 38.928
-testLoss: 0.197615
-Time for training this epoch: 38.9549
-testLoss: 0.197445
-Time for training this epoch: 39.0458
-testLoss: 0.197275
-Time for training this epoch: 39.0502
-testLoss: 0.197106
-Time for training this epoch: 39.0759
-testLoss: 0.196936
-Time for training this epoch: 38.8938
-testLoss: 0.196767
-Time for training this epoch: 38.9293
-testLoss: 0.1966
-Time for training this epoch: 38.8841
-testLoss: 0.196433
-Loading data ...
-Loading data finished.
-predict accuracy: 0.841
-predict: 0 real value: 0
-predict: 5 real value: 3
-predict: 1 real value: 1
-predict: 5 real value: 5
-predict: 8 real value: 2
-predict: 4 real value: 4
+
+Epoch 141/300
+--------------
+Train loss: 0.270651
+Val loss: 0.132148	Acc: 0.8595
+Time for training this epoch: 43.5338s
+
+Epoch 142/300
+--------------
+Train loss: 0.269756
+Val loss: 0.131714	Acc: 0.8595
+Time for training this epoch: 43.5766s
+
+Epoch 143/300
+--------------
+Train loss: 0.268871
+Val loss: 0.131286	Acc: 0.86
+Time for training this epoch: 43.5325s
+
+Epoch 144/300
+--------------
+Train loss: 0.267996
+Val loss: 0.130863	Acc: 0.8605
+Time for training this epoch: 43.5472s
+
+Epoch 145/300
+--------------
+Train loss: 0.267135
+Val loss: 0.130445	Acc: 0.8615
+Time for training this epoch: 43.4937s
+
+Epoch 146/300
+--------------
+Train loss: 0.266283
+Val loss: 0.130033	Acc: 0.8615
+Time for training this epoch: 43.5144s
+
+Epoch 147/300
+--------------
+Train loss: 0.265439
+Val loss: 0.129625	Acc: 0.863
+Time for training this epoch: 43.5297s
+
+Epoch 148/300
+--------------
+Train loss: 0.264605
+Val loss: 0.129223	Acc: 0.864
+Time for training this epoch: 43.5678s
+
+Epoch 149/300
+--------------
+Train loss: 0.263784
+Val loss: 0.128826	Acc: 0.8645
+Time for training this epoch: 43.5197s
+
+Epoch 150/300
+--------------
+Train loss: 0.262967
+Val loss: 0.128433	Acc: 0.865
+Time for training this epoch: 43.5375s
+
+Epoch 151/300
+--------------
+Train loss: 0.262162
+Val loss: 0.128045	Acc: 0.866
+Time for training this epoch: 43.5084s
+
+Epoch 152/300
+--------------
+Train loss: 0.261365
+Val loss: 0.127662	Acc: 0.866
+Time for training this epoch: 43.6316s
+
+Epoch 153/300
+--------------
+Train loss: 0.260579
+Val loss: 0.127283	Acc: 0.866
+Time for training this epoch: 43.6051s
+
+Epoch 154/300
+--------------
+Train loss: 0.259802
+Val loss: 0.126909	Acc: 0.8675
+Time for training this epoch: 43.5873s
+
+Epoch 155/300
+--------------
+Train loss: 0.259032
+Val loss: 0.126538	Acc: 0.8675
+Time for training this epoch: 43.6214s
+
+Epoch 156/300
+--------------
+Train loss: 0.25827
+Val loss: 0.126173	Acc: 0.868
+Time for training this epoch: 43.5687s
+
+Epoch 157/300
+--------------
+Train loss: 0.257518
+Val loss: 0.125811	Acc: 0.868
+Time for training this epoch: 43.5628s
+
+Epoch 158/300
+--------------
+Train loss: 0.256775
+Val loss: 0.125453	Acc: 0.868
+Time for training this epoch: 43.4535s
+
+Epoch 159/300
+--------------
+Train loss: 0.256037
+Val loss: 0.125099	Acc: 0.868
+Time for training this epoch: 43.4649s
+
+Epoch 160/300
+--------------
+Train loss: 0.255305
+Val loss: 0.12475	Acc: 0.868
+Time for training this epoch: 43.5378s
+
+Epoch 161/300
+--------------
+Train loss: 0.254586
+Val loss: 0.124403	Acc: 0.8685
+Time for training this epoch: 43.5676s
+
+Epoch 162/300
+--------------
+Train loss: 0.253871
+Val loss: 0.124061	Acc: 0.8685
+Time for training this epoch: 43.5647s
+
+Epoch 163/300
+--------------
+Train loss: 0.253163
+Val loss: 0.123723	Acc: 0.8685
+Time for training this epoch: 43.592s
+
+Epoch 164/300
+--------------
+Train loss: 0.252463
+Val loss: 0.123388	Acc: 0.8695
+Time for training this epoch: 43.6793s
+
+Epoch 165/300
+--------------
+Train loss: 0.251767
+Val loss: 0.123056	Acc: 0.8695
+Time for training this epoch: 43.6417s
+
+Epoch 166/300
+--------------
+Train loss: 0.251084
+Val loss: 0.122728	Acc: 0.8695
+Time for training this epoch: 43.4489s
+
+Epoch 167/300
+--------------
+Train loss: 0.250404
+Val loss: 0.122404	Acc: 0.871
+Time for training this epoch: 43.4949s
+
+Epoch 168/300
+--------------
+Train loss: 0.249732
+Val loss: 0.122083	Acc: 0.871
+Time for training this epoch: 43.6796s
+
+Epoch 169/300
+--------------
+Train loss: 0.249064
+Val loss: 0.121765	Acc: 0.871
+Time for training this epoch: 43.5512s
+
+Epoch 170/300
+--------------
+Train loss: 0.248405
+Val loss: 0.12145	Acc: 0.8715
+Time for training this epoch: 43.6081s
+
+Epoch 171/300
+--------------
+Train loss: 0.247752
+Val loss: 0.121138	Acc: 0.871
+Time for training this epoch: 43.6882s
+
+Epoch 172/300
+--------------
+Train loss: 0.247104
+Val loss: 0.12083	Acc: 0.871
+Time for training this epoch: 43.5661s
+
+Epoch 173/300
+--------------
+Train loss: 0.246463
+Val loss: 0.120524	Acc: 0.8715
+Time for training this epoch: 43.5765s
+
+Epoch 174/300
+--------------
+Train loss: 0.245828
+Val loss: 0.120222	Acc: 0.8715
+Time for training this epoch: 43.686s
+
+Epoch 175/300
+--------------
+Train loss: 0.245199
+Val loss: 0.119923	Acc: 0.8715
+Time for training this epoch: 43.6898s
+
+Epoch 176/300
+--------------
+Train loss: 0.244575
+Val loss: 0.119626	Acc: 0.872
+Time for training this epoch: 43.5533s
+
+Epoch 177/300
+--------------
+Train loss: 0.24396
+Val loss: 0.119332	Acc: 0.872
+Time for training this epoch: 43.5026s
+
+Epoch 178/300
+--------------
+Train loss: 0.243346
+Val loss: 0.119041	Acc: 0.872
+Time for training this epoch: 43.679s
+
+Epoch 179/300
+--------------
+Train loss: 0.24274
+Val loss: 0.118753	Acc: 0.872
+Time for training this epoch: 43.7975s
+
+Epoch 180/300
+--------------
+Train loss: 0.242139
+Val loss: 0.118468	Acc: 0.872
+Time for training this epoch: 43.643s
+
+Epoch 181/300
+--------------
+Train loss: 0.241545
+Val loss: 0.118185	Acc: 0.872
+Time for training this epoch: 43.6289s
+
+Epoch 182/300
+--------------
+Train loss: 0.240956
+Val loss: 0.117905	Acc: 0.8725
+Time for training this epoch: 43.6011s
+
+Epoch 183/300
+--------------
+Train loss: 0.24037
+Val loss: 0.117627	Acc: 0.8725
+Time for training this epoch: 43.5532s
+
+Epoch 184/300
+--------------
+Train loss: 0.239792
+Val loss: 0.117352	Acc: 0.8725
+Time for training this epoch: 43.638s
+
+Epoch 185/300
+--------------
+Train loss: 0.239217
+Val loss: 0.11708	Acc: 0.8725
+Time for training this epoch: 43.5226s
+
+Epoch 186/300
+--------------
+Train loss: 0.238646
+Val loss: 0.11681	Acc: 0.872
+Time for training this epoch: 43.6945s
+
+Epoch 187/300
+--------------
+Train loss: 0.238082
+Val loss: 0.116542	Acc: 0.874
+Time for training this epoch: 43.6722s
+
+Epoch 188/300
+--------------
+Train loss: 0.237523
+Val loss: 0.116277	Acc: 0.874
+Time for training this epoch: 43.5008s
+
+Epoch 189/300
+--------------
+Train loss: 0.236967
+Val loss: 0.116014	Acc: 0.874
+Time for training this epoch: 43.5029s
+
+Epoch 190/300
+--------------
+Train loss: 0.236417
+Val loss: 0.115753	Acc: 0.874
+Time for training this epoch: 43.6479s
+
+Epoch 191/300
+--------------
+Train loss: 0.23587
+Val loss: 0.115494	Acc: 0.8745
+Time for training this epoch: 43.4858s
+
+Epoch 192/300
+--------------
+Train loss: 0.235327
+Val loss: 0.115238	Acc: 0.8745
+Time for training this epoch: 43.5087s
+
+Epoch 193/300
+--------------
+Train loss: 0.234793
+Val loss: 0.114984	Acc: 0.8745
+Time for training this epoch: 43.4936s
+
+Epoch 194/300
+--------------
+Train loss: 0.234261
+Val loss: 0.114732	Acc: 0.8745
+Time for training this epoch: 43.4341s
+
+Epoch 195/300
+--------------
+Train loss: 0.233733
+Val loss: 0.114483	Acc: 0.8745
+Time for training this epoch: 43.3743s
+
+Epoch 196/300
+--------------
+Train loss: 0.233208
+Val loss: 0.114235	Acc: 0.875
+Time for training this epoch: 43.3525s
+
+Epoch 197/300
+--------------
+Train loss: 0.232689
+Val loss: 0.11399	Acc: 0.875
+Time for training this epoch: 43.4977s
+
+Epoch 198/300
+--------------
+Train loss: 0.232174
+Val loss: 0.113746	Acc: 0.875
+Time for training this epoch: 43.4735s
+
+Epoch 199/300
+--------------
+Train loss: 0.231663
+Val loss: 0.113505	Acc: 0.8755
+Time for training this epoch: 43.4919s
+
+Epoch 200/300
+--------------
+Train loss: 0.231156
+Val loss: 0.113265	Acc: 0.8755
+Time for training this epoch: 43.4514s
+
+Epoch 201/300
+--------------
+Train loss: 0.230651
+Val loss: 0.113028	Acc: 0.876
+Time for training this epoch: 43.5634s
+
+Epoch 202/300
+--------------
+Train loss: 0.230152
+Val loss: 0.112792	Acc: 0.8775
+Time for training this epoch: 43.4911s
+
+Epoch 203/300
+--------------
+Train loss: 0.229656
+Val loss: 0.112558	Acc: 0.8775
+Time for training this epoch: 43.4873s
+
+Epoch 204/300
+--------------
+Train loss: 0.229165
+Val loss: 0.112326	Acc: 0.8775
+Time for training this epoch: 43.5452s
+
+Epoch 205/300
+--------------
+Train loss: 0.228678
+Val loss: 0.112096	Acc: 0.8775
+Time for training this epoch: 43.5647s
+
+Epoch 206/300
+--------------
+Train loss: 0.228194
+Val loss: 0.111868	Acc: 0.878
+Time for training this epoch: 43.4744s
+
+Epoch 207/300
+--------------
+Train loss: 0.227712
+Val loss: 0.111642	Acc: 0.878
+Time for training this epoch: 43.5488s
+
+Epoch 208/300
+--------------
+Train loss: 0.227237
+Val loss: 0.111417	Acc: 0.878
+Time for training this epoch: 43.4988s
+
+Epoch 209/300
+--------------
+Train loss: 0.226763
+Val loss: 0.111194	Acc: 0.878
+Time for training this epoch: 43.4414s
+
+Epoch 210/300
+--------------
+Train loss: 0.226293
+Val loss: 0.110973	Acc: 0.878
+Time for training this epoch: 43.5883s
+
+Epoch 211/300
+--------------
+Train loss: 0.225827
+Val loss: 0.110754	Acc: 0.878
+Time for training this epoch: 43.6368s
+
+Epoch 212/300
+--------------
+Train loss: 0.225365
+Val loss: 0.110536	Acc: 0.8785
+Time for training this epoch: 43.5567s
+
+Epoch 213/300
+--------------
+Train loss: 0.224904
+Val loss: 0.11032	Acc: 0.8785
+Time for training this epoch: 43.576s
+
+Epoch 214/300
+--------------
+Train loss: 0.224449
+Val loss: 0.110105	Acc: 0.8785
+Time for training this epoch: 43.6208s
+
+Epoch 215/300
+--------------
+Train loss: 0.223996
+Val loss: 0.109893	Acc: 0.8785
+Time for training this epoch: 43.5074s
+
+Epoch 216/300
+--------------
+Train loss: 0.223547
+Val loss: 0.109681	Acc: 0.8785
+Time for training this epoch: 43.4999s
+
+Epoch 217/300
+--------------
+Train loss: 0.223101
+Val loss: 0.109472	Acc: 0.879
+Time for training this epoch: 43.4955s
+
+Epoch 218/300
+--------------
+Train loss: 0.222659
+Val loss: 0.109264	Acc: 0.8795
+Time for training this epoch: 43.4285s
+
+Epoch 219/300
+--------------
+Train loss: 0.222219
+Val loss: 0.109057	Acc: 0.8795
+Time for training this epoch: 43.4587s
+
+Epoch 220/300
+--------------
+Train loss: 0.221782
+Val loss: 0.108852	Acc: 0.8795
+Time for training this epoch: 43.3909s
+
+Epoch 221/300
+--------------
+Train loss: 0.221347
+Val loss: 0.108649	Acc: 0.879
+Time for training this epoch: 43.4159s
+
+Epoch 222/300
+--------------
+Train loss: 0.220917
+Val loss: 0.108446	Acc: 0.8795
+Time for training this epoch: 43.4953s
+
+Epoch 223/300
+--------------
+Train loss: 0.220489
+Val loss: 0.108246	Acc: 0.8795
+Time for training this epoch: 43.5382s
+
+Epoch 224/300
+--------------
+Train loss: 0.220065
+Val loss: 0.108047	Acc: 0.8795
+Time for training this epoch: 43.4642s
+
+Epoch 225/300
+--------------
+Train loss: 0.219643
+Val loss: 0.107849	Acc: 0.88
+Time for training this epoch: 43.4573s
+
+Epoch 226/300
+--------------
+Train loss: 0.219224
+Val loss: 0.107653	Acc: 0.88
+Time for training this epoch: 43.5056s
+
+Epoch 227/300
+--------------
+Train loss: 0.218807
+Val loss: 0.107458	Acc: 0.88
+Time for training this epoch: 43.5089s
+
+Epoch 228/300
+--------------
+Train loss: 0.218393
+Val loss: 0.107264	Acc: 0.8805
+Time for training this epoch: 43.5465s
+
+Epoch 229/300
+--------------
+Train loss: 0.217982
+Val loss: 0.107072	Acc: 0.8805
+Time for training this epoch: 43.4689s
+
+Epoch 230/300
+--------------
+Train loss: 0.217574
+Val loss: 0.106881	Acc: 0.8805
+Time for training this epoch: 43.5031s
+
+Epoch 231/300
+--------------
+Train loss: 0.217168
+Val loss: 0.106692	Acc: 0.8805
+Time for training this epoch: 43.4404s
+
+Epoch 232/300
+--------------
+Train loss: 0.216766
+Val loss: 0.106503	Acc: 0.882
+Time for training this epoch: 43.3737s
+
+Epoch 233/300
+--------------
+Train loss: 0.216366
+Val loss: 0.106317	Acc: 0.883
+Time for training this epoch: 43.5953s
+
+Epoch 234/300
+--------------
+Train loss: 0.215967
+Val loss: 0.106131	Acc: 0.883
+Time for training this epoch: 43.4464s
+
+Epoch 235/300
+--------------
+Train loss: 0.215574
+Val loss: 0.105947	Acc: 0.883
+Time for training this epoch: 43.4871s
+
+Epoch 236/300
+--------------
+Train loss: 0.215183
+Val loss: 0.105764	Acc: 0.883
+Time for training this epoch: 43.5222s
+
+Epoch 237/300
+--------------
+Train loss: 0.214792
+Val loss: 0.105582	Acc: 0.883
+Time for training this epoch: 43.4902s
+
+Epoch 238/300
+--------------
+Train loss: 0.214407
+Val loss: 0.105401	Acc: 0.8835
+Time for training this epoch: 43.4412s
+
+Epoch 239/300
+--------------
+Train loss: 0.214022
+Val loss: 0.105222	Acc: 0.8845
+Time for training this epoch: 43.5219s
+
+Epoch 240/300
+--------------
+Train loss: 0.213641
+Val loss: 0.105044	Acc: 0.8845
+Time for training this epoch: 43.4679s
+
+Epoch 241/300
+--------------
+Train loss: 0.21326
+Val loss: 0.104867	Acc: 0.8855
+Time for training this epoch: 43.5399s
+
+Epoch 242/300
+--------------
+Train loss: 0.212883
+Val loss: 0.104691	Acc: 0.886
+Time for training this epoch: 43.3643s
+
+Epoch 243/300
+--------------
+Train loss: 0.212509
+Val loss: 0.104516	Acc: 0.8865
+Time for training this epoch: 41.9941s
+
+Epoch 244/300
+--------------
+Train loss: 0.212135
+Val loss: 0.104343	Acc: 0.8865
+Time for training this epoch: 41.9027s
+
+Epoch 245/300
+--------------
+Train loss: 0.211766
+Val loss: 0.104171	Acc: 0.8865
+Time for training this epoch: 41.8413s
+
+Epoch 246/300
+--------------
+Train loss: 0.211399
+Val loss: 0.103999	Acc: 0.8865
+Time for training this epoch: 42.1924s
+
+Epoch 247/300
+--------------
+Train loss: 0.211031
+Val loss: 0.103829	Acc: 0.8865
+Time for training this epoch: 42.3257s
+
+Epoch 248/300
+--------------
+Train loss: 0.210668
+Val loss: 0.10366	Acc: 0.8865
+Time for training this epoch: 42.1645s
+
+Epoch 249/300
+--------------
+Train loss: 0.210307
+Val loss: 0.103492	Acc: 0.8865
+Time for training this epoch: 41.8795s
+
+Epoch 250/300
+--------------
+Train loss: 0.209947
+Val loss: 0.103326	Acc: 0.887
+Time for training this epoch: 41.8029s
+
+Epoch 251/300
+--------------
+Train loss: 0.20959
+Val loss: 0.10316	Acc: 0.887
+Time for training this epoch: 41.9742s
+
+Epoch 252/300
+--------------
+Train loss: 0.209235
+Val loss: 0.102995	Acc: 0.8875
+Time for training this epoch: 42.0387s
+
+Epoch 253/300
+--------------
+Train loss: 0.208882
+Val loss: 0.102832	Acc: 0.8875
+Time for training this epoch: 42.0638s
+
+Epoch 254/300
+--------------
+Train loss: 0.20853
+Val loss: 0.102669	Acc: 0.8875
+Time for training this epoch: 42.0524s
+
+Epoch 255/300
+--------------
+Train loss: 0.208184
+Val loss: 0.102508	Acc: 0.8875
+Time for training this epoch: 42.0622s
+
+Epoch 256/300
+--------------
+Train loss: 0.207838
+Val loss: 0.102347	Acc: 0.8875
+Time for training this epoch: 41.944s
+
+Epoch 257/300
+--------------
+Train loss: 0.207494
+Val loss: 0.102188	Acc: 0.888
+Time for training this epoch: 42.0178s
+
+Epoch 258/300
+--------------
+Train loss: 0.207151
+Val loss: 0.102029	Acc: 0.888
+Time for training this epoch: 42.4069s
+
+Epoch 259/300
+--------------
+Train loss: 0.206809
+Val loss: 0.101872	Acc: 0.888
+Time for training this epoch: 42.2537s
+
+Epoch 260/300
+--------------
+Train loss: 0.206471
+Val loss: 0.101715	Acc: 0.8885
+Time for training this epoch: 42.2575s
+
+Epoch 261/300
+--------------
+Train loss: 0.206134
+Val loss: 0.101559	Acc: 0.8885
+Time for training this epoch: 42.2824s
+
+Epoch 262/300
+--------------
+Train loss: 0.2058
+Val loss: 0.101405	Acc: 0.8885
+Time for training this epoch: 42.1834s
+
+Epoch 263/300
+--------------
+Train loss: 0.205468
+Val loss: 0.101251	Acc: 0.8885
+Time for training this epoch: 42.1911s
+
+Epoch 264/300
+--------------
+Train loss: 0.205138
+Val loss: 0.101099	Acc: 0.8885
+Time for training this epoch: 42.0642s
+
+Epoch 265/300
+--------------
+Train loss: 0.204809
+Val loss: 0.100947	Acc: 0.889
+Time for training this epoch: 42.0864s
+
+Epoch 266/300
+--------------
+Train loss: 0.204484
+Val loss: 0.100796	Acc: 0.889
+Time for training this epoch: 42.0912s
+
+Epoch 267/300
+--------------
+Train loss: 0.204158
+Val loss: 0.100646	Acc: 0.889
+Time for training this epoch: 42.3213s
+
+Epoch 268/300
+--------------
+Train loss: 0.203835
+Val loss: 0.100497	Acc: 0.8895
+Time for training this epoch: 41.8981s
+
+Epoch 269/300
+--------------
+Train loss: 0.203514
+Val loss: 0.100349	Acc: 0.89
+Time for training this epoch: 42.2241s
+
+Epoch 270/300
+--------------
+Train loss: 0.203194
+Val loss: 0.100202	Acc: 0.89
+Time for training this epoch: 41.9366s
+
+Epoch 271/300
+--------------
+Train loss: 0.202877
+Val loss: 0.100055	Acc: 0.89
+Time for training this epoch: 42.0147s
+
+Epoch 272/300
+--------------
+Train loss: 0.202561
+Val loss: 0.0999097	Acc: 0.89
+Time for training this epoch: 42.2164s
+
+Epoch 273/300
+--------------
+Train loss: 0.202248
+Val loss: 0.0997653	Acc: 0.8905
+Time for training this epoch: 42.3859s
+
+Epoch 274/300
+--------------
+Train loss: 0.201935
+Val loss: 0.0996214	Acc: 0.891
+Time for training this epoch: 42.3677s
+
+Epoch 275/300
+--------------
+Train loss: 0.201625
+Val loss: 0.0994785	Acc: 0.891
+Time for training this epoch: 43.5154s
+
+Epoch 276/300
+--------------
+Train loss: 0.201316
+Val loss: 0.0993365	Acc: 0.891
+Time for training this epoch: 43.4575s
+
+Epoch 277/300
+--------------
+Train loss: 0.201007
+Val loss: 0.0991953	Acc: 0.891
+Time for training this epoch: 43.4454s
+
+Epoch 278/300
+--------------
+Train loss: 0.200703
+Val loss: 0.0990548	Acc: 0.891
+Time for training this epoch: 43.5043s
+
+Epoch 279/300
+--------------
+Train loss: 0.200399
+Val loss: 0.0989152	Acc: 0.8915
+Time for training this epoch: 43.582s
+
+Epoch 280/300
+--------------
+Train loss: 0.200096
+Val loss: 0.0987763	Acc: 0.8915
+Time for training this epoch: 43.6079s
+decay
+
+Epoch 281/300
+--------------
+Train loss: 0.199796
+Val loss: 0.0986385	Acc: 0.892
+Time for training this epoch: 43.5377s
+
+Epoch 282/300
+--------------
+Train loss: 0.199497
+Val loss: 0.0985012	Acc: 0.892
+Time for training this epoch: 43.4529s
+
+Epoch 283/300
+--------------
+Train loss: 0.1992
+Val loss: 0.0983649	Acc: 0.892
+Time for training this epoch: 43.4334s
+
+Epoch 284/300
+--------------
+Train loss: 0.198904
+Val loss: 0.0982292	Acc: 0.8925
+Time for training this epoch: 43.4951s
+
+Epoch 285/300
+--------------
+Train loss: 0.19861
+Val loss: 0.0980943	Acc: 0.8925
+Time for training this epoch: 43.5235s
+
+Epoch 286/300
+--------------
+Train loss: 0.198318
+Val loss: 0.0979604	Acc: 0.8925
+Time for training this epoch: 43.4728s
+
+Epoch 287/300
+--------------
+Train loss: 0.198027
+Val loss: 0.0978269	Acc: 0.892
+Time for training this epoch: 43.5811s
+
+Epoch 288/300
+--------------
+Train loss: 0.197738
+Val loss: 0.0976944	Acc: 0.892
+Time for training this epoch: 43.5169s
+
+Epoch 289/300
+--------------
+Train loss: 0.19745
+Val loss: 0.0975626	Acc: 0.8925
+Time for training this epoch: 43.5511s
+
+Epoch 290/300
+--------------
+Train loss: 0.197163
+Val loss: 0.0974314	Acc: 0.8925
+Time for training this epoch: 43.753s
+
+Epoch 291/300
+--------------
+Train loss: 0.196879
+Val loss: 0.097301	Acc: 0.8925
+Time for training this epoch: 43.4289s
+
+Epoch 292/300
+--------------
+Train loss: 0.196596
+Val loss: 0.0971714	Acc: 0.8925
+Time for training this epoch: 43.6096s
+
+Epoch 293/300
+--------------
+Train loss: 0.196313
+Val loss: 0.0970426	Acc: 0.8925
+Time for training this epoch: 43.6177s
+
+Epoch 294/300
+--------------
+Train loss: 0.196032
+Val loss: 0.0969142	Acc: 0.8925
+Time for training this epoch: 43.4986s
+
+Epoch 295/300
+--------------
+Train loss: 0.195753
+Val loss: 0.0967867	Acc: 0.892
+Time for training this epoch: 43.6094s
+
+Epoch 296/300
+--------------
+Train loss: 0.195475
+Val loss: 0.0966599	Acc: 0.8925
+Time for training this epoch: 43.4829s
+
+Epoch 297/300
+--------------
+Train loss: 0.195199
+Val loss: 0.0965338	Acc: 0.8925
+Time for training this epoch: 43.5828s
+
+Epoch 298/300
+--------------
+Train loss: 0.194926
+Val loss: 0.0964084	Acc: 0.8925
+Time for training this epoch: 43.489s
+
+Epoch 299/300
+--------------
+Train loss: 0.194652
+Val loss: 0.0962836	Acc: 0.8925
+Time for training this epoch: 43.4844s
+
+Epoch 300/300
+--------------
+Train loss: 0.19438
+Val loss: 0.0961596	Acc: 0.8925
+Time for training this epoch: 43.5121s
 store finish
 Finish
-
