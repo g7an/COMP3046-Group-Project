@@ -4,6 +4,8 @@ REMIND:
 	2. In the run.cpp, you can adjust the parameters of the ANN model and set the model to "train" or not by adjust the value of "bool train",
 	   If train==true, the model will load the training data , train the model and do the prediction. If train==false, the model can load data from 
 	   a file and use these pre-trained weight to do predition directly
+	3. You can adjust the number of hidden layers and the number of neurons in each hidden layer by input number in "layerSize" array,which is at the beginning of the "run.cpp". You can also adjust the learning rate by changing the first parameter of the MyANN constructor, or adjust the number of epoches by changing the second parameter, or adjust the size of mini-batch by changing the third parameter. Please do not change the rest of parameters.
+	4. The trained weight and bias data will be stored in two seperate file "matrix_data_v2.txt" and "bias.txt". If you want the ANN model to use the trained weight and bias, please change their names to "input_matrix_data.txt" and "input_bias.txt" respectively. 
 
 Design of The ANN class :
 
