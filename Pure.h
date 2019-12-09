@@ -1,7 +1,13 @@
 #pragma once
+#ifdef __CUDACC__
+#define CUDA_HOSTDEV __host__ __device__
+#else
+#define CUDA_HOSTDEV
+
+#endif
 #include "Pure.h"
 #include <vector>
-
+#include <cuda.h>
 class Pure{
 
 	float lr;								//learning rate
@@ -30,12 +36,17 @@ class Pure{
 	~Pure();
 
     void matMatMul(float* result, float* x, float* y,int x_rows, int x_columns,int y_columns);
+
+    void dev_matMatMul(float *dev_result,size_t MatRPitch, float *dev_x, size_t MatXPitch,float *dev_y,size_t MatYPitch,int x_rows, int x_columns, int y_columns);
+
     void transpose(float* result, float* x, int x_rows, int x_columns);
+    void dev_transpose(float *dev_r,size_t MatRPitch, float *dev_x,size_t MatXPitch, int x_rows, int x_columns);
 
     void netToOut(float* result, float* net, float* bias,int net_rows, int net_columns);
     void eleMulDsigmoid(float* partError, float* outH,int outH_rows, int outH_columns);
 
     void matAdd(float* result, float* x,int x_rows, int x_columns);
+
 
     void matSub(float* result, float* x,float* y, int x_rows, int x_columns);
 
@@ -51,7 +62,7 @@ class Pure{
 
     float trainOneBatch(std::vector<std::vector<float>>x, std::vector<float>y);
 
-    float train(std::vector<std::vector<float>>x, std::vector<float>y);
+    void train(std::vector<std::vector<float>>x, std::vector<float>y);
 
     int predict(std::vector<float>x);
 	

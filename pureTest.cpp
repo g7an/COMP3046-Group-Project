@@ -11,7 +11,7 @@ int main(void){
 	vector< vector<float> > X_train;
 	vector<float> y_train;
 
-	bool train = false;
+	bool train = true;
 
 	if(train){
 		ifstream myfile("data/train.txt");
@@ -50,7 +50,7 @@ int main(void){
 		//	annModel.loadWeight();        //remove this line!!!!!!!
 		cout<<"train begin"<<endl;
 
-		annModel.loadWeight();
+		//annModel.loadWeight();
 
 		annModel.train(X_train, y_train);
 

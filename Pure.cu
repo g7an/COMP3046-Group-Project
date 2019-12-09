@@ -14,6 +14,7 @@
 using namespace std;
 
 #define TILE_SIZE (32)
+#define WIDTH 4
 /*
 cudaError_t checkCuda(cudaError_t result){
 	if(result != cudaSuccess){
@@ -21,9 +22,39 @@ cudaError_t checkCuda(cudaError_t result){
 	}
 	return result;
 }
+*/
 __device__ inline float* Pitch2DMemPtr(float* BaseAddress, size_t Row, size_t Column, size_t pitch){
 
 	return (float*)((char*)BaseAddress + Row * pitch) + Column;
+}
+
+__global__ void d_transpose(float *dev_a,size_t MatAHeight,size_t MatAWidth,size_t MatAPitch,
+		float *dev_r,size_t MatRPitch){
+
+
+	__shared__ float cache[TILE_SIZE][TILE_SIZE+1];
+
+	const unsigned int tidx = threadIdx.x;
+	const unsigned int tidy = threadIdx.y;
+
+	unsigned int x= blockIdx.x*TILE_SIZE + threadIdx.x;
+	unsigned int y= blockIdx.y*TILE_SIZE + threadIdx.y;
+
+	for(int i=0;i<TILE_SIZE;i+=WIDTH){
+		cache[tidy+i][tidx] =  (x<MatAWidth && y+i<MatAHeight) ? *Pitch2DMemPtr(dev_a,y+i,x,MatAPitch) : 0;
+
+	}
+	__syncthreads();
+
+	y = blockIdx.x*TILE_SIZE + threadIdx.y;
+	x = blockIdx.y*TILE_SIZE + threadIdx.x;
+
+	for(int i=0;i<TILE_SIZE;i+=WIDTH){
+		if(x<MatAHeight && y+i <MatAWidth){
+			*Pitch2DMemPtr(dev_r,y+i,x,MatRPitch) = cache[tidx][tidy+i]; 
+		}
+	}
+
 }
 __global__ void matrixMul(float *dev_a,const size_t MatAHeight, const size_t MatAWidth, const size_t MatAPitch, 
 		float *dev_b, const size_t MatBHeight,const size_t MatBWidth, const size_t MatBPitch,
@@ -57,7 +88,6 @@ __global__ void matrixMul(float *dev_a,const size_t MatAHeight, const size_t Mat
 	}
 
 }
-*/
 
 
 void init(float *x,int x_rows,int x_columns){
@@ -199,12 +229,14 @@ void Pure::matMatMul(float *result, float *x, float *y, int x_rows, int x_column
 	}
 
 }
-/*
+
 void Pure::dev_matMatMul(float *dev_result,size_t MatRPitch, float *dev_x, size_t MatXPitch,float *dev_y,size_t MatYPitch,int x_rows, int x_columns, int y_columns)
 {
+/*
 	checkCuda(cudaMallocPitch(&dev_x,&MatXPitch,sizeof(float)*x_columns,x_rows));
 	checkCuda(cudaMallocPitch(&dev_y,&MatYPitch,sizeof(float)*y_columns,x_columns));
 	checkCuda(cudaMallocPitch(&dev_result,&MatRPitch,sizeof(float)*y_columns,x_rows));
+*/
 
 	const unsigned int gridWidth= x_columns>y_columns? x_columns: y_columns;//1;
 	const unsigned int gridHeight= x_rows>x_columns?x_rows: x_columns;//1;
@@ -219,7 +251,6 @@ void Pure::dev_matMatMul(float *dev_result,size_t MatRPitch, float *dev_x, size_
 	
 
 }
-*/
 
 void Pure::transpose(float *result, float *x, int x_rows, int x_columns)
 {
@@ -236,6 +267,14 @@ void Pure::transpose(float *result, float *x, int x_rows, int x_columns)
 			result[i * x_rows + j] = x[j * x_columns + i];
 		}
 	}
+}
+
+void Pure::dev_transpose(float *dev_r,size_t MatRPitch, float *dev_x,size_t MatXPitch, int x_rows, int x_columns){
+
+	dim3 blocks ((x_columns+TILE_SIZE-1)/TILE_SIZE, (x_rows+TILE_SIZE-1)/TILE_SIZE);
+	dim3 threads(TILE_SIZE,WIDTH);
+
+	d_transpose<<<blocks,threads>>>(dev_x,x_rows,x_columns,MatXPitch,dev_r,MatRPitch);
 }
 
 void Pure::netToOut(float *result, float *net, float *bias, int net_rows, int net_columns)
