@@ -16,13 +16,13 @@ using namespace std;
 #define TILE_SIZE (32)
 #define WIDTH 4
 /*
-cudaError_t checkCuda(cudaError_t result){
-	if(result != cudaSuccess){
-		cout<< "Runtime error: " << cudaGetErrorString(result)<<endl;;
-	}
-	return result;
-}
-*/
+   cudaError_t checkCuda(cudaError_t result){
+   if(result != cudaSuccess){
+   cout<< "Runtime error: " << cudaGetErrorString(result)<<endl;;
+   }
+   return result;
+   }
+ */
 __device__ inline float* Pitch2DMemPtr(float* BaseAddress, size_t Row, size_t Column, size_t pitch){
 
 	return (float*)((char*)BaseAddress + Row * pitch) + Column;
@@ -232,23 +232,23 @@ void Pure::matMatMul(float *result, float *x, float *y, int x_rows, int x_column
 
 void Pure::dev_matMatMul(float *dev_result,size_t MatRPitch, float *dev_x, size_t MatXPitch,float *dev_y,size_t MatYPitch,int x_rows, int x_columns, int y_columns)
 {
-/*
-	checkCuda(cudaMallocPitch(&dev_x,&MatXPitch,sizeof(float)*x_columns,x_rows));
-	checkCuda(cudaMallocPitch(&dev_y,&MatYPitch,sizeof(float)*y_columns,x_columns));
-	checkCuda(cudaMallocPitch(&dev_result,&MatRPitch,sizeof(float)*y_columns,x_rows));
-*/
+	/*
+	   checkCuda(cudaMallocPitch(&dev_x,&MatXPitch,sizeof(float)*x_columns,x_rows));
+	   checkCuda(cudaMallocPitch(&dev_y,&MatYPitch,sizeof(float)*y_columns,x_columns));
+	   checkCuda(cudaMallocPitch(&dev_result,&MatRPitch,sizeof(float)*y_columns,x_rows));
+	 */
 
 	const unsigned int gridWidth= x_columns>y_columns? x_columns: y_columns;//1;
 	const unsigned int gridHeight= x_rows>x_columns?x_rows: x_columns;//1;
 
 	dim3 blocks((gridWidth+TILE_SIZE-1)/TILE_SIZE,(gridHeight+TILE_SIZE-1)/TILE_SIZE);
 	dim3 threads(TILE_SIZE,TILE_SIZE);
-	
-	
+
+
 	matrixMul<<<blocks,threads>>>(dev_x,x_rows,x_columns,MatXPitch,
 			dev_y,x_columns,y_columns,MatYPitch,
 			dev_result,MatRPitch);
-	
+
 
 }
 
@@ -309,30 +309,24 @@ void Pure::eleMulDsigmoid(float *partError, float *outH, int outH_rows, int outH
 	}
 }
 
-void Pure::matAdd(float *result, float *x, int x_rows, int x_columns) // update delta_*, weight, bias;
+__device__ void Pure::matAdd(float *result, float *x, int x_rows, int x_columns) // update delta_*, weight, bias;
 {
-	int i = 0;
-	int j = 0;
-
-	for (i = 0; i < x_rows; i++)
-	{
-		for (j = 0; j < x_columns; j++)
-		{
-			result[i * x_columns + j] += x[i * x_columns + j];
-		}
-	}
-}
-void Pure::matSub(float *result, float *x, float *y, int x_rows, int x_columns)
-{ //the first step to produce a partError
-
-	//delete[] result;
-	//result = new float[x_rows * x_columns];
-	for (int i = 0; i < x_rows * x_columns; i++)
-	{
-		result[i] = x[i] - y[i];
-	}
+    int Row = blockIdx.y * blockDim.y + threadIdx.y;
+    int Col = blockIdx.x * blockDim.x + threadIdx.x;
+  
+    if( (Row < x_rows) && (Col < x_columns) )
+        result[Row * n + Col] = result[Row * n + Col] + x[Row * n + Col];
 }
 
+__device__ void Pure::matSub(float *result, float *x, float *y, int x_rows, int x_columns)
+{
+    int Row = blockIdx.y * blockDim.y + threadIdx.y;
+    int Col = blockIdx.x * blockDim.x + threadIdx.x;
+  
+    if( (Row < x_rows) && (Col < x_columns) )
+        result[Row * n + Col] = x[Row * n + Col] - y[Row * n + Col];
+
+}
 void Pure::smul(float *result, float y, int x_rows, int x_columns) // multiple -lr/batch_size
 {
 	int i = 0;
@@ -427,8 +421,8 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 
 	/*
 	   outDebug("out[0]",outH[0],batch_size,total_neurons[num_hidLayer]);
-	outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
-	outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
+	   outDebug("output",outH[num_hidLayer],batch_size,total_neurons[num_hidLayer + 1]);
+	   outDebug("target",target,batch_size,total_neurons[num_hidLayer + 1]);
 	 */
 
 	partError = new float[batch_size*10];
@@ -531,11 +525,11 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 	{
 
 		smul(delta_w[i],(-lr/batch_size),total_neurons[i],total_neurons[i+1]);
-/*
+		/*
 		   if(i == num_hidLayer){
 		   outDebug("delta_w[1]",delta_w[i],total_neurons[i],total_neurons[i + 1]);
 		   }
-*/
+		 */
 		matAdd(hidWeight[i],delta_w[i],total_neurons[i],total_neurons[i+1]);
 
 		clean(delta_w[i],total_neurons[i],total_neurons[i+1]);
@@ -544,14 +538,14 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 
 
 		smul(delta_bias[i],(-lr/batch_size),1,total_neurons[i+1]);
-/*
+		/*
 
 		   if(i == num_hidLayer){
 		   outDebug("delta_bias[1]",delta_bias[i],1,total_neurons[i+ 1]);
 		   outDebug("bias[1]",bias[i],1,total_neurons[i+ 1]);
 		   }
 
-*/
+		 */
 		matAdd(bias[i],delta_bias[i],1,total_neurons[i+1]);
 
 		clean(delta_bias[i],1,total_neurons[i+1]);
