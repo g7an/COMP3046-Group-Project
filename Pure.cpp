@@ -1,4 +1,4 @@
-#include "Pure.h"
+#include "pure.h"
 #include <iostream>
 #include <fstream>
 #include <iostream>
@@ -10,10 +10,10 @@
 #include <chrono>
 #include <string>
 #include <sstream>
-#include <cuda.h>
+#include <omp.h>
 using namespace std;
 
-#define TILE_SIZE (32)
+//#define TILE_SIZE (32)
 /*
 cudaError_t checkCuda(cudaError_t result){
 	if(result != cudaSuccess){
@@ -185,7 +185,8 @@ void Pure::matMatMul(float *result, float *x, float *y, int x_rows, int x_column
 	int j = 0;
 	int k = 0;
 
-
+#pragma omp parallel for num_threads(thread_count)\
+	default(none) private(i, j, k) shared(x_rows, y_columns, x_columns, result, x, y)
 	for (i = 0; i < x_rows; i++)
 	{
 		for (j = 0; j < y_columns; j++)
@@ -346,15 +347,18 @@ void Pure::clean(float *x, int x_rows, int x_columns)
 
 float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> y)
 {
+	double start, end;
 	float loss = 0;
-	for (int i = 0; i < batch_size; i++)
+	int i0, j0;
+// # pragma omp parallel for num_threads(thread_count)\
+// default(none) private(i0, j0, input, x) shared(batch_size, total_neurons)
+	for (i0 = 0; i0 < batch_size; i0++)
 	{
-		for (int j = 0; j < total_neurons[0]; j++)
+		for (j0 = 0; j0 < total_neurons[0]; j0++)
 		{
-			input[i * total_neurons[0] + j] = x[i][j];
+			input[i0 * total_neurons[0] + j0] = x[i0][j0];
 		}
 	}
-
 
 	for (int i = 0; i < batch_size; i++)
 	{
@@ -365,7 +369,7 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 	} //initialization of input and target;
 
 	float *net = NULL;
-
+	// start = 
 	for (int i = 0; i < num_hidLayer + 1; i++)
 	{ //forward begin
 		if (i == 0)
@@ -395,7 +399,6 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 	partError = new float[batch_size*10];
 
 	matSub(partError, outH[num_hidLayer], target, batch_size, 10);
-
 
 	//backpropagation begin
 	for (int i = 0; i < 10*batch_size; i++)
@@ -427,7 +430,6 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 	float* tmp2;
 	float* tmpLoss;
 	float* tmpTrans;
-
 
 	for (int i = num_hidLayer; i >= 0; i--)
 	{
@@ -487,7 +489,6 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 
 
 	//update weights and bias
-
 	for (int i = 0; i < num_hidLayer + 1; i++)
 	{
 
@@ -528,7 +529,8 @@ float Pure::trainOneBatch(std::vector<std::vector<float>> x, std::vector<float> 
 void Pure::train(std::vector<std::vector<float>> x, std::vector<float> y){
 	int batch_num = x.size()/batch_size;
 	cout<<"batch_num: "<<batch_num<<endl;
-
+	cout << "thread num: ";
+	cin >> thread_count;
 	float totalLoss = 0;
 	vector<vector<float>> batch_x(batch_size);
 	vector<float> batch_y(batch_size);

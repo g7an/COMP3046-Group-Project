@@ -7,7 +7,6 @@
 #endif
 #include "Pure.h"
 #include <vector>
-#include <cuda.h>
 class Pure{
 
 	float lr;								//learning rate
@@ -29,7 +28,7 @@ class Pure{
 
 	float *netH;
 	float *partError;
-
+	int thread_count;
     public:
 
 	Pure(float, int, int,int*,int);
